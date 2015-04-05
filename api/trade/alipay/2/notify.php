@@ -2,13 +2,12 @@
 $_DPOST = $_POST;
 $_DGET = $_GET;
 require '../../../../common.inc.php';
+($DT['trade'] && $DT['trade_id'] && $DT['trade_pw'] && $DT['trade_ac']) or exit('fail');
 $_POST = $_DPOST;
 $_GET = $_DGET;
 require '../config.inc.php';
+$api == 2 or exit('fail');
 if($_POST['seller_email']) $aliapy_config['seller_email'] = $_POST['seller_email'];
-#cache_write('ali/'.$api.'-notify-server-'.date('Ymdhis').'.php', $_SERVER);
-#cache_write('ali/'.$api.'-notify-post-'.date('Ymdhis').'.php', $_POST);
-#cache_write('ali/'.$api.'-notify-get-'.date('Ymdhis').'.php', $_GET);
 /* *
  * 功能：支付宝服务器异步通知页面
  * 版本：3.2
@@ -53,7 +52,7 @@ if($verify_result) {//验证成功
 	
 	//——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
     //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
-    $out_trade_no	= $_POST['out_trade_no'];	    //获取订单号
+    $out_trade_no	= intval($_POST['out_trade_no']);	    //获取订单号
     $trade_no		= $_POST['trade_no'];	    	//获取支付宝交易号
     $total			= $_POST['price'];				//获取总价格
 
