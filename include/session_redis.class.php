@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -10,18 +10,8 @@ class dsession {
     function dsession() {
 		$this->obj = new Redis;
 		include DT_ROOT.'/file/config/redis.inc.php';
-		$num = count($RedisServer);
-		if($num == 1) {
-			$key = 0;
-		} else {
-			$key = get_cookie('redis');
-			if($key == -1) {
-				$key = 0;
-			} else if(!isset($RedisServer[$key])) {
-				$key = array_rand($RedisServer);
-				set_cookie('redis', $key ? $key : -1);
-			}
-		}
+		$num = count($RedisServer);		
+		$key = $num == 1 ? 0 : abs(crc32($GLOBALS['DT_IP']))%$num;
 		$this->obj->connect($RedisServer[$key]['host'], $RedisServer[$key]['port']);
 
 		if(DT_DOMAIN) @ini_set('session.cookie_domain', '.'.DT_DOMAIN);

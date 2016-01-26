@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $menu = array(
 	array("Ìí¼Ó".$name, "?moduleid=$moduleid&action=add"),
 	array($name."ÁÐ±í", "?moduleid=$moduleid"),

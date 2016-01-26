@@ -238,6 +238,19 @@ $announce = isset($HOME['announce']) ? $HOME['announce'] : '';
 $map = isset($HOME['map']) ? $HOME['map'] : '';
 $stats = isset($HOME['stats']) ? $HOME['stats'] : '';
 $kf = isset($HOME['kf']) ? $HOME['kf'] : '';
+$comment_proxy = '';
+if($domain) {
+	$comment_proxy = 'http://'.$domain.'/';
+} else {
+	if($CFG['com_domain']) {
+		$comment_proxy = $linkurl;
+		$comment_proxy = substr($CFG['com_domain'], 0, 1) == '.' ? $linkurl : 'http://'.$CFG['com_domain'].'/';
+	} else {
+		$comment_proxy = DT_PATH;
+	}
+}
+$comment_proxy = encrypt($comment_proxy);
+
 $album_js = 0;
 $head_title = $MENU[$menuid]['name'];
 $seo_keywords = isset($HOME['seo_keywords']) ? $HOME['seo_keywords'] : '';

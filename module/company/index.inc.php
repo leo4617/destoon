@@ -12,7 +12,7 @@ if(isset($homepage) && check_name($homepage)) {
 	} else {
 		$whost = $host;
 	}
-	if(strpos($MODULE[4]['linkurl'], $host) === false) {
+	if($host && strpos($MODULE[4]['linkurl'], $host) === false) {
 		$www = str_replace($CFG['com_domain'], '', $host);
 		if(check_name($www)) {
 			$username = $homepage = $www;
@@ -51,7 +51,7 @@ if($username) {
 	$seo_file = 'index';
 	include DT_ROOT.'/include/seo.inc.php';
 	if($page == 1) $head_canonical = $MOD['linkurl'];
-	if($EXT['wap_enable']) $head_mobile = $EXT['wap_url'].'index.php?moduleid='.$moduleid.($page > 1 ? '&page='.$page : '');
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].mobileurl($moduleid, 0, 0, $page);
 	$destoon_task = "moduleid=$moduleid&html=index";
 	include template('index', $module);
 }

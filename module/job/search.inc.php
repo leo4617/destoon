@@ -84,7 +84,6 @@ if($DT_QST) {
 		require MD_ROOT.'/resume.class.php';
 		$do = new resume($moduleid);
 		$tags = $do->get_list($condition, 'edittime desc', $DT['cache_search'] ? 'CACHE' : '');
-		if($page == 1 && $kw) keyword($kw, $items, -$moduleid);
 	} else {
 		if($pptsql) $condition .= $pptsql;//PPT
 		require MD_ROOT.'/job.class.php';

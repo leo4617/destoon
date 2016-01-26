@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 isset($username) or $username = '';
 $menus = array (
     array('发送短信', '?moduleid='.$moduleid.'&file='.$file.'&username='.$username),
@@ -85,7 +85,7 @@ switch($action) {
 		dmsg('删除成功', $forward);
 	break;
 	case 'clear':
-		$time = $today_endtime - 30*86400;
+		$time = $today_endtime - 90*86400;
 		$db->query("DELETE FROM {$DT_PRE}sms WHERE sendtime<$time");
 		dmsg('清理成功', $forward);
 	break;

@@ -137,7 +137,11 @@ if($verify_result) {//验证成功
 		if($td['status'] == 3) {
 			$db->query("UPDATE {$DT_PRE}mall_order SET status=4,updatetime=$DT_TIME WHERE itemid=$itemid");
 			//更新商品数据
-			$db->query("UPDATE {$DT_PRE}mall SET orders=orders+1,sales=sales+$td[number],amount=amount-$td[number] WHERE itemid=$mallid");
+			if($td['mid'] == 16) {
+				$db->query("UPDATE {$DT_PRE}mall SET orders=orders+1,sales=sales+$td[number],amount=amount-$td[number] WHERE itemid=$mallid");
+			} else {
+				$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
+			}
 
 			$myurl = userurl($td['buyer']);
 			$_username = $td['seller'];			

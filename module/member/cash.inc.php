@@ -4,7 +4,7 @@ login();
 require DT_ROOT.'/module/'.$module.'/common.inc.php';
 $MG['cash'] or dalert(lang('message->without_permission_and_upgrade'), 'goback');
 require DT_ROOT.'/include/post.func.php';
-$member = $db->get_one("SELECT truename,vbank,money,bank,account FROM {$DT_PRE}member WHERE userid=$_userid");
+$member = $db->get_one("SELECT company,truename,vbank,money,bank,banktype,branch,account FROM {$DT_PRE}member WHERE userid=$_userid");
 $BANKS = explode('|', trim($MOD['cash_banks']));
 switch($action) {
 	case 'record':
@@ -38,12 +38,15 @@ switch($action) {
 		if($submit && !$vbank) {
 			is_payword($_username, $password) or message($L['error_payword']);
 			in_array($bank, $BANKS) or message($L['cash_pass_bank']);
-			$account or message($L['cash_pass_account']);
-			$account = htmlspecialchars($account);
-			$db->query("UPDATE {$DT_PRE}member SET bank='$bank',account='$account' WHERE username='$_username' ");
-			dmsg($L['op_set_success'], $MOD['linkurl'].'cash.php');
+			$banktype = $banktype ? 1 : 0;
+			$account = str_replace(array(' ', '-'), array('', ''), $account);
+			preg_match("/^[0-9]{6,}$/", $account) or message($L['cash_pass_account']);
+			$branch = trim(dhtmlspecialchars($branch));
+			strlen($branch) > 8 or message($L['cash_pass_branch']);
+			$db->query("UPDATE {$DT_PRE}member SET bank='$bank',banktype='$banktype',branch='$branch',account='$account' WHERE username='$_username' ");
+			dmsg($L['op_set_success'], '?action=index');
 		} else {
-			$bank_select = '<select name="bank"><option value="">'.$L['choose'].'</option>';
+			$bank_select = '<select name="bank" id="bank"><option value="">'.$L['choose'].'</option>';
 			foreach($BANKS as $k=>$v) {
 				$bank_select .= '<option value="'.$v.'"'.($v == $member['bank'] ? 'selected' : '').'>'.$v.'</option>';
 			}
@@ -70,9 +73,12 @@ switch($action) {
 		if($submit) {
 			if($money > $_money) message($L['cash_pass_amount_large']);
 			is_payword($_username, $password) or message($L['error_payword']);
-			$db->query("INSERT INTO {$DT_PRE}finance_cash (username,bank,account,truename,amount,fee,addtime,ip) VALUES ('$_username','$member[bank]','$member[account]','$member[truename]','$amount','$fee','$DT_TIME','$DT_IP')");
-			$db->query("UPDATE {$DT_PRE}member SET money=money-$money,locking=locking+$money WHERE username='$_username'");
-			message($L['cash_msg_success'], $MOD['linkurl'].'cash.php?action=record', 6);
+			$member = daddslashes($member);
+			$name = $member['banktype'] ? $member['company'] : $member['truename'];
+			$db->query("INSERT INTO {$DT_PRE}finance_cash (username,bank,banktype,branch,account,truename,amount,fee,addtime,ip) VALUES ('$_username','$member[bank]','$member[banktype]','$member[branch]','$member[account]','$name','$amount','$fee','$DT_TIME','$DT_IP')");
+			money_add($_username, -$money);
+			money_record($_username, -$money, $L['in_site'], 'system', $L['cash_title'], $L['charge_id'].$db->insert_id());
+			message($L['cash_msg_success'], '?action=record', 5);
 		} else {
 			$head_title = $L['cash_title_confirm'];
 		}

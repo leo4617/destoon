@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -20,7 +20,7 @@ class dtype {
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE item='$this->item' ORDER BY listorder ASC,typeid DESC ");
 		while($r = $this->db->fetch_array($result)) {
-			$lists[] = $r;
+			$lists[$r['typeid']] = $r;
 		}
 		return $lists;
 	}
@@ -40,17 +40,28 @@ class dtype {
 	}
 
 	function add($post) {
-		if(!$post['typename']) return false;
+		global $TYPE;
+		$post['typename'] = dhtmlspecialchars(trim(strip_tags($post['typename'])));
+		if(strlen($post['typename']) < 2) return false;
 		$post['listorder'] = intval($post['listorder']);
-		$this->db->query("INSERT INTO {$this->table} (listorder,typename,style,item,cache) VALUES('$post[listorder]','$post[typename]','$post[style]','$this->item','$this->cache')");
+		$post['parentid'] = intval($post['parentid']);
+		if($post['parentid'] && !isset($TYPE[$post['parentid']])) $post['parentid'] = 0;
+		$post['style'] = dhtmlspecialchars($post['style']);
+		$this->db->query("INSERT INTO {$this->table} (listorder,typename,style,parentid,item,cache) VALUES('$post[listorder]','$post[typename]','$post[style]','$post[parentid]','$this->item','$this->cache')");
 	}
 
 	function edit($post) {
+		global $TYPE;
 		foreach($post as $k=>$v) {
-			if(!$v['typename']) continue;
+			$v['typename'] = dhtmlspecialchars(trim(strip_tags($v['typename'])));
+			if(strlen($v['typename']) < 2) continue;
 			$v['listorder'] = intval($v['listorder']);
+			$v['parentid'] = intval($v['parentid']);
+			if($v['parentid'] == $k) continue;
+			if($v['parentid'] && !isset($TYPE[$v['parentid']])) continue;
+			$v['style'] = dhtmlspecialchars($v['style']);
 			$k = intval($k);
-			$this->db->query("UPDATE {$this->table} SET listorder='$v[listorder]',typename='$v[typename]',style='$v[style]' WHERE typeid='$k' AND item='$this->item'");
+			$this->db->query("UPDATE {$this->table} SET listorder='$v[listorder]',typename='$v[typename]',style='$v[style]',parentid='$v[parentid]' WHERE typeid='$k' AND item='$this->item'");
 		}
 	}
 
@@ -58,6 +69,14 @@ class dtype {
 		$typeid = intval($typeid);
 		$this->db->query("DELETE FROM {$this->table} WHERE typeid=$typeid AND item='$this->item'");
 		if($this->cache) cache_type($this->item);
+	}
+
+	function parent_option($TYPE) {
+		$s = '';
+		foreach($TYPE as $v) {
+			if($v['parentid'] == 0) $s .= '<option value="'.$v['typeid'].'">'.$v['typename'].'</option>';
+		}
+		return $s;
 	}
 }
 ?>

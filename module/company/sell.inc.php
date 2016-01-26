@@ -39,6 +39,7 @@ if($itemid) {
 	$head_title = $title.$DT['seo_delimiter'].$head_title;
 	$head_keywords = $keyword;
 	$head_description = $introduce ? $introduce : $title;
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].'index.php?moduleid='.$moduleid.'&itemid='.$itemid;
 } else {
 	$typeid = isset($typeid) ? intval($typeid) : 0;
 	$view = isset($view) ? 1 : 0;
@@ -81,6 +82,7 @@ if($itemid) {
 		}
 		$db->free_result($result);
 	}
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].'index.php?moduleid=4&username='.$username.'&action='.$file.($typeid ? '&typeid='.$typeid : '').($page > 1 ? '&page='.$page : '');
 }
 include template('sell', $template);
 ?>

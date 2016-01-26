@@ -58,7 +58,7 @@ for(; $page <= $total; $page++) {
 	$P = $T[$page-1];
 	$P['src'] = str_replace('.thumb.'.file_ext($P['thumb']), '', $P['thumb']);
 	$destoon_task = "moduleid=$moduleid&html=show&itemid=$itemid&page=$page";
-	if($EXT['wap_enable']) $head_mobile = $EXT['wap_url'].'index.php?moduleid='.$moduleid.'&itemid='.$itemid.($page > 1 ? '&page='.$page : '');
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].mobileurl($moduleid, 0, $itemid, $page);
 	$filename = $total == 1 ? DT_ROOT.'/'.$MOD['moduledir'].'/'.$fileurl : DT_ROOT.'/'.$MOD['moduledir'].'/'.itemurl($item, $page);
 	ob_start();
 	include template($template, $module);

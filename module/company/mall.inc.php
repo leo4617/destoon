@@ -22,9 +22,17 @@ if($itemid) {
 	}
 	require DT_ROOT.'/module/'.$module.'/global.func.php';
 	$RL = $relate_id ? get_relate($item) : array();
-	$p1 = get_nv($n1, $v1);
-	$p2 = get_nv($n2, $v2);
-	$p3 = get_nv($n3, $v3);
+	$P1 = get_nv($n1, $v1);
+	$P2 = get_nv($n2, $v2);
+	$P3 = get_nv($n3, $v3);
+	if($step) {
+		extract(unserialize($step));
+	} else {
+		$a1 = 1;
+		$p1 = $item['price'];
+		$a2 = $a3 = $p2 = $p3 = '';
+	}
+	$unit or $unit = $L['unit'];
 	$adddate = timetodate($addtime, 3);
 	$editdate = timetodate($edittime, 3);
 	$linkurl = $MOD['linkurl'].$linkurl;
@@ -38,6 +46,7 @@ if($itemid) {
 	$head_title = $title.$DT['seo_delimiter'].$head_title;
 	$head_keywords = $keyword;
 	$head_description = $introduce ? $introduce : $title;
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].'index.php?moduleid='.$moduleid.'&itemid='.$itemid;
 } else {
 	$typeid = isset($typeid) ? intval($typeid) : 0;
 	$view = isset($view) ? 1 : 0;
@@ -80,6 +89,7 @@ if($itemid) {
 		}
 		$db->free_result($result);
 	}
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].'index.php?moduleid=4&username='.$username.'&action='.$file.($typeid ? '&typeid='.$typeid : '').($page > 1 ? '&page='.$page : '');
 }
 include template('mall', $template);
 ?>

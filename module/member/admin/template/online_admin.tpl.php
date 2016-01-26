@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 include tpl('header');
 show_menu($menus);
 ?>
@@ -22,7 +22,7 @@ show_menu($menus);
 <td><?php echo $v['ip'];?></td>
 <td><?php echo ip2area($v['ip']);?></td>
 <td><?php echo $v['lasttime'];?></td>
-<td><input type="text" size="30" value="<?php echo $v['qstring'];?>" title="<?php echo $v['qstring'];?>"/></td>
+<td><input type="text" size="30" value="<?php echo $v['qstring'];?>" title="<?php echo $v['qstring'];?>"/> <a href="?<?php echo $v['qstring'];?>" target="_blank"><img src="admin/image/link.gif" width="16" height="16" title="µã»÷´ò¿ªÍøÖ·" alt="" align="absmiddle"/></a></td>
 </tr>
 <?php }?>
 </table>

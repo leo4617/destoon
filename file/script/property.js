@@ -1,5 +1,5 @@
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 var property_Interval = setInterval('ppt_attach_catid()', 500);
@@ -10,14 +10,15 @@ function ppt_attach_catid() {
 	}
 }
 function load_property() {
-	makeRequest('action=property&itemid='+property_itemid+'&catid='+property_catid+'&admin='+property_admin, AJPath, 'into_property');
-}
-function into_property() {
-	if(xmlHttp.readyState==4 && xmlHttp.status==200) {
-		if(xmlHttp.responseText) {
-			Ds('load_property');InnerTBD('load_property', xmlHttp.responseText);
-		} else {
-			/*InnerTBD('load_property', '<tr><td></td><td></td></tr>');*/Dh('load_property');
+	$.post(AJPath, 'action=property&itemid='+property_itemid+'&catid='+property_catid+'&admin='+property_admin, function(data) {
+		if(data) {
+			$('#load_property').html(data);
+			$('#load_property').show();
+		} else {			
+			$('#load_property').hide();
 		}
-	}
+	});
 }
+$(document).ready(function() {
+	if(property_itemid) load_property();
+});

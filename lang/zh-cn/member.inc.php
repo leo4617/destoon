@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -51,6 +51,10 @@ $L['pass_content'] = 'ÇëÌîĞ´ÄÚÈİ';
 $L['pass_typeid'] = 'ÇëÑ¡Ôñ·ÖÀà';
 $L['pass_url'] = 'ÇëÌîĞ´ÍøÖ·';
 
+$L['address_title'] = 'ÊÕ»õµØÖ·';
+$L['address_title_add'] = 'Ìí¼ÓµØÖ·';
+$L['address_title_edit'] = 'ĞŞ¸ÄµØÖ·';
+
 $L['alert_pass'] = 'ÄúÖÁÉÙÑ¡Ôñ"¹Ø¼ü×Ö"»ò"ËùÔÚĞĞÒµ"ÆäÖĞµÄÒ»Ïî';
 $L['alert_title'] = 'Ã³Ò×ÌáĞÑ';
 $L['alert_add_title'] = 'Ìí¼ÓÌáĞÑ';
@@ -61,13 +65,16 @@ $L['ask_title_show'] = 'ÎÊÌâ²é¿´';
 $L['ask_title_edit'] = 'ĞŞ¸ÄÎÊÌâ';
 $L['ask_title_add'] = 'Ìá½»ĞÂÎÊÌâ';
 $L['ask_msg_edit'] = '´ËÎÊÌâ²»¿ÉÔÙĞŞ¸Ä';
-$L['ask_msg_star'] = 'ÇëÑ¡ÔñÄúµÄÂúÒâ³Ì¶È';
-$L['ask_star_type'] = array('', '<span style="color:red;">²»ÂúÒâ</span>', '»ù±¾ÂúÒâ', '<span style="color:green;">·Ç³£ÂúÒâ</span>');
+$L['ask_star_type'] = array('Î´ÆÀ·Ö', '<span style="color:red;">²»ÂúÒâ</span>', '»ù±¾ÂúÒâ', '<span style="color:green;">·Ç³£ÂúÒâ</span>');
 $L['ask_star_success'] = 'ÆÀ·Ö³É¹¦';
 $L['ask_add_success'] = 'Ìá½»³É¹¦';
 
 $L['avatar_title'] = '¹ÜÀíÍ·Ïñ';
 $L['avatar_delete'] = 'É¾³ı³É¹¦';
+$L['avatar_img_t'] = 'Í¼Æ¬¸ñÊ½´íÎó';
+$L['avatar_img_w'] = 'Í¼Æ¬¿í¶ÈĞ¡ÓÚ128px';
+$L['avatar_img_h'] = 'Í¼Æ¬¸ß¶ÈĞ¡ÓÚ128px';
+$L['avatar_img_e'] = 'ÉÏ´«Ê§°Ü£¬ÇëÖØÊÔ';
 
 $L['cash_status'] = array('<span style="color:blue;">µÈ´ıÊÜÀí</span>', '<span style="color:#666666;">¾Ü¾øÉêÇë</span>', '<span style="color:red;">Ö§¸¶Ê§°Ü</span>', '<span style="color:green;">¸¶¿î³É¹¦</span>');
 $L['cash_title_record'] = 'ÌáÏÖ¼ÇÂ¼';
@@ -75,6 +82,7 @@ $L['cash_title_setting'] = 'ÕÊºÅÉèÖÃ';
 $L['cash_title_confirm'] = 'ÌáÏÖÈ·ÈÏ';
 $L['cash_title'] = 'ÉêÇëÌáÏÖ';
 $L['cash_pass_bank'] = 'ÇëÑ¡ÔñÊÕ¿î·½Ê½';
+$L['cash_pass_branch'] = 'ÇëÌîĞ´¿ª»§Íøµã';
 $L['cash_pass_account'] = 'ÇëÌîĞ´ÊÕ¿îÕÊºÅ';
 $L['cash_pass_amount'] = 'ÇëÌîĞ´ÌáÏÖ½ğ¶î';
 $L['cash_pass_amount_min'] = 'µ¥´ÎÌáÏÖ×îĞ¡½ğ¶îÎª:';
@@ -85,12 +93,13 @@ $L['cash_msg_success'] = 'ÄúµÄÌáÏÖÉêÇëÒÑ¾­Ìá½»£¬ÇëµÈ´ı¹¤×÷ÈËÔ±µÄ´¦Àí<br/>ÔÚ´ËÆÚ¼
 $L['cash_msg_account'] = 'ÇëÏÈÉèÖÃÊÕ¿îÕÊºÅ';
 
 $L['charge'] = '³äÖµ';
+$L['charge_id'] = 'Á÷Ë®ºÅ';
 $L['charge_online'] = 'ÔÚÏß³äÖµ';
 $L['charge_card'] = '³äÖµ¿¨³äÖµ';
 $L['charge_reward'] = '³äÖµ½±Àø';
 $L['charge_card_name'] = '³äÖµ¿¨';
 $L['charge_card_number'] = '¿¨ºÅ';
-$L['charge_status'] = array('<span style="color:blue;">Î´Öª</span>', '<span style="color:red;">Ê§°Ü</span>', '<span style="color:#FF00FF;">×÷·Ï</span>', '<span style="color:green;">³É¹¦</span>', '<span style="color:green;">ÈË¹¤</span>');
+$L['charge_status'] = array('<span style="color:blue;">µÈ´ıÖ§¸¶</span>', '<span style="color:red;">Ö§¸¶Ê§°Ü</span>', '<span style="color:red;">Ö§¸¶Ê§°Ü</span>', '<span style="color:green;">Ö§¸¶³É¹¦</span>', '<span style="color:green;">Ö§¸¶³É¹¦</span>');
 $L['charge_title_record'] = '³äÖµ¼ÇÂ¼';
 $L['charge_title_confirm'] = '³äÖµÈ·ÈÏ';
 $L['charge_title_pay'] = 'ÕÊ»§³äÖµ';
@@ -110,19 +119,23 @@ $L['charge_msg_card_success'] = '³äÖµ¿¨³äÖµ³É¹¦';
 $L['charge_msg_order_fail'] = '¶©µ¥×´Ì¬ÎªÊ§°Ü£¬ID:';
 $L['charge_msg_order_cancel'] = '¶©µ¥×´Ì¬Îª×÷·Ï£¬ID:';
 $L['charge_msg_not_order'] = 'Î´ÕÒµ½³äÖµ¼ÍÂ¼';
+$L['charge_reason_deposit'] = '±£Ö¤½ğ';
+$L['charge_reason_credit'] = '»ı·Ö¹ºÂò';
+$L['charge_reason_vip'] = VIP.'Ğø·Ñ';
+$L['charge_reason_muti'] = 'ÅúÁ¿¸¶¿î';
 
-$L['honor_title_add'] = 'Ìí¼ÓÖ¤Êé';
-$L['honor_title_edit'] = 'ĞŞ¸ÄÖ¤Êé';
-$L['honor_title'] = 'ÈÙÓş×ÊÖÊ';
-$L['honor_pass_title'] = 'ÇëÌîĞ´Ö¤ÊéÃû³Æ';
-$L['honor_pass_authority'] = 'ÇëÌîĞ´·¢Ö¤»ú¹¹';
-$L['honor_pass_thumb'] = 'ÇëÉÏ´«Ö¤ÊéÍ¼Æ¬';
-$L['honor_pass_fromdate'] = 'ÇëÑ¡ÔñÖ¤Êé·¢Ö¤Ê±¼ä';
-$L['honor_pass_fromdate_error'] = 'Ö¤Êé·¢Ö¤Ê±¼ä±ØĞëÔÚµ±Ç°Ê±¼äÖ®Ç°';
-$L['honor_pass_todate'] = 'ÇëÑ¡ÔñÖ¤Êéµ½ÆÚÊ±¼ä';
-$L['honor_pass_todate_error'] = 'Ö¤Êéµ½ÆÚÊ±¼ä±ØĞëÔÚµ±Ç°Ê±¼äÖ®ºó';
-$L['honor_reward_reason'] = 'Ö¤ÊéÉÏ´«';
-$L['honor_punish_reason'] = 'Ö¤ÊéÉ¾³ı';
+$L['chat_title'] = 'Õ¾ÄÚ½»Ì¸';
+$L['chat_online'] = '[ÔÚÏß]';
+$L['chat_offline'] = '[ÀëÏß]';
+$L['chat_empty'] = 'ÔİÎŞ¶Ô»°';
+$L['chat_record'] = 'Óë¡¾{v0}¡¿ÁÄÌì¼ÇÂ¼';
+$L['chat_with'] = 'Óë¡¾{v0}¡¿½»Ì¸ÖĞ';
+$L['chat_msg_black'] = 'Î´Ö¸¶¨ÆÁ±Î¶ÔÏó';
+$L['chat_msg_black_success'] = 'ÆÁ±Î³É¹¦';
+$L['chat_msg_self'] = '²»ÄÜÓë×Ô¼º¶Ô»°';
+$L['chat_msg_no_rights'] = 'ÄúËùÔÚµÄ»áÔ±×éÃ»ÓĞÈ¨ÏŞ·¢Æğ¶Ô»°';
+$L['chat_msg_user'] = '»áÔ±²»´æÔÚ';
+$L['chat_msg_refuse'] = '¶Ô·½¾Ü¾øÓëÄú¶Ô»°';
 
 $L['credit_exchange_title'] = $DT['credit_name'].'¶Ò»»';
 $L['credit_buy_title'] = $DT['credit_name'].'¹ºÂò';
@@ -134,6 +147,9 @@ $L['credit_msg_active'] = 'ÄúµÄÕÊºÅÎ´ÔÚÂÛÌ³¼¤»î';
 $L['credit_msg_buy_amount'] = 'ÇëÑ¡Ôñ¹ºÂò¶î¶È';
 $L['credit_msg_buy_success'] = '¹ºÂò³É¹¦';
 $L['credit_fields'] = array($L['search_by'], '½ğ¶î', 'ÊÂÓÉ', $L['search_by_note']);
+
+$L['deposit_title'] = '±£Ö¤½ğ¼ÇÂ¼';
+$L['deposit_title_add'] = '±£Ö¤½ğÔö×Ê';
 
 $L['edit_title'] = 'ĞŞ¸Ä×ÊÁÏ';
 $L['edit_invite'] = '»áÔ±ÍÆ¹ã';
@@ -176,6 +192,20 @@ $L['home_title'] = 'ÉÌÆÌÉèÖÃ';
 $L['home_msg_reset'] = '»Ö¸´³É¹¦';
 $L['home_msg_save'] = '±£´æ³É¹¦';
 
+$L['honor_title_add'] = 'Ìí¼ÓÖ¤Êé';
+$L['honor_title_edit'] = 'ĞŞ¸ÄÖ¤Êé';
+$L['honor_title'] = 'ÈÙÓş×ÊÖÊ';
+$L['honor_pass_title'] = 'ÇëÌîĞ´Ö¤ÊéÃû³Æ';
+$L['honor_pass_authority'] = 'ÇëÌîĞ´·¢Ö¤»ú¹¹';
+$L['honor_pass_thumb'] = 'ÇëÉÏ´«Ö¤ÊéÍ¼Æ¬';
+$L['honor_pass_fromdate'] = 'ÇëÑ¡ÔñÖ¤Êé·¢Ö¤Ê±¼ä';
+$L['honor_pass_fromdate_error'] = 'Ö¤Êé·¢Ö¤Ê±¼ä±ØĞëÔÚµ±Ç°Ê±¼äÖ®Ç°';
+$L['honor_pass_todate'] = 'ÇëÑ¡ÔñÖ¤Êéµ½ÆÚÊ±¼ä';
+$L['honor_pass_todate_error'] = 'Ö¤Êéµ½ÆÚÊ±¼ä±ØĞëÔÚµ±Ç°Ê±¼äÖ®ºó';
+$L['honor_reward_reason'] = 'Ö¤ÊéÉÏ´«';
+$L['honor_punish_reason'] = 'Ö¤ÊéÉ¾³ı';
+$L['honor_msg_choose'] = 'ÇëÑ¡ÔñÖ¤Êé';
+
 $L['index_msg_logout'] = '×¢Ïú³É¹¦';
 $L['index_msg_note_limit'] = '±ã¼ãÏŞ1000×Ö';
 
@@ -210,10 +240,10 @@ $L['member_username_match'] = '»áÔ±ÃûÓ¦ÎªĞ¡Ğ´×ÖÄ¸(a-z)¡¢Êı×Ö(0-9)¡¢ÏÂ»®Ïß(_)¡¢ÖĞ
 $L['member_username_len'] = '»áÔ±µÇÂ¼Ãû³¤¶ÈÓ¦ÔÚ{V0}-{V1}Ö®¼ä';
 $L['member_username_ban'] = '´ËµÇÂ¼ÃûÒÑ¾­±»½ûÖ¹×¢²á';
 $L['member_username_reg'] = '»áÔ±µÇÂ¼ÃûÒÑ¾­±»×¢²á';
-$L['member_passport_len'] = 'Í¨ĞĞÖ¤³¤¶ÈÓ¦ÔÚ{V0}-{V1}Ö®¼ä';
-$L['member_passport_char'] = 'Í¨ĞĞÖ¤Ãû²»ÄÜº¬ÓĞÌØÊâ·ûºÅ';
-$L['member_passport_ban'] = '´ËÍ¨ĞĞÖ¤ÃûÒÑ¾­±»½ûÖ¹×¢²á';
-$L['member_passport_reg'] = 'Í¨ĞĞÖ¤ÃûÒÑ¾­±»×¢²á';
+$L['member_passport_len'] = 'êÇ³Æ³¤¶ÈÓ¦ÔÚ{V0}-{V1}Ö®¼ä';
+$L['member_passport_char'] = 'êÇ³Æ²»ÄÜº¬ÓĞÌØÊâ·ûºÅ';
+$L['member_passport_ban'] = '´ËêÇ³ÆÒÑ¾­±»½ûÖ¹×¢²á';
+$L['member_passport_reg'] = 'êÇ³ÆÒÑ¾­±»×¢²á';
 $L['member_password_null'] = '»áÔ±µÇÂ¼ÃÜÂë²»ÄÜÎª¿Õ';
 $L['member_password_match'] = 'Á½´ÎÊäÈëµÄÃÜÂë²»Ò»ÖÂ';
 $L['member_password_len'] = 'µÇÂ¼ÃÜÂë³¤¶ÈÓ¦ÔÚ{V0}-{V1}Ö®¼ä';
@@ -292,6 +322,9 @@ $L['news_record_add'] = 'ĞÂÎÅ·¢²¼';
 $L['news_record_del'] = 'ĞÂÎÅÉ¾³ı';
 $L['news_msg_choose'] = 'ÇëÑ¡ÔñĞÂÎÅ';
 
+$L['oauth_title'] = 'Ò»¼üµÇÂ¼';
+$L['oauth_quit'] = '½â³ı³É¹¦';
+
 $L['page_title'] = '¹«Ë¾µ¥Ò³';
 $L['page_title_add'] = 'Ìí¼Óµ¥Ò³';
 $L['page_title_edit'] = 'ĞŞ¸Äµ¥Ò³';
@@ -299,17 +332,12 @@ $L['page_record_add'] = 'µ¥Ò³·¢²¼';
 $L['page_record_del'] = 'µ¥Ò³É¾³ı';
 $L['page_msg_choose'] = 'ÇëÑ¡Ôñµ¥Ò³';
 
-$L['address_title'] = 'ÊÕ»õµØÖ·';
-$L['address_title_add'] = 'Ìí¼ÓµØÖ·';
-$L['address_title_edit'] = 'ĞŞ¸ÄµØÖ·';
-$L['address_record_add'] = 'µØÖ··¢²¼';
-$L['address_record_del'] = 'µØÖ·É¾³ı';
-$L['address_msg_choose'] = 'ÇëÑ¡ÔñµØÖ·';
-
 $L['pay_title'] = 'Õ¾ÄÚÖ§¸¶';
 $L['pay_record_view'] = 'ĞÅÏ¢²é¿´';
 $L['pay_record_back'] = 'ĞÅÏ¢·µÀû';
 $L['pay_msg_fee'] = 'Ö§¸¶½ğ¶î´íÎó';
+
+$L['profile_title'] = 'ÕË»§ÏêÇé';
 
 $L['record_title'] = $DT['money_name'].'Á÷Ë®';
 $L['record_title_login'] = 'µÇÂ¼¼ÇÂ¼';
@@ -320,18 +348,13 @@ $L['register_title'] = '»áÔ±×¢²á';
 $L['register_msg_close'] = '¹ÜÀíÔ±¹Ø±ÕÁËÓÃ»§×¢²á';
 $L['register_msg_agent'] = 'ÄúµÄ¿Í»§¶ËĞÅÏ¢ÒÑ¾­±»ÍøÕ¾ÆÁ±Î<br/>ÈçÓĞÒÉÎÊ£¬ÇëÓëÎÒÃÇÁªÏµ';
 $L['register_msg_ip'] = 'Í¬Ò»IP{V0}Ğ¡Ê±ÄÚÖ»ÄÜ×¢²áÒ»´Î';
-$L['register_msg_passport'] = 'Í¨ĞĞÖ¤ÃûÒÑ¾­´æÔÚ\n\nÈç¹û´ËÍ¨ĞĞÖ¤ÃûÊÇÄú×¢²áµÄ£¬ÇëÌîĞ´ÕıÈ·µÄÃÜÂë\n\nÈç¹û²»ÊÇÄú×¢²áµÄ£¬Çë¸ü»»Í¨ĞĞÖ¤Ãû';
+$L['register_msg_passport'] = 'êÇ³ÆÒÑ¾­´æÔÚ\n\nÈç¹û´Ë»áÔ±ÊÇÄú×¢²áµÄ£¬ÇëÌîĞ´ÕıÈ·µÄÃÜÂë\n\nÈç¹û²»ÊÇÄú×¢²áµÄ£¬Çë¸ü»»êÇ³ÆÔÙÊÔ';
 $L['register_msg_activate'] = $DT['sitename'].'ÓÃ»§×¢²á¼¤»îĞÅ';
 $L['register_msg_welcome'] = '»¶Ó­¼ÓÈë'.$DT['sitename'];
 $L['register_pass_groupid'] = 'ÇëÑ¡Ôñ»áÔ±×é';
-$L['register_msg_emailcode'] = $DT['sitename'].'ÓÃ»§×¢²áÓÊ¼şÑéÖ¤Âë';
+$L['register_msg_emailcode'] = $DT['sitename'].'ÓÃ»§ÓÊ¼şÑéÖ¤Âë';
 $L['register_pass_emailcode'] = 'ÓÊ¼şÑéÖ¤Âë´íÎó';
 $L['register_pass_mobilecode'] = 'ÊÖ»úÑéÖ¤Âë´íÎó';
-
-$L['renew_title'] = VIP.'·şÎñĞø·Ñ';
-$L['renew_msg_fee'] = 'Ö§¸¶½ğ¶î´íÎó';
-$L['renew_msg_success'] = 'Ğø·Ñ³É¹¦';
-$L['renew_record'] = '{V0}Äê,{V1}µ½ÆÚ';
 
 $L['send_mail_close'] = 'ÏµÍ³Î´¿ªÆôÓÊ¼ş·¢ËÍ';
 $L['send_sms_close'] = 'ÏµÍ³Î´¿ªÆô¶ÌĞÅ·¢ËÍ';
@@ -355,7 +378,7 @@ $L['send_email_title'] = 'ĞŞ¸ÄEmail';
 $L['send_mobile_exist'] = 'ÊÖ»úºÅÂëÒÑ¾­±»Õ¼ÓÃ£¬Çë¸ü»»';
 $L['send_mobile_fail'] = '¶ÌĞÅ·¢ËÍÊ§°Ü£¬ÇëÖØÊÔ';
 $L['send_mobile_success'] = 'ÊÖ»úĞŞ¸Ä³É¹¦';
-$L['send_mobile_code_error'] = 'ÈÏÖ¤Âë´íÎó';
+$L['send_mobile_code_error'] = 'ÑéÖ¤Âë´íÎó';
 $L['send_mobile_bad'] = 'ÊÖ»úºÅÂë¸ñÊ½²»ÕıÈ·';
 $L['send_mobile_record'] = 'ĞŞ¸ÄÊÖ»ú';
 $L['send_mobile_title'] = 'ĞŞ¸ÄÊÖ»ú';
@@ -364,6 +387,7 @@ $L['send_password_checking'] = 'ÄúµÄÕÊºÅÉĞÎ´Í¨¹ıÉóºË';
 $L['send_password_error'] = 'Ìá¹©µÄĞÅÏ¢²»Æ¥Åä';
 $L['send_password_mail'] = $DT['sitename'].'ÓÃ»§ÕÒ»ØÃÜÂë';
 $L['send_password_title'] = 'ÕÒ»ØÃÜÂë';
+$L['send_passport_title'] = 'ĞŞ¸ÄêÇ³Æ';
 
 $L['sendmail_title'] = '·¢ËÍµç×ÓÓÊ¼ş';
 $L['sendmail_content'] = 'ÄúµÄºÃÓÑ <strong><a href="{V0}" target="_blank">{V1}</a></strong> ÏòÄúÍÆ¼öÈçÏÂĞÅÏ¢:<br/><br/>{V2}<br/><a href="{V3}" target="_blank">{V3}</a><br/><br/>¸½ÑÔ£º';
@@ -372,6 +396,8 @@ $L['sendmail_pass_mailto'] = 'ÇëÌîĞ´ÕıÈ·µÄÊÕ¼şÈËµØÖ·';
 $L['sendmail_success'] = 'ÓÊ¼şÒÑ·¢ËÍÖÁ{V0}';
 $L['sendmail_fail'] = 'ÓÊ¼ş·¢ËÍÊ§°Ü£¬ÇëÖØÊÔ';
 
+$L['sms_code'] = 'ÑéÖ¤Âë';
+$L['sms_msg_max'] = '½ñÈÕÒÑ´ï·¢ËÍÉÏÏŞ£¬ÇëÃ÷ÈÕÔÙÊÔ';
 $L['sms_msg_validate'] = 'ÇëÏÈÈÏÖ¤ÄúµÄÊÖ»úºÅÂë';
 $L['sms_msg_buy'] = 'ÇëÏÈ¹ºÂò¶ÌĞÅ';
 $L['sms_msg_mobile'] = 'ÇëÌîĞ´ÕıÈ·µÄÊÖ»úºÅÂë';
@@ -389,10 +415,6 @@ $L['sms_record_title'] = '½ÓÊÕ¼ÇÂ¼';
 $L['sms_send_title'] = '·¢ËÍ¼ÇÂ¼';
 $L['sms_title'] = '¶ÌĞÅ¼ÇÂ¼';
 $L['sms_sfields'] = array($L['search_by'], '½ğ¶î', 'ÊÂÓÉ', $L['search_by_note']);
-
-$L['type_title'] = '{V0}·ÖÀà¹ÜÀí';
-$L['type_names'] = array('friend'=>'ÉÌÓÑ', 'favorite'=>'ÊÕ²Ø', 'product'=>'¹©Ó¦', 'mall'=>'ÉÌÆ·', 'news'=>'ĞÂÎÅ');
-$L['type_msg_limit'] = '×î¶à¿ÉÌí¼Ó{V0}¸ö·ÖÀà';
 
 $L['style_title'] = 'Ä£°åÉèÖÃ';
 $L['style_title_buy'] = 'Ä£°å¹ºÂò';
@@ -413,111 +435,14 @@ $L['style_pass_template_match'] = 'Ö»ÄÜÊ¹ÓÃ×ÖÄ¸(A-Z,a-z)¡¢Êı×Ö(0-9)¡¢ÖĞ»®Ïß(-)¡¢
 $L['style_pass_dir'] = 'Ä£°åÄ¿Â¼²»´æÔÚ';
 $L['style_pass_groupid'] = 'ÇëÑ¡Ôñ»áÔ±×é';
 
-$L['trade_status'] = array(
-	'<span style="color:#0000FF;">Âò¼Ò·¢Æğ¶©µ¥<br/>µÈ´ıÂô¼ÒÈ·ÈÏ</span>',
-	'<span style="color:#FF6600;">µÈ´ıÂò¼Ò¸¶¿î</span>',
-	'<span style="color:#008080;">Âò¼ÒÒÑ¸¶¿î<br/>µÈ´ıÂô¼Ò·¢»õ</span>',
-	'<span style="color:#FF0000;">Âô¼ÒÒÑ·¢»õ<br/>µÈ´ıÂò¼ÒÈ·ÈÏ</span>',
-	'<span style="color:#008000;">½»Ò×³É¹¦</span>',
-	'<span style="color:#FF0000;text-decoration:underline;">Âò¼ÒÉêÇëÍË¿î</span>',
-	'<span style="color:#0000FF;text-decoration:underline;">ÒÑÍË¿î¸øÂò¼Ò</span>',
-	'<span style="color:#FF6600;text-decoration:underline;">ÒÑ¸¶¿î¸øÂô¼Ò</span>',
-	'<span style="color:#888888;text-decoration:line-through;">Âò¼Ò¹Ø±Õ½»Ò×</span>',
-	'<span style="color:#888888;text-decoration:line-through;">Âô¼Ò¹Ø±Õ½»Ò×</span>',
-);
-$L['trade_dstatus'] = array(
-	'Âò¼Ò·¢Æğ¶©µ¥,µÈ´ıÂô¼ÒÈ·ÈÏ',
-	'µÈ´ıÂò¼Ò¸¶¿î',
-	'Âò¼ÒÒÑ¸¶¿î,µÈ´ıÂô¼Ò·¢»õ',
-	'Âô¼ÒÒÑ·¢»õ,µÈ´ıÂò¼ÒÈ·ÈÏ',
-	'½»Ò×³É¹¦',
-	'Âò¼ÒÉêÇëÍË¿î',
-	'ÒÑÍË¿î¸øÂò¼Ò',
-	'ÒÑ¸¶¿î¸øÂô¼Ò',
-	'Âò¼Ò¹Ø±Õ½»Ò×',
-	'Âô¼Ò¹Ø±Õ½»Ò×',
-);
-$L['trade_msg_deny'] = 'ÄúÎŞÈ¨½øĞĞ´Ë²Ù×÷';
-$L['trade_msg_null'] = '¶©µ¥²»´æÔÚ';
-$L['trade_price_fee_null'] = 'ÇëÌîĞ´¸½¼Ó½ğ¶î';
-$L['trade_price_fee_name'] = 'ÇëÌîĞ´¸½¼Ó½ğ¶îÃû³Æ';
-$L['trade_price_edit_success'] = '¶©µ¥ĞŞ¸Ä³É¹¦';
-$L['trade_price_title'] = 'ĞŞ¸Ä¼Û¸ñ';
-$L['trade_detail_title'] = '¶©µ¥ÏêÇé';
-$L['trade_confirm_success'] = '¶©µ¥ÒÑÈ·ÈÏ£¬ÇëµÈ´ıÂò¼Ò¸¶¿î';
-$L['trade_pay_order_success'] = 'Ö§¸¶³É¹¦£¬½ğ¶îÔİÊ±±»Ëø¶¨£¬ÇëµÈ´ıÂô¼Ò·¢»õ';
-$L['trade_pay_order_title'] = '¶©µ¥Ö§¸¶';
-$L['trade_refund_reason'] = 'ÇëÌîĞ´ÀíÓÉ¼°Ö¤¾İ';
-$L['trade_refund_success'] = 'ÄúµÄÍË¿îÉêÇëÒÑ¾­Ìá½»£¬ÇëµÈ´ıÍøÕ¾´¦Àí';
-$L['trade_refund_title'] = 'ÉêÇëÍË¿î';
-$L['trade_send_success'] = 'ÒÑ¾­È·ÈÏ·¢»õ£¬ÇëµÈ´ıÂò¼ÒÈ·ÈÏÊÕ»õ';
-$L['trade_send_title'] = 'È·ÈÏ·¢»õ';
-$L['trade_receive_title'] = 'È·ÈÏµ½»õ';
-$L['trade_addtime_null'] = 'ÇëÌîĞ´ÑÓ³¤µÄÊ±¼ä';
-$L['trade_addtime_success'] = 'Âò¼ÒÈ·ÈÏÊ±¼äÑÓ³¤³É¹¦';
-$L['trade_addtime_title'] = 'ÑÓ³¤Âò¼ÒÈ·ÈÏÊ±¼ä';
-$L['trade_success'] = '¹§Ï²£¡´Ë¶©µ¥½»Ò×³É¹¦';
-$L['trade_close_success'] = '½»Ò×ÒÑ¹Ø±Õ';
-$L['trade_delete_success'] = '¶©µ¥É¾³ı³É¹¦';
-$L['trade_pay_seller'] = 'ÇëÌîĞ´ÊÕ¿î»áÔ±Ãû';
-$L['trade_pay_self'] = 'ÊÕ¿îÈË²»ÄÜÊÇ×Ô¼º';
-$L['trade_pay_seller_bad'] = 'ÊÕ¿î»áÔ±Ãû²»´æÔÚ£¬ÇëÈ·ÈÏ';
-$L['trade_pay_amount'] = 'ÇëÌîĞ´¸¶¿î½ğ¶î';
-$L['trade_pay_note'] = 'ÇëÌîĞ´¸¶¿îËµÃ÷';
-$L['trade_pay_goods'] = 'ÇëÌîĞ´ÉÌÆ·»ò·şÎñÃû³Æ';
-$L['trade_pay_title'] = 'ÎÒÒª¸¶¿î';
-$L['trade_pay1_success'] = 'Ö±½Ó¸¶¿î³É¹¦£¬»áÔ±[{V0}]½«Ö±½ÓÊÕµ½ÄúµÄ¸¶¿î';
-$L['trade_pay0_success'] = '¶©µ¥ÒÑ¾­·¢³ö£¬ÇëµÈ´ıÂô¼ÒÈ·ÈÏ';
-$L['trade_order_sfields'] = array('°´Ìõ¼ş', 'ÉÌÆ·', '½ğ¶î', '¸½¼Ó½ğ¶î', '¸½¼ÓÃû³Æ', 'Âô¼Ò', '·¢»õ·½Ê½', 'ÎïÁ÷ºÅÂë', '±¸×¢');
-$L['trade_order_title'] = '·¢³öµÄ¶©µ¥';
-$L['trade_sfields'] = array('°´Ìõ¼ş', 'ÉÌÆ·', '½ğ¶î', '¸½¼Ó½ğ¶î', '¸½¼ÓÃû³Æ', 'Âò¼Ò', 'Âò¼ÒĞÕÃû', 'Âò¼ÒµØÖ·', 'Âò¼ÒÓÊ±à', 'Âò¼ÒÊÖ»ú', 'Âò¼Òµç»°', '·¢»õ·½Ê½', 'ÎïÁ÷ºÅÂë', '±¸×¢');
-$L['trade_title'] = 'ÊÕµ½µÄ¶©µ¥';
-$L['trade_record_pay'] = '¶©µ¥»õµ½¸¶¿î';
-$L['trade_record_payfor'] = 'Õ¾ÄÚ¸¶¿î';
-$L['trade_record_receive'] = 'Õ¾ÄÚÊÕ¿î';
-$L['trade_record_new'] = 'Í¨ÖªÂô¼ÒÈ·ÈÏ¶©µ¥';
-$L['trade_order_id'] = '¶©µ¥ºÅ:';
-$L['trade_buyer_timeout'] = '¶©µ¥ºÅ{V0}[Âò¼Ò³¬Ê±]';
-$L['trade_sms_confirm'] = 'Í¨ÖªÂò¼Ò¸¶¿î';
-$L['trade_sms_pay'] = 'Í¨ÖªÂô¼Ò·¢»õ';
-$L['trade_sms_send'] = 'Í¨ÖªÂò¼ÒÒÑ·¢»õ';
-$L['trade_sms_income'] = 'Õ¾ÄÚ¸¶¿îÍ¨Öª';
-$L['trade_sms_receive'] = 'Í¨ÖªÂô¼ÒÒÑÊÕ»õ';
-$L['trade_message_t1'] = 'Õ¾ÄÚ½»Ò×ÌáĞÑ£¬ÄúÓĞÒ»±Ê½»Ò×ĞèÒª¸¶¿î(T{V0})';
-$L['trade_message_c1'] = 'Âô¼Ò <a href="{V0}" class="t">{V1}</a> ÓÚ <span class="f_gray">{V2}</span> ¸üĞÂÁËÄúµÄ¶©µ¥<br/><a href="{V3}" class="t" target="_blank">&raquo; ÇëµãÕâÀïÁ¢¼´´¦Àí»ò²é¿´ÏêÇé</a>';
-$L['trade_message_t2'] = 'Õ¾ÄÚ½»Ò×ÌáĞÑ£¬ÄúÓĞÒ»±Ê½»Ò×ĞèÒª·¢»õ(T{V0})';
-$L['trade_message_c2'] = 'Âò¼Ò <a href="{V0}" class="t">{V1}</a> ÓÚ <span class="f_gray">{V2}</span> Ö§¸¶ÁËÄúµÄ¶©µ¥<br/><a href="{V3}" class="t" target="_blank">&raquo; ÇëµãÕâÀïÁ¢¼´´¦Àí»ò²é¿´ÏêÇé</a>';
-$L['trade_message_t3'] = 'Õ¾ÄÚ½»Ò×ÌáĞÑ£¬ÄúÓĞÒ»±Ê½»Ò×ĞèÒªÊÕ»õ(T{V0})';
-$L['trade_message_c3'] = 'Âô¼Ò <a href="{V0}" class="t">{V1}</a> ÓÚ <span class="f_gray">{V2}</span> ÒÑ¾­·¢»õ<br/><a href="{V3}" class="t" target="_blank">&raquo; ÇëµãÕâÀïÁ¢¼´´¦Àí»ò²é¿´ÏêÇé</a>';
-$L['trade_message_t4'] = 'Õ¾ÄÚ½»Ò×ÌáĞÑ£¬ÄúÓĞÒ»±Ê½»Ò×ÒÑ¾­³É¹¦(T{V0})';
-$L['trade_message_c4'] = 'Âò¼Ò <a href="{V0}" class="t">{V1}</a> ÓÚ <span class="f_gray">{V2}</span> È·ÈÏÊÕ»õ£¬½»Ò×Íê³É<br/><a href="{V3}" class="t" target="_blank">&raquo; ÇëµãÕâÀïÁ¢¼´´¦Àí»ò²é¿´ÏêÇé</a>';
-$L['trade_message_t5'] = 'Õ¾ÄÚÊÕÈëÌáĞÑ£¬ÄúÊÕµ½Ò»±Ê¸¶¿î';
-$L['trade_message_c5'] = '<a href="{V0}" class="t">{V1}</a> ÓÚ <span class="f_gray">{V2}</span> ÏòÄúÖ§¸¶ÁË <span class="f_blue">{V3}'.$DT['money_unit'].'</span> µÄÕ¾ÄÚ¸¶¿î<br/>±¸×¢£º<span class="f_gray">{V4}</span>';
-$L['trade_message_t6'] = 'Õ¾ÄÚ½»Ò×ÌáĞÑ£¬ÄúÓĞÒ»±Ê½»Ò×ĞèÒªÈ·ÈÏ(T{V0})';
-$L['trade_message_c6'] = '<a href="{V0}" class="t">{V1}</a> ÓÚ <span class="f_gray">{V2}</span> ÏòÄú¶©¹ºÁË£º<br/>{V3}<br/>¶©µ¥±àºÅ£º<span class="f_red">T{V4}</span> &nbsp;¶©µ¥½ğ¶îÎª£º<span class="f_blue f_b">{V5}'.$DT['money_unit'].'</span><br/><a href="{V6}" class="t" target="_blank">&raquo; ÇëµãÕâÀïÁ¢¼´´¦Àí»ò²é¿´ÏêÇé</a>';
+$L['support_title'] = '¿Í·ş×¨Ô±';
+$L['support_error_1'] = 'ÏµÍ³ÔİÎ´ÎªÄú·ÖÅä¿Í·ş×¨Ô±';
+$L['support_error_2'] = '¿Í·ş×¨Ô±²»´æÔÚ£¬ÇëÓëÍøÕ¾ÁªÏµ';
 
-$L['group_status'] = array(
-	'<span style="color:#0000FF;">ÒÑ¸¶¿î</span>',
-	'<span style="color:#FF0000;">ÒÑ·¢»õ</span>',
-	'<span style="color:#FF6600;">ÒÑÏû·Ñ</span>',
-	'<span style="color:#008000;">½»Ò×³É¹¦</span>',
-	'<span style="color:#888888;text-decoration:line-through;">ÒÑÍË¿î</span>',
-);
-$L['group_dstatus'] = array(
-	'ÒÑ¸¶¿î',
-	'ÒÑ·¢»õ',
-	'ÒÑÏû·Ñ',
-	'½»Ò×³É¹¦',
-	'ÒÑÍË¿î',
-);
-$L['group_detail_title'] = '¶©µ¥ÏêÇé';
-
-$L['group_title'] = 'ÊÕµ½µÄÍÅ¹º¶©µ¥';
-$L['group_sfields'] = array('°´Ìõ¼ş', 'ÉÌÆ·', '½ğ¶î', 'ÃÜÂë', 'Âò¼Ò', 'Âò¼ÒĞÕÃû', 'Âò¼ÒµØÖ·', 'Âò¼ÒÓÊ±à', 'Âò¼ÒÊÖ»ú', 'Âò¼Òµç»°', '·¢»õ·½Ê½', 'ÎïÁ÷ºÅÂë', '±¸×¢');
-
-$L['group_order_title'] = 'ÍÅ¹º¶©µ¥';
-$L['group_order_sfields'] = array('°´Ìõ¼ş', 'ÉÌÆ·', '½ğ¶î', 'ÃÜÂë', 'Âô¼Ò', '·¢»õ·½Ê½', 'ÎïÁ÷ºÅÂë', '±¸×¢');
-$L['group_send_title'] = 'ÉÌ¼Ò·¢»õ';
+$L['type_title'] = '{V0}·ÖÀà¹ÜÀí';
+$L['type_names'] = array('friend'=>'ÉÌÓÑ', 'favorite'=>'ÊÕ²Ø', 'product'=>'¹©Ó¦', 'mall'=>'ÉÌÆ·', 'news'=>'ĞÂÎÅ');
+$L['type_msg_limit'] = '×î¶à¿ÉÌí¼Ó{V0}¸ö·ÖÀà';
+$L['type_parent'] = 'ÉÏ¼¶·ÖÀà';
 
 $L['validate_email_exist'] = 'EmailµØÖ·ÒÑ¾­±»Ê¹ÓÃ£¬Çë¸ü»»';
 $L['validate_email_success'] = 'ÄúµÄÓÊ¼şÈÏÖ¤³É¹¦';
@@ -528,7 +453,7 @@ $L['validate_mobile_exist'] = 'ÊÖ»úºÅÂëÒÑ¾­±»Õ¼ÓÃ£¬Çë¸ü»»';
 $L['validate_mobile_title'] = 'ÊÖ»úÈÏÖ¤';
 $L['validate_mobile_success'] = 'ÄúµÄÊÖ»úÈÏÖ¤³É¹¦';
 $L['validate_mobile_fail'] = '¶ÌĞÅ·¢ËÍÊ§°Ü£¬ÇëÖØÊÔ';
-$L['validate_mobile_code_error'] = 'ÈÏÖ¤Âë´íÎó';
+$L['validate_mobile_code_error'] = 'ÑéÖ¤Âë´íÎó';
 $L['validate_mobile_bad'] = 'ÊÖ»úºÅÂë¸ñÊ½²»ÕıÈ·';
 $L['validate_mobile_record'] = 'ÊÖ»úÈÏÖ¤';
 $L['validate_truename_title'] = 'ÊµÃûÈÏÖ¤';
@@ -541,10 +466,13 @@ $L['validate_company_image'] = 'ÇëÉÏ´«Ö¤¼şÍ¼Æ¬';
 $L['validate_company_success'] = 'Ìá½»³É¹¦';
 $L['validate_bank_title'] = 'ÒøĞĞÕÊºÅÈÏÖ¤';
 
-$L['oauth_title'] = 'Ò»¼üµÇÂ¼';
-$L['oauth_quit'] = '½â³ı³É¹¦';
+$L['vip_title'] = VIP.'ĞÅÏ¢';
+$L['vip_renew'] = VIP.'·şÎñĞø·Ñ';
+$L['vip_msg_fee'] = 'Ö§¸¶½ğ¶î´íÎó';
+$L['vip_msg_success'] = 'Ğø·Ñ³É¹¦';
+$L['vip_record'] = '{V0}Äê,{V1}µ½ÆÚ';
 
-$L['support_title'] = '¿Í·ş×¨Ô±';
-$L['support_error_1'] = 'ÏµÍ³ÔİÎ´ÎªÄú·ÖÅä¿Í·ş×¨Ô±';
-$L['support_error_2'] = '¿Í·ş×¨Ô±²»´æÔÚ£¬ÇëÓëÍøÕ¾ÁªÏµ';
+$L['weixin_title'] = 'Î¢ĞÅ¹Ø×¢';
+$L['weixin_push_open'] = '¿ªÆô³É¹¦';
+$L['weixin_push_close'] = '¹Ø±Õ³É¹¦';
 ?>

@@ -2,10 +2,10 @@
 defined('IN_DESTOON') or exit('Access Denied');
 preg_match("/^[0-9a-zA-z_\-]{4,20}$/", $kf) or $kf = '';
 ?>
-<tr>
+<tr id="kf_post_53kf" style="display:none;">
 <td class="tl">在线客服帐号</td>
 <td class="tr">
-<input type="text" name="setting[kf]" id="kf" value="<?php echo $kf;?>" size="10"/>&nbsp;&nbsp;
+<input type="text" name="kf[53kf]" id="kf_53kf" value="<?php echo $kf;?>" size="10"/>&nbsp;&nbsp;
 <?php if($kf) { ?>
 <a href="http://www.53kf.com/" class="t" target="_blank">帐号管理</a>
 <?php } else { ?>

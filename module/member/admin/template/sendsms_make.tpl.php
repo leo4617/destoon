@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 include tpl('header');
 show_menu($menus);
 ?>
@@ -27,7 +27,6 @@ show_menu($menus);
 <option value="member|regtime<<?php echo $DT_TIME;?>-3600*24*365|mobile">注册时间超过1年</option>
 <option value="member|message>10|mobile">未读站内信超过10封</option>
 <option value="member|money>1000|mobile">帐户可用<?php echo $DT['money_name'];?>多余1000<?php echo $DT['money_unit'];?></option>
-<option value="member|locking>1000|mobile">帐户锁定<?php echo $DT['money_name'];?>多余1000<?php echo $DT['money_unit'];?></option>
 <option value="member m,company c|m.userid=c.userid and c.vip>6|m.mobile"><?php echo VIP;?>指数大于6的企业</option>
 <option value="member m,company c|m.userid=c.userid and c.totime><?php echo $DT_TIME;?>|m.mobile"><?php echo VIP;?>服务过期的企业</option>
 <option value="member m,company c|m.userid=c.userid and c.totime><?php echo $DT_TIME;?>-3600*24*30|m.mobile"><?php echo VIP;?>服务30天内过期的企业</option>

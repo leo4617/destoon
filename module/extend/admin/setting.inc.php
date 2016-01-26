@@ -1,10 +1,13 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $tab = isset($tab) ? intval($tab) : 0;
 $all = isset($all) ? intval($all) : 0;
 if($submit) {
 	update_setting($moduleid, $setting);
 	cache_module($moduleid);
+	if($setting['show_url'] != $MOD['show_url']) {
+		msg('设置保存成功，开始更新地址', '?moduleid='.$moduleid.'&file=html');
+	}
 	dmsg('更新成功', '?moduleid='.$moduleid.'&file='.$file.'&tab='.$tab);
 } else {
 	extract(dhtmlspecialchars($MOD));

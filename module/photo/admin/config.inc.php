@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $MCFG = array();
 $MCFG['module'] = 'photo';
 $MCFG['name'] = 'Í¼¿â';
@@ -18,6 +18,7 @@ $RT['action']['index']['add'] = 'Ìí¼ÓÍ¼¿â';
 $RT['action']['index']['edit'] = 'ÐÞ¸ÄÍ¼¿â';
 $RT['action']['index']['delete'] = 'É¾³ýÍ¼¿â';
 $RT['action']['index']['check'] = 'ÉóºËÍ¼¿â';
+$RT['action']['index']['reject'] = 'Î´Í¨¹ý';
 $RT['action']['index']['recycle'] = '»ØÊÕÕ¾';
 $RT['action']['index']['move'] = 'Í¼¿âÒÆ¶¯';
 $RT['action']['index']['level'] = 'ÐÅÏ¢¼¶±ð';

@@ -45,7 +45,8 @@ class comment {
 		global $MOD, $TYPE, $pages, $page, $pagesize, $offset, $items;
 		$r = $this->db->get_one("SELECT COUNT(*) AS num FROM {$this->table} WHERE $condition");
 		$items = $r['num'];
-		$pages = pages($items, $page, $pagesize);		
+		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();		
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {

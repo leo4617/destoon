@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $TYPE = get_type('mail', 1);
 $menus = array (
     array('Ìí¼ÓÓÊ¼þ', '?moduleid='.$moduleid.'&file='.$file.'&action=add'),

@@ -38,7 +38,8 @@ class answer {
 			$r = $this->db->get_one("SELECT COUNT(*) AS num FROM {$this->table} WHERE $condition");
 			$items = $r['num'];
 		}
-		$pages = pages($items, $page, $pagesize);		
+		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();	
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {
@@ -72,6 +73,7 @@ class answer {
 			if($r) {
 				$this->db->query("DELETE FROM {$this->table} WHERE itemid=$itemid");
 				$this->db->query("DELETE FROM {$DT_PRE}know_vote WHERE aid=$itemid");
+				if($r['content']) delete_local($r['content'], get_user($r['username']));
 				if($r['username'] && $MOD['credit_del_answer']) {
 					credit_add($r['username'], -$MOD['credit_del_answer']);
 					credit_record($r['username'], -$MOD['credit_del_answer'], 'system', lang('my->credit_record_answer_del'), 'ID:'.$r['qid']);

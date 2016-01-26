@@ -1,9 +1,9 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $menus = array (
     array('分站添加', '?file='.$file.'&action=edit'),
     array('分站管理', '?file='.$file),
@@ -113,7 +113,7 @@ class city {
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY letter,listorder LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {
-			$r['linkurl'] = DT_PATH.'city.php?action=go&forward=&areaid='.$r['areaid'];
+			$r['linkurl'] = DT_PATH.'api/city.php?action=go&forward=&areaid='.$r['areaid'];
 			$lists[] = $r;
 		}
 		return $lists;

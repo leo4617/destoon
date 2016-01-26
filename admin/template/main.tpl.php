@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 include tpl('header');
 show_menu($menus);
 ?>
@@ -61,7 +61,7 @@ show_menu($menus);
 <table cellpadding="2" cellspacing="1" class="tb">
 <tr>
 <td class="tl">程序信息</td>
-<td>&nbsp;<a href="?file=cloud&action=update" class="t">DESTOON B2B Version <?php echo DT_VERSION;?> Release <?php echo DT_RELEASE;?> <?php echo strtoupper(DT_CHARSET);?> <?php echo strtoupper(DT_LANG);?> [检查更新]</a></td>
+<td>&nbsp;<a href="?file=cloud&action=update" class="t">DESTOON B2B Version <?php echo DT_VERSION;?> Release <?php echo DT_RELEASE;?> <?php echo DT_CHARSET;?> <?php echo strtoupper(DT_LANG);?> [检查更新]</a></td>
 </tr>
 <tr>
 <td class="tl">软件版本</td>
@@ -111,10 +111,9 @@ show_menu($menus);
 <div class="tt">使用协议</div>
 <table cellpadding="2" cellspacing="1" class="tb">
 <tr>
-<td style="padding:10px;"><textarea style="width:100%;height:100px;"><?php echo file_get(DT_ROOT.'/license.txt');?></textarea></td>
+<td style="padding:10px;"><textarea style="width:100%;height:100px;" onmouseover="this.style.height='600px';" onmouseout="this.style.height='100px';"><?php echo file_get(DT_ROOT.'/license.txt');?></textarea></td>
 </tr>
 </table>
-<script type="text/javascript">Menuon(0);</script>
 <script type="text/javascript" src="<?php echo $notice_url;?>"></script>
 <script type="text/javascript">
 var destoon_release = <?php echo DT_RELEASE;?>;
@@ -129,4 +128,5 @@ if(typeof destoon_lastrelease != 'undefined') {
 }
 </script>
 <?php } ?>
+<script type="text/javascript">Menuon(0);</script>
 <?php include tpl('footer');?>

@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -13,6 +13,7 @@ $L['common_login'] = 'ÄúµÄÕÊºÅÔÚ±ð´¦(IP:{V0})µÇÂ¼£¬Äú±»ÆÈÏÂÏß\nÈç¹û²»ÊÇÄú²Ù×÷µÄ£
 /* upload.php */
 $L['upload_refuse'] = 'Ã»ÓÐÈ¨ÏÞÉÏ´«ÎÄ¼þ';
 $L['upload_limit'] = 'ÉÏ´«ÊýÁ¿³¬³öÏÞÖÆ£¬Í¬Ò»ÐÅÏ¢×î¶àÉÏ´«{V0}ÎÄ¼þ';
+$L['upload_credit'] = 'ÉÏ´«ÎÄ¼þÐè¿Û³ý{V0}'.$DT['credit_name'].'£¬µ±Ç°'.$DT['credit_name'].'Óà¶î{V1}';
 $L['upload_limit_day'] = '24Ð¡Ê±ÄÚ×î¶àÉÏ´«{V0}ÎÄ¼þ£¬µ±Ç°ÒÑ¾­ÉÏ´«{V1}ÎÄ¼þ';
 $L['upload_bad'] = '´íÎóµÄÍ¼Æ¬ÎÄ¼þ¸ñÊ½';
 $L['upload_cmyk'] = 'ä¯ÀÀÆ÷²»Ö§³ÖCMYKÄ£Ê½Í¼Æ¬£¬Çë×ª»»ÎªRGB¸ñÊ½';
@@ -28,6 +29,7 @@ $L['pass_thumb'] = 'ÇëÉÏ´«±êÌâÍ¼Æ¬';
 $L['pass_logo'] = 'ÇëÉÏ´«LOGO';
 $L['pass_date'] = 'ÈÕÆÚ¸ñÊ½´íÎó';
 $L['pass_todate'] = 'ÐÅÏ¢¹ýÆÚÊ±¼ä±ØÐëÔÚµ±Ç°Ê±¼äÖ®ºó';
+$L['pass_max'] = 'ÄÚÈÝ¹ý³¤£¬ÏÞÖÆÎª'.DT_MAX_LEN.'×Ö·û';
 /*
 $L['pass_product'] = 'ÇëÌîÐ´²úÆ·Ãû³Æ';
 $L['pass_product_op_pid'] = 'ÇëÑ¡ÔñÉÌÆ·ÀàÐÍ';

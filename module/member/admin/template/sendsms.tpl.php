@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 include tpl('header');
 show_menu($menus);
 ?>
@@ -69,8 +69,11 @@ show_menu($menus);
 - 例 {$user[username]} 表示会员名<br/>
 - 例 {$user[company]} 表示公司名<br/>
 - 如果是给非会员发送短信，请不要使用变量<br/>
-<?php if(!$DT['sms'] || !$DT['sms_uid'] || !$DT['sms_key']) { ?>
-<span class="f_red">- 注意：无法发送，未设置发送参数</span> <a href="?file=setting" class="t">点此设置</a><br/>
+<?php if(!$DT['sms'] || !DT_CLOUD_UID || !DT_CLOUD_KEY) { ?>
+<span class="f_red">- 注意：无法发送，未设置发送参数</span> <a href="?file=setting&tab=7" class="t">点此设置</a><br/>
+<?php } else { ?>
+
+<span class="f_red">- 注意：请勿发送任何违法信息，否则帐号会被禁用且不退款</span><br/>
 <?php } ?>
 <span id="dcontent" class="f_red"></span>
 </td>

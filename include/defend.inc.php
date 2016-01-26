@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -21,7 +21,7 @@ if($DT['defend_cc']) {
 		}
 	}
 }
-if($DT['defend_reload']) {
+if($DT['defend_reload'] && !$DT_BOT) {
 	$lastvisit = intval(decrypt(get_cookie('lastvisit')));
 	set_cookie('lastvisit', encrypt("$DT_TIME"));
 	if($DT_TIME - $lastvisit < $DT['defend_reload']) {

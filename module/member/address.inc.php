@@ -16,11 +16,14 @@ switch($action) {
 			if($do->pass($post)) {
 				$post['username'] = $_username;
 				$do->add($post);
-				dmsg($L['op_add_success'], $MOD['linkurl'].'address.php');
+				dmsg($L['op_add_success'], '?action=index');
 			} else {
 				message($do->errmsg);
 			}
 		} else {
+			foreach($do->fields as $v) {
+				$$v = '';
+			}
 			$head_title = $L['address_title_add'];
 		}
 	break;
@@ -54,13 +57,11 @@ switch($action) {
 		$condition = "username='$_username'";
 		if($keyword) $condition .= " AND address LIKE '%$keyword%'";
 		$lists = $do->get_list($condition);
+		$r = $db->get_one("SELECT COUNT(*) AS num FROM {$DT_PRE}address WHERE username='$_username'");
+		$limit_used = $r['num'];
+		$limit_free = $MG['address_limit'] && $MG['address_limit'] > $limit_used ? $MG['address_limit'] - $limit_used : 0;
 		$head_title = $L['address_title'];
 	break;
 }
-
-$r = $db->get_one("SELECT COUNT(*) AS num FROM {$DT_PRE}address WHERE username='$_username'");
-$limit_used = $r['num'];
-
-$limit_free = $MG['address_limit'] && $MG['address_limit'] > $limit_used ? $MG['address_limit'] - $limit_used : 0;
 include template('address', $module);
 ?>

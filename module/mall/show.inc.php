@@ -24,9 +24,17 @@ if($CP) {
 	$values = property_value($moduleid, $itemid);
 }
 $RL = $relate_id ? get_relate($item) : array();
-$p1 = get_nv($n1, $v1);
-$p2 = get_nv($n2, $v2);
-$p3 = get_nv($n3, $v3);
+$P1 = get_nv($n1, $v1);
+$P2 = get_nv($n2, $v2);
+$P3 = get_nv($n3, $v3);
+if($step) {
+	extract(unserialize($step));
+} else {
+	$a1 = 1;
+	$p1 = $item['price'];
+	$a2 = $a3 = $p2 = $p3 = '';
+}
+$unit or $unit = $L['unit'];
 $adddate = timetodate($addtime, 3);
 $editdate = timetodate($edittime, 3);
 $linkurl = $MOD['linkurl'].$linkurl;
@@ -43,10 +51,8 @@ if(check_group($_groupid, $MOD['group_contact'])) {
 		$user_status = 3;
 		$member = $item['username'] ? userinfo($item['username']) : array();
 		if($member) {
-			foreach(array('groupid', 'vip','validated','company','areaid','truename','telephone','mobile','address','qq','msn','ali','skype') as $v) {
-				if($item[$v] != $member[$v]) $update .= ",$v='".addslashes($member[$v])."'";
-			}
-			if($item['email'] != $member['mail']) $update .= ",email='$member[mail]'";
+			$update_user = update_user($member, $item);
+			if($update_user) $db->query("UPDATE {$table} SET ".substr($update_user, 1)." WHERE username='$username'");
 		}
 	}
 } else {
@@ -59,7 +65,7 @@ if(check_group($_groupid, $MOD['group_contact'])) {
 include DT_ROOT.'/include/update.inc.php';
 $seo_file = 'show';
 include DT_ROOT.'/include/seo.inc.php';
-if($EXT['wap_enable']) $head_mobile = $EXT['wap_url'].'index.php?moduleid='.$moduleid.'&itemid='.$itemid.($page > 1 ? '&page='.$page : '');
+if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].mobileurl($moduleid, 0, $itemid, $page);
 $template = $item['template'] ? $item['template'] : ($CAT['show_template'] ? $CAT['show_template'] : 'show');
 include template($template, $module);
 ?>

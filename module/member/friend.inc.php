@@ -19,7 +19,7 @@ switch($action) {
 				$post['userid'] = $_userid;
 				$post['addtime'] = $DT_TIME;
 				$do->add($post);
-				dmsg($L['op_add_success'], 'friend.php');
+				dmsg($L['op_add_success'], '?action=index');
 			} else {
 				message($do->errmsg);
 			}
@@ -40,6 +40,7 @@ switch($action) {
 					$skype = $r['skype'];
 				}
 			}
+			$typeid = 0;
 			$type_select = type_select('friend-'.$_userid, 0, 'post[typeid]', $L['default_type']);
 			$head_title = $L['friend_title_add'];
 		}

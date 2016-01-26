@@ -25,7 +25,7 @@ class friend {
 		if($post['email'] && !is_email($post['email'])) $post['email'] = '';
 		if($post['msn'] && !is_email($post['msn'])) $post['msn'] = '';
 		if($post['qq'] && !is_numeric($post['qq'])) $post['qq'] = '';
-		if(!defined('DT_ADMIN')) $post = dhtmlspecialchars($post);
+		$post = dhtmlspecialchars($post);
 		return array_map("trim", $post);
 	}
 
@@ -42,6 +42,7 @@ class friend {
 			$items = $r['num'];
 		}
 		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {

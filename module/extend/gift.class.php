@@ -62,6 +62,7 @@ class gift {
 			$items = $r['num'];
 		}
 		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {
@@ -73,7 +74,7 @@ class gift {
 			$r['fromdate'] = $r['fromtime'] ? timetodate($r['fromtime'], 3) : $L['timeless'];
 			$r['todate'] = $r['totime'] ? timetodate($r['totime'], 3) : $L['timeless'];
 			$r['typename'] = $TYPE[$r['typeid']]['typename'];
-			$r['typeurl'] = $MOD['gift_url'].rewrite('index.php?typeid='.$r['typeid']);
+			$r['typeurl'] = $MOD['gift_url'].list_url($r['typeid']);
 			$lists[] = $r;
 		}
 		return $lists;
@@ -85,6 +86,7 @@ class gift {
 		$r = $this->db->get_one("SELECT COUNT(*) AS num FROM {$this->table_order} o LEFT JOIN {$this->table} g ON g.itemid=o.itemid WHERE $condition");
 		$items = $r['num'];
 		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = array();
 		$result = $this->db->query("SELECT g.title,g.linkurl,o.* FROM {$this->table_order} o LEFT JOIN {$this->table} g ON g.itemid=o.itemid WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {
@@ -154,19 +156,9 @@ class gift {
 		return true;
 	}
 
-	function update() {
-		$result = $this->db->query("SELECT * FROM {$this->table}");
-		while($r = $this->db->fetch_array($result)) {
-			$itemid = $r['itemid'];
-			$linkurl = $this->linkurl($itemid);
-			$this->db->query("UPDATE {$this->table} SET linkurl='$linkurl' WHERE itemid=$itemid");
-		}
-		return true;
-	}
-
 	function linkurl($itemid) {
 		global $MOD;
-		$linkurl = rewrite('index.php?itemid='.$itemid);
+		$linkurl = show_url($itemid);
 		return $MOD['gift_url'].$linkurl;
 	}
 

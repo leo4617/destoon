@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -10,18 +10,8 @@ class dsession {
     function dsession() {
 		$this->obj = new Memcache;
 		include DT_ROOT.'/file/config/memcache.inc.php';
-		$num = count($MemServer);
-		if($num == 1) {
-			$key = 0;
-		} else {
-			$key = get_cookie('memcache');
-			if($key == -1) {
-				$key = 0;
-			} else if(!isset($MemServer[$key])) {
-				$key = array_rand($MemServer);
-				set_cookie('memcache', $key ? $key : -1);
-			}
-		}
+		$num = count($MemServer);		
+		$key = $num == 1 ? 0 : abs(crc32($GLOBALS['DT_IP']))%$num;
 		$this->obj->connect($MemServer[$key]['host'], $MemServer[$key]['port'], 2);
 
 		if(DT_DOMAIN) @ini_set('session.cookie_domain', '.'.DT_DOMAIN);

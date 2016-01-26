@@ -19,7 +19,7 @@ class dlink {
 		if(!is_array($post)) return false;
 		if(!$post['typeid']) return $this->_($L['link_pass_type']);
 		if(!$post['title']) return $this->_($L['link_pass_site']);
-		if(!$post['linkurl']) return $this->_($L['link_pass_url']);
+		if(!is_url($post['linkurl'])) return $this->_($L['link_pass_url']);
 		return true;
 	}
 
@@ -45,6 +45,7 @@ class dlink {
 			$items = $r['num'];
 		}
 		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {
@@ -52,7 +53,7 @@ class dlink {
 			$r['adddate'] = timetodate($r['addtime'], 5);
 			$r['editdate'] = timetodate($r['edittime'], 5);
 			$r['typename'] = $TYPE[$r['typeid']]['typename'];
-			$r['typeurl'] = $MOD['link_url'].rewrite('index.php?typeid='.$r['typeid']);
+			$r['typeurl'] = $MOD['link_url'].list_url($r['typeid']);
 			$lists[] = $r;
 		}
 		return $lists;

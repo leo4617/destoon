@@ -1,4 +1,5 @@
 <?php
+defined('IN_DESTOON') or exit('Access Denied');
 	/*
 	*功能：付款过程中服务器通知类
 	*版本：2.0

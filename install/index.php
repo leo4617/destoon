@@ -7,6 +7,7 @@ error_reporting(0);
 set_time_limit(0);
 set_magic_quotes_runtime(0);
 define('IN_DESTOON', true);
+define('DT_ADMIN', true);
 define('DT_DEBUG', 0);
 define('IN_ROOT', str_replace("\\", '/', dirname(__FILE__)));
 define('DT_ROOT', substr(IN_ROOT, 0, -8));
@@ -26,6 +27,7 @@ if(file_exists(DT_CACHE.'/install.lock')) {
 	exit;
 }
 require DT_ROOT.'/include/global.func.php';
+require DT_ROOT.'/include/safe.func.php';
 require DT_ROOT.'/include/file.func.php';
 require DT_ROOT.'/include/module.func.php';
 
@@ -33,7 +35,7 @@ switch($step) {
 	case '1'://协议
 		$license = file_get_contents(DT_ROOT.'/license.txt');
 		$DT_LICENSE = md5($license);
-		if($DT_LICENSE != 'ede11fdcdb179260657dba4f3fc42b0e' && $DT_LICENSE != '624100e3dd1887d79ef4c713f0f30cb2') {
+		if($DT_LICENSE != '5bdef29340ffdbe22c937e38b42292aa' && $DT_LICENSE != '8afcc73ad7d0cd6019899812cc2998a3') {
 			$msg = '请检查网站根目录下 license.txt 文件是否存在或被修改<br/>使用Destoon B2B网站管理系统，必须同意license.txt内容，并保留此文件<br/>如果使用FTP上传文件，请使用二进制模式上传 license.txt';
 			include IN_ROOT.'/msg.tpl.php';
 			exit;
@@ -131,7 +133,7 @@ switch($step) {
 		$config['url'] = $CFG['url'] = $url;
 		$config['cache_pre'] = $CFG['cache_pre'] = 'c'.strtolower(random(2)).'_';
 		$config['cookie_pre'] = $CFG['cookie_pre'] = 'c'.strtolower(random(2)).'_';
-		$config['authkey'] = $CFG['authkey'] = random(15);
+		$config['authkey'] = $CFG['authkey'] = random(16);
 		//保存配置文件
 		$tmp = file_get_contents(DT_ROOT.'/config.inc.php');
 		foreach($config as $k=>$v)	{
@@ -151,13 +153,14 @@ switch($step) {
 
 		//创建数据
 		require DT_ROOT.'/include/db_mysql.class.php';
+		require DT_ROOT.'/include/post.func.php';
 		require DT_ROOT.'/include/sql.func.php';
 		require DT_ROOT.'/admin/global.func.php';
 		$db = new db_mysql();
 		$db->connect($db_host, $db_user, $db_pass, $db_name, $CFG['db_expires'], $CFG['db_charset'], $CFG['pconnect']);
 		$db->pre = $DT_PRE;
 		sql_execute(file_get_contents(IN_ROOT.'/table.sql'));
-		sql_execute(file_get_contents(IN_ROOT.'/data.sql'));
+		sql_execute(file_get_contents(IN_ROOT.'/query.sql'));
 
 		//Setting
 		$DT = array();
@@ -179,14 +182,19 @@ switch($step) {
 		$content = str_replace('http://demo.destoon.com/v'.DT_VERSION.'/', $CFG['url'], $content);
 		cache_write('ad_14_0.htm', $content, 'htm');
 
-		$pay = include DT_ROOT.'/file/setting/pay.php';		
+		$pay = include DT_ROOT.'/file/setting/pay.php';
 		foreach($pay as $k=>$v) {
 			update_setting('pay-'.$k, $v);
 		}
-		$oauth = include DT_ROOT.'/file/setting/oauth.php';		
+		$oauth = include DT_ROOT.'/file/setting/oauth.php';
 		foreach($oauth as $k=>$v) {
 			update_setting('oauth-'.$k, $v);
 		}
+		$weixin = include DT_ROOT.'/file/setting/weixin.php';
+		update_setting('weixin', $weixin);
+		$weixin_menu = include DT_ROOT.'/file/setting/weixin-menu.php';
+		$weixin_menu[2][0]['key'] = $CFG['url'].'mobile/';
+		update_setting('weixin-menu', array('menu' => serialize($weixin_menu)));
 		for($i = 1; $i <= 7; $i++) {
 			$setting = include DT_ROOT.'/file/setting/group-'.$i.'.php';
 			if($setting) {
@@ -199,9 +207,13 @@ switch($step) {
 		//模块安装时间
 		$db->query("UPDATE {$DT_PRE}module SET installtime='$DT_TIME'");
 
-		//设置管理员
-		$md5_password = md5(md5($password));
-		$db->query("UPDATE {$DT_PRE}member SET username='$username',passport='$username',password='$md5_password',payword='$md5_password',email='$email',regip='$DT_IP',regtime='$DT_TIME',loginip='$DT_IP',logintime='$DT_TIME' WHERE userid=1");
+		//设置管理员	
+		$paysalt = random(8);
+		$payword = dpassword($password, $paysalt);
+		$passsalt = random(8);
+		$_password = dpassword($password, $passsalt);
+
+		$db->query("UPDATE {$DT_PRE}member SET username='$username',passport='$username',password='$_password',passsalt='$passsalt',payword='$payword',paysalt='$paysalt',email='$email',regip='$DT_IP',regtime='$DT_TIME',loginip='$DT_IP',logintime='$DT_TIME' WHERE userid=1");
 		$userurl = $CFG['url'].'index.php?homepage='.$username;
 		$db->query("UPDATE {$DT_PRE}company SET username='$username',linkurl='$userurl' WHERE userid=1");
 

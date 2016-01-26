@@ -1,5 +1,5 @@
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 function player(u, w, h, p, a) {
@@ -19,12 +19,21 @@ function player(u, w, h, p, a) {
 			u5 = u;
 		} else if(u.indexOf('.youku.com')!=-1) {
 			u5 = youku_url5(u);
+			if(u5) return html_url5(u5, w, h);
 		} else if(u.indexOf('.tudou.com')!=-1) {
 			u5 = tudou_url5(u);
+			if(u5) return html_url5(u5, w, h);
+		} else if(u.indexOf('static.video.qq.com')!=-1) {
+			u5 = vqq_url5(u);
+			if(u5) return html_url5(u5, w, h);
 		} else if(u.indexOf('.56.com')!=-1) {
 			u5 = v56_url5(u);
+			if(u5) return html_url5(u5, w, h);
 		} else if(u.indexOf('.ku6.com')!=-1) {
 			u5 = ku6_url5(u);
+		} else if(u.indexOf('.youtube.com')!=-1) {
+			u5 = youtube_url5(u);
+			if(u5) return html_url5(u5, w, h);
 		}
 		var h2 = parseInt(h/2)-21;
 		var w2 = parseInt(w/2)-21;
@@ -51,26 +60,36 @@ function player(u, w, h, p, a) {
 	} else {
 		if(x == 'mp4' || x == 'flv') return '<object type="application/x-shockwave-flash" data="'+DTPath+'file/flash/vcastr3.swf" width="'+w+'" height="'+h+'" id="vcastr3"><param name="movie" value="'+DTPath+'file/flash/vcastr3.swf"/><param name="FlashVars" value="xml=<vcastr><channel><item><source>'+u+'</source><duration></duration><title></title></item></channel><config><isAutoPlay>'+(a ? 'true' : 'false')+'</isAutoPlay><controlPanelBgColor>0x333333</controlPanelBgColor><isShowAbout>false</isShowAbout></config></vcastr>"/></object>';
 		t = 'application/x-shockwave-flash';
-		c = 'quality="high" extendspage="http://get.adobe.com/flashplayer/" allowfullscreen="true"';
+		c = 'quality="high" extendspage="http://get.adobe.com/flashplayer/" allowfullscreen="true" allowscriptaccess="never"';
 	}
 	return '<embed src="'+u+'" width="'+w+'" height="'+h+'" type="'+t+'" autostart="'+(a ? 'true' : 'false')+'" '+c+'></embed>';
 }
 function ext_url(v) {return v.substring(v.lastIndexOf('.')+1, v.length).toLowerCase();}
+function html_url5(u, w, h) {return '<iframe src="'+u5+'" width="'+w+'" height="'+h+'" frameborder="0" scrolling="no" allowfullscreen="true" allowtransparency="true"></iframe>';}
 function youku_url5(u) {
 	var t1,t2,t3;
 	if(u.indexOf('/sid/') == -1 || u.indexOf('/v.sw') == -1) return '';
 	t1 = u.split('/sid/');
 	t2 = t1[1].split('/v.sw');
 	t3 = t2[0];
-	return t3 ? 'http://v.youku.com/player/getRealM3U8/vid/'+t3+'/type/video.m3u8' : '';
+	return t3 ? 'http://player.youku.com/embed/'+t3 : '';
 }
 function tudou_url5(u) {
 	var t1,t2,t3;
 	if(u.indexOf('/v/') == -1) return '';
 	t1 = u.split('/v/');
 	t2 = t1[1].split('/');
+	t3 = t2[0];	
+	return t3 ? 'http://www.tudou.com/programs/view/html5embed.action?code='+t3 : '';
+}
+function vqq_url5(u) {
+	var t1,t2,t3;
+	if(u.indexOf('vid=') == -1) return '';
+	t1 = u.split('vid=');
+	t2 = t1[1].split('&');
 	t3 = t2[0];
-	return t3 ? 'http://m3u8.tdimg.com/'+t3.substring(0, 3)+'/'+t3.substring(3, 6)+'/'+t3.substring(6, 9)+'/3.m3u8' : '';
+	return t3 ? 'http://v.qq.com/iframe/player.html?vid='+t3+'&tiny=0&auto=0' : '';
+	//return t3 ? 'http://vxml.56.com/m3u8/'+t3+'/' : '';
 }
 function v56_url5(u) {
 	var t1,t2,t3;
@@ -78,7 +97,7 @@ function v56_url5(u) {
 	t1 = u.split('/v_');
 	t2 = t1[1].split('.sw');
 	t3 = t2[0];
-	return t3 ? 'http://vxml.56.com/m3u8/'+t3+'/' : '';
+	return t3 ? 'http://www.56.com/iframe/'+t3 : '';
 }
 function ku6_url5(u) {
 	var t1,t2,t3;
@@ -87,4 +106,11 @@ function ku6_url5(u) {
 	t2 = t1[1].split('/v.sw');
 	t3 = t2[0];
 	return t3 ? 'http://v.ku6.com/fetchwebm/'+t3+'.m3u8' : '';
+}
+function youtube_url5(u) {
+	var t1,t2,t3;
+	if(u.indexOf('youtube.com/v/') == -1) return '';
+	t1 = u.split('/v/');
+	t3 = t1[1];
+	return t3 ? 'http://www.youtube.com/embed/'+t3 : '';
 }

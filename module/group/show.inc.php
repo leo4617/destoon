@@ -62,10 +62,8 @@ if(check_group($_groupid, $MOD['group_contact'])) {
 		$member = $item['username'] ? userinfo($item['username']) : array();
 		if($item['totime'] && $item['totime'] < $DT_TIME && $item['status'] == 3) $update .= ",status=4";
 		if($member) {
-			foreach(array('groupid', 'vip','validated','company','areaid','truename','telephone','mobile','address','qq','msn','ali','skype') as $v) {
-				if($item[$v] != $member[$v]) $update .= ",$v='".addslashes($member[$v])."'";
-			}
-			if($item['email'] != $member['mail']) $update .= ",email='$member[mail]'";
+			$update_user = update_user($member, $item);
+			if($update_user) $db->query("UPDATE {$table} SET ".substr($update_user, 1)." WHERE username='$username'");
 		}
 	}
 } else {
@@ -78,7 +76,7 @@ if(check_group($_groupid, $MOD['group_contact'])) {
 include DT_ROOT.'/include/update.inc.php';
 $seo_file = 'show';
 include DT_ROOT.'/include/seo.inc.php';
-if($EXT['wap_enable']) $head_mobile = $EXT['wap_url'].'index.php?moduleid='.$moduleid.'&itemid='.$itemid.($page > 1 ? '&page='.$page : '');
+if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].mobileurl($moduleid, 0, $itemid, $page);
 $template = $item['template'] ? $item['template'] : ($CAT['show_template'] ? $CAT['show_template'] : 'show');
 include template($template, $module);
 ?>

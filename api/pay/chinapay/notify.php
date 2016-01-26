@@ -1,13 +1,15 @@
 <?php
+$_SERVER['REQUEST_URI'] = '';
 $_DPOST = $_POST;
-require '../../.../common.inc.php';
+$_DGET = $_GET;
+require '../../../common.inc.php';
 $_POST = $_DPOST;
-if(!$_POST) exit('fail');
+$_GET = $_DGET;
+if(!$_POST && !$_GET) exit('fail');
 $bank = 'chinapay';
 $PAY = cache_read('pay.php');
 if(!$PAY[$bank]['enable']) exit('fail');
 if(!$PAY[$bank]['partnerid']) exit('fail');
-//if(!$PAY[$bank]['keycode']) exit('fail');
 $receive_url = '';
 require DT_ROOT."/api/pay/".$bank."/netpayclient_config.php";
 //加载 netpayclient 组件
@@ -32,6 +34,7 @@ if($flag) {
 	if($status == '1001') {
 		//您的处理逻辑请写在这里，如更新数据库等。
 		//注意：如果您在提交时同时填写了页面返回地址和后台返回地址，且地址相同，请在这里先做一次数据库查询判断订单状态，以防止重复处理该笔订单
+		$priv1 = intval($priv1);
 		$r = $db->get_one("SELECT * FROM {$DT_PRE}finance_charge WHERE itemid='$priv1'");
 		if($r) {
 			if($r['status'] == 0) {
@@ -43,7 +46,7 @@ if($flag) {
 					$db->query("UPDATE {$DT_PRE}finance_charge SET status=3,money=$charge_money,receivetime='$DT_TIME',editor='$editor' WHERE itemid=$charge_orderid");
 					require DT_ROOT.'/include/module.func.php';
 					money_add($r['username'], $r['amount']);
-					money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '订单ID:'.$charge_orderid);
+					money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '流水号:'.$charge_orderid);
 					$MOD = cache_read('module-2.php');
 					if($MOD['credit_charge'] > 0) {
 						$credit = intval($r['amount']*$MOD['credit_charge']);

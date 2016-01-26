@@ -29,8 +29,8 @@ if($bRet){
 			if($r6_Order != $charge_orderid) {
 				$charge_status = 2;
 				$charge_errcode = '订单号不匹配';
-				$note = $charge_errcode.'S:'.$charge_orderid.'R:'.$r6_Order;
-				log_write($note, 'ryeepay');
+				#$note = $charge_errcode.'S:'.$charge_orderid.'R:'.$r6_Order;
+				#log_write($note, 'ryeepay');
 			} else if($r3_Amt != $charge_money) {
 				$charge_status = 2;
 				$charge_errcode = '充值金额不匹配';

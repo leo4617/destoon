@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -14,7 +14,7 @@ function fields_update($post_fields, $table, $itemid, $keyname = 'itemid', $fd =
 			$mk = $v['name'];
 			$mv = $post_fields[$v['name']];
 			if($v['html'] == 'checkbox') $mv = implode(',', $post_fields[$v['name']]);
-			$mv = $v['html'] == 'editor' ? dsafe($mv) : htmlspecialchars(trim($mv));
+			$mv = $v['html'] == 'editor' ? dsafe($mv) : dhtmlspecialchars(trim($mv));
 			$sql .= ",$mk='$mv'";
 		}
 	}
@@ -42,19 +42,19 @@ function fields_check($post_fields, $fd = array()) {
 		if(!$v['input_limit']) continue;
 		if(!defined('DT_ADMIN') && !$v['front']) continue;
 		if($v['input_limit'] == 'is_date') {
-			if(!is_date($value)) message(lang($L['fields_input'], array($v['title'])));
+			if(!is_date($value)) fields_message(lang($L['fields_input'], array($v['title'])));
 		} else if($v['input_limit'] == 'is_email') {
-			if(!is_email($value)) message(lang($L['fields_valid'], array($v['title'])));
+			if(!is_email($value)) fields_message(lang($L['fields_valid'], array($v['title'])));
 		} else if(is_numeric($v['input_limit'])) {
 			$length = $v['html'] == 'checkbox' ? count($value) : word_count($value);
-			if($length < $v['input_limit']) message(lang($L['fields_less'], array($v['title'], $v['input_limit'])));
+			if($length < $v['input_limit']) fields_message(lang($L['fields_less'], array($v['title'], $v['input_limit'])));
 		} else {
 			if(preg_match("/^([0-9]{1,})\-([0-9]{1,})$/", $v['input_limit'], $m)) {			
 				$length = $v['html'] == 'checkbox' ? count($value) : word_count($value);
-				if($m[1] && $length < $m[1]) message(lang($L['fields_less'], array($v['title'], $m[1])));
-				if($m[2] && $length > $m[2]) message(lang($L['fields_more'], array($v['title'], $m[2])));
+				if($m[1] && $length < $m[1]) fields_message(lang($L['fields_less'], array($v['title'], $m[1])));
+				if($m[2] && $length > $m[2]) fields_message(lang($L['fields_more'], array($v['title'], $m[2])));
 			} else {
-				if(!preg_match("/^".$v['input_limit']."$/", $value)) message(lang($L['fields_match'], array($v['title'])));
+				if(!preg_match("/^".$v['input_limit']."$/", $value)) fields_message(lang($L['fields_match'], array($v['title'])));
 			}
 		}
 	}
@@ -196,9 +196,13 @@ function fields_show($itemid, $left = '<td class="tl">', $right = '<td>', $value
 				$html .= ' <span class="f_red" id="d'.$v['name'].'"></span>';
 			break;
 			case 'editor':
-				$toolbar = isset($GLOBALS['group_editor']) ? $GLOBALS['group_editor'] : 'Destoon';
-				$html .= '<textarea name="post_fields['.$v['name'].']" id="'.$v['name'].'" style="display:none">'.$value.'</textarea><iframe id="'.$v['name'].'___Frame" src="'.$MODULE[2]['linkurl'].'fckeditor/editor/fckeditor.html?InstanceName='.$v['name'].'&Toolbar='.$toolbar.'" width="'.$v['width'].'" height="'.$v['height'].'" frameborder="no" scrolling="no"></iframe>';
-				$html .= '<br/><span class="f_red" id="d'.$v['name'].'"></span>';
+				$toolbar = isset($group_editor) ? $group_editor : 'Destoon';
+				if(DT_EDITOR == 'fckeditor') {
+					$html .= '<textarea name="post_fields['.$v['name'].']" id="'.$v['name'].'" style="display:none">'.$value.'</textarea><iframe id="'.$v['name'].'___Frame" src="'.$MODULE[2]['linkurl'].'editor/fckeditor/editor/fckeditor.html?InstanceName='.$v['name'].'&Toolbar='.$toolbar.'" width="'.$v['width'].'" height="'.$v['height'].'" frameborder="no" scrolling="no"></iframe>';
+					$html .= '<br/><span class="f_red" id="d'.$v['name'].'"></span>';
+				} else {
+					$html .= '<textarea name="post_fields['.$v['name'].']" id="'.$v['name'].'" style="display:none">'.$value.'</textarea>'. deditor($moduleid, $v['name'], $toolbar, $v['width'], $v['height']).'<span class="f_red" id="d'.$v['name'].'"></span>';
+				}
 			break;
 			case 'area':
 				$html .= ajax_area_select('post_fields['.$v['name'].']', $GLOBALS['L']['choose'], $value);
@@ -209,5 +213,9 @@ function fields_show($itemid, $left = '<td class="tl">', $right = '<td>', $value
 		$html .= '</td></tr>';
 	}
 	return $html;
+}
+
+function fields_message($msg) {
+	defined('DT_ADMIN') ? msg($msg) : dalert($msg);
 }
 ?>

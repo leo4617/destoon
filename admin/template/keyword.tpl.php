@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 include tpl('header');
 show_menu($menus);
 ?>
@@ -13,6 +13,8 @@ var _del = 0;
 <table cellpadding="2" cellspacing="1" class="tb">
 <tr>
 <td>&nbsp;
+<?php echo $fields_select;?>&nbsp;
+<input type="text" size="30" name="kw" value="<?php echo $kw;?>" title="关键词"/>&nbsp;
 <select name="mid">
 <option value="0">模块</option>
 <?php 
@@ -22,12 +24,11 @@ foreach($MODULE as $v) {
 } 
 ?>
 </select>&nbsp;
-<input type="text" size="30" name="kw" value="<?php echo $kw;?>" title="关键词"/>&nbsp;
 <?php echo $order_select;?>
 &nbsp;
 <input type="text" name="psize" value="<?php echo $pagesize;?>" size="2" class="t_c" title="条/页"/>
 <input type="submit" value="搜 索" class="btn"/>&nbsp;
-<input type="button" value="重 置" class="btn" onclick="Go('?file=<?php echo $file;?>');"/>
+<input type="button" value="重 置" class="btn" onclick="Go('?file=<?php echo $file;?>&status=<?php echo $status;?>');"/>
 </td>
 </tr>
 </table>
@@ -125,7 +126,7 @@ foreach($MODULE as $v) {
 <tr>
 <td class="f_gray">
 - 设置相关词可以使提示搜索或相关搜索更智能 例如关键词‘IBM’可设置‘IBM,笔记本’则搜索IBM和笔记本均会提示IBM相关搜索<br/>
-- 多个相关词请用英文,分割，为了系统检索效率，建议控制在200字内
+- 多个相关词请用英文,分隔，为了系统检索效率，建议控制在200字内
 </td>
 </tr>
 </table>

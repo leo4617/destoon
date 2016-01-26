@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 @set_time_limit(0);
@@ -13,7 +13,7 @@ if($swfupload) {//Fix FlashPlayer Bug
 	$swf_userid = intval($swf_userid);
 	if($swf_userid != $_userid && is_md5($swf_auth)) {
 		$swf_groupid = intval($swf_groupid);
-		if($swf_auth = md5($swf_userid.$swf_username.$swf_groupid.$swf_company.DT_KEY.$DT_IP)) {
+		if($swf_auth == md5($swf_userid.$swf_username.$swf_groupid.$swf_company.DT_KEY.$DT_IP) || $swf_auth == md5($swf_userid.$swf_username.$swf_groupid.convert($swf_company, 'utf-8', DT_CHARSET).DT_KEY.$DT_IP)) {
 			$_userid = $swf_userid;
 			$_username = $swf_username;
 			$_groupid = $swf_groupid;
@@ -37,9 +37,14 @@ if(!$MG['upload']) {
 	if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
 	dalert($errmsg);
 }
+if($MG['uploadcredit'] > 0 && $_credit < $MG['uploadcredit']) {
+	$errmsg = 'Error(3)'.lang('message->upload_credit', array($MG['uploadcredit'], $_credit));
+	if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
+	dalert($errmsg);
+}
 $remote = isset($remote) ? trim($remote) : '';
 if(!$_FILES && !$remote) {
-	$errmsg = 'Error(3)'.lang('message->upload_fail');
+	$errmsg = 'Error(4)'.lang('message->upload_fail');
 	if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
 	dalert($errmsg);
 }
@@ -48,7 +53,7 @@ if($DT['uploadlog'] && $MG['uploadday']) {
 	$condition .= $_username ? " AND username='$_username'" : " AND ip='$DT_IP'";
 	$r = $db->get_one("SELECT COUNT(*) AS num FROM {$upload_table} WHERE $condition");
 	if($r['num'] >= $MG['uploadday']) {
-		$errmsg = 'Error(4)'.lang('message->upload_limit_day', array($MG['uploadday'], $r['num']));
+		$errmsg = 'Error(5)'.lang('message->upload_limit_day', array($MG['uploadday'], $r['num']));
 		if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
 		dalert($errmsg);
 	}
@@ -77,20 +82,29 @@ if($do->save()) {
 	$total = isset($_SESSION['uploads']) ? count($_SESSION['uploads']) : 0;
 	if($limit && $total > $limit - 1) {
 		file_del(DT_ROOT.'/'.$do->saveto);
-		$errmsg = 'Error(5)'.lang('message->upload_limit', array($limit));
+		$errmsg = 'Error(6)'.lang('message->upload_limit', array($limit));
 		if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
 		dalert($errmsg, '', $errjs);
 	}
-	$t = @getimagesize(DT_ROOT.'/'.$do->saveto);
-	if(in_array($do->ext, array('jpg', 'jpeg', 'gif', 'png', 'swf', 'bmp')) && !$t) {
-		file_del(DT_ROOT.'/'.$do->saveto);
-		$errmsg = 'Error(6)'.lang('message->upload_bad');
-		if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
-		dalert($errmsg, '', $errjs);
+	$img_info = @getimagesize(DT_ROOT.'/'.$do->saveto);
+	if(in_array($do->ext, array('jpg', 'jpeg', 'gif', 'png', 'bmp', 'swf'))) {
+		$upload_bad = 0;
+		if($img_info) {
+			$upload_mime = array('jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'gif' => 'image/gif', 'png' => 'image/png', 'bmp' => 'image/bmp', 'swf' => 'application/x-shockwave-flash');
+			if($img_info['mime'] != $upload_mime[$do->ext]) $upload_bad = 1;
+		} else {
+			$upload_bad = 1;
+		}
+		if($upload_bad) {
+			file_del(DT_ROOT.'/'.$do->saveto);
+			$errmsg = 'Error(7)'.lang('message->upload_bad');
+			if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
+			dalert($errmsg, '', $errjs);
+		}
 	}
-	if(in_array($do->ext, array('jpg', 'jpeg')) && $t['channels'] == 4) {
+	if(in_array($do->ext, array('jpg', 'jpeg')) && $img_info['channels'] == 4) {
 		file_del(DT_ROOT.'/'.$do->saveto);
-		$errmsg = 'Error(7)'.lang('message->upload_cmyk');
+		$errmsg = 'Error(8)'.lang('message->upload_cmyk');
 		if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
 		dalert($errmsg, '', $errjs);
 	}
@@ -100,7 +114,7 @@ if($do->save()) {
 		if($do->ext == 'gif' && in_array($from, array('thumb', 'album', 'photo'))) {
 			if(!function_exists('imagegif') || !function_exists('imagecreatefromgif')) {
 				file_del(DT_ROOT.'/'.$do->saveto);
-				$errmsg = 'Error(8)'.lang('message->upload_jpg');
+				$errmsg = 'Error(9)'.lang('message->upload_jpg');
 				if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
 				dalert($errmsg, '', $errjs);
 			}
@@ -117,9 +131,8 @@ if($do->save()) {
 				if(DT_CHMOD) @chmod(DT_ROOT.'/'.$do->saveto, DT_CHMOD);
 			}
 		}
-		$info = getimagesize(DT_ROOT.'/'.$do->saveto);
-		$img_w = $info[0];
-		$img_h = $info[1];
+		$img_w = $img_info[0];
+		$img_h = $img_info[1];
 		if($DT['max_image'] && in_array($from, array('editor', 'album', 'photo'))) {
 			if($img_w > $DT['max_image']) {
 				$img_h = intval($DT['max_image']*$img_h/$img_w);
@@ -190,24 +203,30 @@ if($do->save()) {
 			$remote = $exp[1];
 			if($ftp->dftp_put($do->saveto, $remote)) {
 				$saveto = $DT['remote_url'].$remote;
-				file_del(DT_ROOT.'/'.$do->saveto);
+				$DT['ftp_save'] or file_del(DT_ROOT.'/'.$do->saveto);
 				if(strpos($do->saveto, '.thumb.') !== false) {
 					$local = str_replace('.thumb.'.$do->ext, '', $do->saveto);
 					$remote = str_replace('.thumb.'.$do->ext, '', $exp[1]);
 					$ftp->dftp_put($local, $remote);
-					file_del(DT_ROOT.'/'.$local);
+					$DT['ftp_save'] or file_del(DT_ROOT.'/'.$local);
 					$local = str_replace('.thumb.'.$do->ext, '.middle.'.$do->ext, $do->saveto);
 					$remote = str_replace('.thumb.'.$do->ext, '.middle.'.$do->ext, $exp[1]);
 					$ftp->dftp_put($local, $remote);
-					file_del(DT_ROOT.'/'.$local);
+					$DT['ftp_save'] or file_del(DT_ROOT.'/'.$local);
 				}
 			}
 		}
 	}
 	$fid = isset($fid) ? $fid : '';
 	if(isset($old) && $old && in_array($from, array('thumb', 'photo'))) delete_upload($old, $_userid);
-	$_SESSION['uploads'][] = $swfupload ? str_replace('.thumb.'.$do->ext, '', $saveto) : $saveto;
+	$_saveto = $swfupload ? str_replace('.thumb.'.$do->ext, '', $saveto) : $saveto;
+	$_SESSION['uploads'][] = $_saveto;
 	if($DT['uploadlog']) $db->query("INSERT INTO {$upload_table} (item,fileurl,filesize,fileext,upfrom,width,height,moduleid,username,ip,addtime,itemid) VALUES ('".md5($saveto)."','$saveto','$do->file_size','$do->ext','$from','$img_w','$img_h','$moduleid','$_username','$DT_IP','$do->uptime','$itemid')");
+	if($MG['uploadcredit'] > 0) {
+		require DT_ROOT.'/include/module.func.php';
+		credit_add($_username, -$MG['uploadcredit']);
+		credit_record($_username, -$MG['uploadcredit'], 'system', $L['upload'], $from);
+	}
 	if($swfupload) exit('FILEID:'.$saveto);
 	$pr = 'parent.document.getElementById';
 	if($from == 'thumb') {
@@ -218,6 +237,7 @@ if($do->save()) {
 		$js .= 'window.parent.getAlbum("'.$saveto.'", "'.$fid.'");';
 		$js .= $from == 'photo' ? $pr.'("dform").submit();' : 'window.parent.cDialog();';
 	} else if($from == 'editor') {
+		if($action == 'kindeditor') exit('{"error":0,"url":"'.str_replace('/', '\/', $saveto).'"}');
 		$js .= 'window.parent.SetUrl("'.$saveto.'");';
 		$js .= 'window.parent.GetE("frmUpload").reset();';
 	} else if($from == 'attach') {
@@ -235,8 +255,9 @@ if($do->save()) {
 	}
 	dalert('', '', $js);
 } else {
-	$errmsg = 'Error(9)'.$do->errmsg;
-	if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
+	$errmsg = 'Error(10)'.$do->errmsg;
+	if($swfupload) exit(convert($errmsg, DT_CHARSET, 'UTF-8'));
+	if($action == 'kindeditor') exit('{"error":1,"message":"'.$errmsg.'"}');
 	dalert($errmsg, '', $errjs);
 }
 ?>

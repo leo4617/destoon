@@ -1,9 +1,9 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $mid or $mid = 1;
 $CATEGORY = cache_read('category-'.$mid.'.php');
 $MOD = cache_read('module-'.$mid.'.php');
@@ -138,7 +138,8 @@ switch($action) {
 	break;
 	case 'count':
 		require DT_ROOT.'/include/module.func.php';
-		$tb =get_table($mid);
+		$tb = get_table($mid);
+		if($mid == 18) $tb = $tb.'_group';
 		if(!isset($num)) {
 			$num = 50;
 		}
@@ -228,7 +229,7 @@ switch($action) {
 	case 'letter':
 		isset($catname) or $catname = '';
 		if(!$catname || strpos($catname, "\n") !== false) exit('');
-		if(strtoupper(DT_CHARSET) != 'UTF-8') $catname = convert($catname, 'UTF-8', DT_CHARSET);
+		if(DT_CHARSET != 'UTF-8') $catname = convert($catname, 'UTF-8', DT_CHARSET);
 		exit($do->get_letter($catname, false));
 	break;
 	default:

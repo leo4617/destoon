@@ -16,6 +16,9 @@
 	&nbsp;<a href="{userurl($member[username], 'file=credit')}">[诚信档案]</a>
 	</li>
 	{/if}
+	{if $member[deposit]}
+	<li class="f_green">已缴纳 <strong>{$member[deposit]}</strong> {$DT[money_unit]}保证金</li>
+	{/if}
 	<li style="padding-top:6px;padding-bottom:6px;">
 	<span>联系人</span>{$member[truename]}({gender($member[gender])})&nbsp;{$member[career]}&nbsp;
 	{if $member[username] && $DT[im_web]}{im_web($member[username].'&mid='.$moduleid.'&itemid='.$itemid)}&nbsp;{/if}
@@ -70,7 +73,7 @@
 <td>
 <a href="{$pay_url}" rel="nofollow"><img src="{DT_SKIN}image/btn_pay.gif" alt="立即支付"/></a>
 &nbsp;&nbsp;&nbsp;
-<a href="{$MODULE[2][linkurl]}{if $currency=='money'}charge.php?action=pay{else}credit.php?action=buy{/if}" rel="nofollow"><img src="{DT_SKIN}image/btn_charge.gif" alt="帐户充值"/></a>
+<a href="{$MODULE[2][linkurl]}{if $currency=='money'}charge.php?action=pay&reason=pay|{$mid}|{$itemid}{else}credit.php?action=buy{/if}" rel="nofollow"><img src="{DT_SKIN}image/btn_charge.gif" alt="帐户充值"/></a>
 </td>
 </tr>
 </table>

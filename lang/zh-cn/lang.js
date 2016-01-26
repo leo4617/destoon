@@ -1,5 +1,5 @@
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 var L = new Array();
@@ -32,6 +32,8 @@ L['wysiwyg_mode']			= '请切换到设计模式';
 L['dialog_close']			= '关闭[快捷键Esc]';
 L['tpl_add']				= '新建模板';
 L['tpl_edit']				= '修改模板';
+L['op_reason']				= '操作原因';
+L['op_reason_null']			= '请填写操作原因';
 
 /* calendar.js */
 L['Sun']					= '日';
@@ -48,7 +50,6 @@ L['next_month']				= '下一月';
 
 /* common.js */
 L['str_delete']				= '删除';
-L['str_captcha']			= '点击显示';
 
 /* draft.js */
 L['fck_zoom']				= '点击增加高度 右击缩小高度';
@@ -103,6 +104,5 @@ L['category_chosen']		= '已添加过此分类';
 /*weibo.js*/
 L['sync_sina'] = '同步到新浪微博';
 L['sync_qq'] = '同步到腾讯微博';
-L['sync_qzone'] = '同步到QQ空间';
 L['sync_login_sina'] = '您还没有登录新浪微博或者登录已经失效，是否现在登录?';
 L['sync_login_qq'] = '您还没有QQ登录或者QQ登录已经失效，是否现在登录?';

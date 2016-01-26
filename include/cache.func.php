@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 Destoon.COM
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -14,6 +14,8 @@ function cache_all() {
 	cache_oauth();
 	cache_type();
 	cache_keylink();
+	cache_pay();
+	cache_weixin();
 	return true;
 }
 
@@ -210,7 +212,7 @@ function cache_type($item = '') {
 	global $db;
 	if($item) {
 		$types = array();
-		$result = $db->query("SELECT typeid,typename,style FROM {$db->pre}type WHERE item='$item' AND cache=1 ORDER BY listorder ASC,typeid DESC");
+		$result = $db->query("SELECT typeid,parentid,typename,style FROM {$db->pre}type WHERE item='$item' AND cache=1 ORDER BY listorder ASC,typeid DESC");
 		while($r = $db->fetch_array($result)) {
 			$types[$r['typeid']] = $r;
 		}
@@ -291,6 +293,13 @@ function cache_banword() {
 		$data[] = $b;
 	}
 	cache_write('banword.php', $data);
+}
+
+function cache_weixin() {
+	$setting = get_setting('weixin');
+	cache_write('weixin.php', $setting);
+	$setting = get_setting('weixin-menu');
+	cache_write('weixin-menu.php', unserialize($setting['menu']));
 }
 
 function cache_clear_ad($all = false) {

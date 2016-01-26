@@ -51,6 +51,7 @@ class style {
 			$items = $r['num'];
 		}
 		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$GROUP = cache_read('group.php');
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");

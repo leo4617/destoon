@@ -1,14 +1,17 @@
 <?php
+$_SERVER['REQUEST_URI'] = '';
 $_DPOST = $_POST;
+$_DGET = $_GET;
 require '../../../common.inc.php';
 $_POST = $_DPOST;
-if(!$_POST) exit('fail');
+$_GET = $_DGET;
+if(!$_POST && !$_GET) exit('fail');
 $bank = 'alipay';
 $PAY = cache_read('pay.php');
 if(!$PAY[$bank]['enable']) exit('fail');
 if(!$PAY[$bank]['partnerid']) exit('fail');
-if(!$PAY[$bank]['keycode']) exit('fail');
-#cache_write('alipay-notify-post-'.date('Ymdhis').'.php', $_POST);
+if(strlen($PAY[$bank]['keycode']) < 10) exit('fail');
+#log_write($_POST, 'alipay-notify-post', 1);
 function log_result($word) {
 	log_write($word, 'ralipay');
 }
@@ -18,6 +21,7 @@ require DT_ROOT.'/api/pay/'.$bank.'/config.inc.php';
 $alipay = new alipay_notify($partner,$security_code,$sign_type,$_input_charset,$transport);
 $verify_result = $alipay->notify_verify();
 if($verify_result) {
+	$out_trade_no = intval($out_trade_no);
 	$r = $db->get_one("SELECT * FROM {$DT_PRE}finance_charge WHERE itemid='$out_trade_no'");
 	if($r) {
 		if($r['status'] == 0) {
@@ -29,7 +33,7 @@ if($verify_result) {
 				$db->query("UPDATE {$DT_PRE}finance_charge SET status=3,money=$charge_money,receivetime='$DT_TIME',editor='$editor' WHERE itemid=$charge_orderid");
 				require DT_ROOT.'/include/module.func.php';
 				money_add($r['username'], $r['amount']);
-				money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '订单ID:'.$charge_orderid);
+				money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '流水号:'.$charge_orderid);
 				$MOD = cache_read('module-2.php');
 				if($MOD['credit_charge'] > 0) {
 					$credit = intval($r['amount']*$MOD['credit_charge']);

@@ -29,7 +29,7 @@ switch($action) {
 				$do->add($post);
 				$msg = $L['op_add_success'];
 				if($post['status'] == 2) $msg = $msg.' '.$L['op_checking'];
-				dmsg($msg, $MOD['linkurl'].'alert.php?status='.$post['status']);
+				dmsg($msg, '?status='.$post['status']);
 			} else {
 				message($do->errmsg);
 			}

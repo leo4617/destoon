@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 include tpl('header');
 show_menu($menus);
 ?>
@@ -78,6 +78,18 @@ file目录及所有子目录和子文件都必须设置可写，否则会出现以下问题：<br/>
 </td>
 </tr>
 <?php } ?>
+
+<?php
+	$dc->set('destoon', 'b2b', 3600);
+	$D = $dc->get('destoon') == 'b2b' ? 1 : 0;
+?>
+<tr>
+<td class="t1">系统缓存测试</td>
+<td class="t2"><?php echo $D ? '成功' : '<span>失败</span>';?></td>
+<td class="t3">
+当前缓存类型为<?php echo $CFG['cache'];?>，<?php echo $D ? '缓存运行正常' : ($CFG['cache'] == 'file' ? '请检查file目录是否可写' : '请<a href="?file=setting&tab=2" target="_blank" class="t">立即更换</a>可用的缓存类型');?>
+</td>
+</tr>
 
 <?php
 	$D = ini_get('allow_url_fopen');

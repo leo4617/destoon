@@ -1,13 +1,16 @@
 <?php
+$_SERVER['REQUEST_URI'] = '';
 $_DPOST = $_POST;
+$_DGET = $_GET;
 require '../../../common.inc.php';
 $_POST = $_DPOST;
-if(!$_POST) exit('fail');
+$_GET = $_DGET;
+if(!$_POST && !$_GET) exit('fail');
 $bank = 'tenpay';
 $PAY = cache_read('pay.php');
 if(!$PAY[$bank]['enable']) exit('fail');
 if(!$PAY[$bank]['partnerid']) exit('fail');
-if(!$PAY[$bank]['keycode']) exit('fail');
+if(strlen($PAY[$bank]['keycode']) < 10) exit('fail');
 $receive_url = '';
 
 require DT_ROOT.'/api/pay/'.$bank.'/ResponseHandler.class.php';
@@ -76,7 +79,7 @@ require DT_ROOT.'/api/pay/'.$bank.'/config.inc.php';
 				//注意判断返回金额
 
 				$total_fee = ($total_fee+$discount)/100;
-
+				$out_trade_no = intval($out_trade_no);
 				$r = $db->get_one("SELECT * FROM {$DT_PRE}finance_charge WHERE itemid='$out_trade_no'");
 				if($r) {
 					if($r['status'] == 0) {
@@ -88,7 +91,7 @@ require DT_ROOT.'/api/pay/'.$bank.'/config.inc.php';
 							$db->query("UPDATE {$DT_PRE}finance_charge SET status=3,money=$charge_money,receivetime='$DT_TIME',editor='$editor' WHERE itemid=$charge_orderid");
 							require DT_ROOT.'/include/module.func.php';
 							money_add($r['username'], $r['amount']);
-							money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '订单ID:'.$charge_orderid);
+							money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '流水号:'.$charge_orderid);
 							$MOD = cache_read('module-2.php');
 							if($MOD['credit_charge'] > 0) {
 								$credit = intval($r['amount']*$MOD['credit_charge']);
@@ -147,12 +150,13 @@ require DT_ROOT.'/api/pay/'.$bank.'/config.inc.php';
 		//通信失败
 		echo "fail";
 		//后台调用通信失败,写日志，方便定位问题
-		echo "<br>call err:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo() . "<br>";
+		//echo "<br>call err:" . $httpClient->getResponseCode() ."," . $httpClient->getErrInfo() . "<br>";
 	 } 
 	
 	
    } else {
-    echo "<br/>" . "认证签名失败" . "<br/>";
-    echo $resHandler->getDebugInfo() . "<br>";
+	   echo "fail";
+    //echo "<br/>" . "认证签名失败" . "<br/>";
+    //echo $resHandler->getDebugInfo() . "<br>";
 }
 ?>

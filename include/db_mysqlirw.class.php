@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -58,13 +58,7 @@ class db_mysqlirw {
 			if($num == 1) {
 				$key = 0;
 			} else {
-				$key = get_cookie('mysqlrw');
-				if($key == -1) {
-					$key = 0;
-				} else if(!isset($MYSQLRW[$key])) {
-					$key = array_rand($MYSQLRW);
-					set_cookie('mysqlrw', $key ? $key : -1);
-				}
+				$key = abs(crc32($GLOBALS['DT_IP']))%$num;
 			}
 			@list($rwhost, $rwport) = explode(':', $MYSQLRW[$key]['host']);
 			$rwport or $rwport = 3306;

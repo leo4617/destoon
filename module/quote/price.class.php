@@ -35,7 +35,7 @@ class price {
 		} else {
 			$post['ip'] = $DT_IP;
 		}
-		if(!defined('DT_ADMIN')) $post = dhtmlspecialchars($post);
+		$post = dhtmlspecialchars($post);
 		return array_map("trim", $post);
 	}
 
@@ -49,9 +49,10 @@ class price {
 			$items = $sum;
 		} else {
 			$r = $this->db->get_one("SELECT COUNT(*) AS num FROM {$this->table} WHERE $condition");
-			$item = $r['num'];
+			$items = $r['num'];
 		}
-		$pages = pages($item, $page, $pagesize);
+		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = $pids = $P = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {
@@ -111,7 +112,7 @@ class price {
 		$sql = '';
 		if($item['username']) {
 			$m = daddslashes(userinfo($item['username']));
-			if($m) $sql = "company='$m[company]',telephone='$m[telephone]',qq='$m[qq]'";
+			if($m) $sql = "company='$m[company]',telephone='$m[telephone]',qq='$m[qq]',areaid='$m[areaid]'";
 		}
 		if($sql) $this->db->query("UPDATE {$this->table} SET $sql WHERE itemid=$itemid");
 	}

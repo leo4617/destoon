@@ -13,6 +13,10 @@
 	<td>公司地址：</td>
 	<td>{$COM[address]}</td>
 	</tr>
+	<tr>
+	<td>所在地区：</td>
+	<td>{area_pos($COM[areaid], '/')}</td>
+	</tr>
 	{if $COM[postcode]}
 	<tr>
 	<td>邮政编码：</td>

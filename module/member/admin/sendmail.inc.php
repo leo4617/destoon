@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $menus = array (
     array('发送邮件', '?moduleid='.$moduleid.'&file='.$file),
     array('发送记录', '?moduleid='.$moduleid.'&file='.$file.'&action=record'),

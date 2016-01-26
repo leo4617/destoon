@@ -18,13 +18,14 @@ switch($action) {
 				$post['userid'] = $_userid;
 				$post['addtime'] = $DT_TIME;
 				$do->add($post);
-				dmsg($L['op_add_success'], 'favorite.php');
+				dmsg($L['op_add_success'], '?action=index');
 			} else {
 				message($do->errmsg);
 			}
 		} else {
 			$title = isset($title) ? trim($title) : '';
 			$url = isset($url) ? trim($url) : '';
+			$typeid = 0;
 			$type_select = type_select('favorite-'.$_userid, 0, 'post[typeid]', $L['default_type']);
 			$head_title = $L['favorite_title_add'];
 		}

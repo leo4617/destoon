@@ -51,6 +51,7 @@ class item {
 			$items = $r['num'];
 		}
 		$pages =  pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize", $cache);
 		while($r = $this->db->fetch_array($result)) {

@@ -21,21 +21,21 @@ class honor {
 		if(!$post['authority']) return $this->_($L['honor_pass_authority']);
 		if(!$post['thumb']) return $this->_($L['honor_pass_thumb']);
 		if(!$post['fromtime'] || !is_date($post['fromtime'])) return $this->_($L['honor_pass_fromdate']);
-		if(strtotime($post['fromtime'].' 00:00:00') > $DT_TIME) return $this->_($L['honor_pass_fromdate_error']);
+		if(datetotime($post['fromtime'].' 00:00:00') > $DT_TIME) return $this->_($L['honor_pass_fromdate_error']);
 		if($post['totime']) {
 			if(!is_date($post['totime'])) return $this->_($L['honor_pass_todate']);
-			if(strtotime($post['totime'].' 23:59:59') < $DT_TIME) return $this->_($L['honor_pass_todate_error']);
+			if(datetotime($post['totime'].' 23:59:59') < $DT_TIME) return $this->_($L['honor_pass_todate_error']);
 		}
+		if(DT_MAX_LEN && strlen($post['content']) > DT_MAX_LEN) return $this->_(lang('message->pass_max'));
 		return true;
 	}
 
 	function set($post) {
 		global $MOD, $DT_TIME, $_username, $_userid;
-		$post['addtime'] = (isset($post['addtime']) && $post['addtime']) ? strtotime($post['addtime']) : $DT_TIME;
+		$post['addtime'] = (isset($post['addtime']) && $post['addtime']) ? datetotime($post['addtime']) : $DT_TIME;
 		$post['edittime'] = $DT_TIME;
-		$post['fromtime'] = strtotime($post['fromtime'].' 00:00:00');
-		$post['totime'] = $post['totime'] ? strtotime($post['totime'].' 23:59:59') : 0;
-		$post['title'] = trim($post['title']);
+		$post['fromtime'] = datetotime($post['fromtime'].' 00:00:00');
+		$post['totime'] = $post['totime'] ? datetotime($post['totime'].' 23:59:59') : 0;
 		clear_upload($post['content'].$post['thumb']);
 		if($this->itemid) {
 			$post['editor'] = $_username;
@@ -46,12 +46,10 @@ class honor {
 			if($r['thumb']) $old .= '<img src="'.$r['thumb'].'">';
 			delete_diff($new, $old);
 		}
-		if(!defined('DT_ADMIN')) {
-			$content = $post['content'];
-			unset($post['content']);
-			$post = dhtmlspecialchars($post);
-			$post['content'] = dsafe($content);
-		}
+		$content = $post['content'];
+		unset($post['content']);
+		$post = dhtmlspecialchars($post);
+		$post['content'] = dsafe($content);
 		if($MOD['credit_clear'] || $MOD['credit_save']) {
 			$post['content'] = stripslashes($post['content']);
 			$post['content'] = save_local($post['content']);
@@ -75,6 +73,7 @@ class honor {
 			$items = $r['num'];
 		}
 		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {

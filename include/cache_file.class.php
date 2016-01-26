@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -42,7 +42,7 @@ class dcache {
 	}
 
     function clear() {
-        //dir_delete(DT_CACHE.'/php/');
+        @rename(DT_CACHE.'/php/', DT_CACHE.'/'.timetodate($this->time, 'YmdHis').'.tmp/');
     }
 
 	function expire() {

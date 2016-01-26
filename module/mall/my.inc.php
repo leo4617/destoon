@@ -9,7 +9,6 @@ include load($module.'.lang');
 include load('my.lang');
 require MD_ROOT.'/mall.class.php';
 $do = new mall($moduleid);
-
 if(in_array($action, array('add', 'edit'))) {
 	$FD = cache_read('fields-'.substr($table, strlen($DT_PRE)).'.php');
 	if($FD) require DT_ROOT.'/include/fields.func.php';
@@ -18,7 +17,6 @@ if(in_array($action, array('add', 'edit'))) {
 	if($CP) require DT_ROOT.'/include/property.func.php';
 	isset($post_ppt) or $post_ppt = array();
 }
-
 $sql = $_userid ? "username='$_username'" : "ip='$DT_IP'";
 $limit_used = $limit_free = $need_password = $need_captcha = $need_question = $fee_add = 0;
 if(in_array($action, array('', 'add'))) {
@@ -27,7 +25,6 @@ if(in_array($action, array('', 'add'))) {
 	$limit_free = $MG['mall_limit'] > $limit_used ? $MG['mall_limit'] - $limit_used : 0;
 }
 if(check_group($_groupid, $MOD['group_refresh'])) $MOD['credit_refresh'] = 0;
-
 switch($action) {
 	case 'add':
 		if($MG['mall_limit'] && $limit_used >= $MG['mall_limit']) dalert(lang($L['info_limit'], array($MG[$MOD['module'].'_limit'], $limit_used)), $_userid ? $MODULE[2]['linkurl'].$DT['file_my'].'?mid='.$mid : $MODULE[2]['linkurl'].$DT['file_my']);
@@ -119,7 +116,6 @@ switch($action) {
 				$js = '';
 				if(isset($post['sync_sina']) && $post['sync_sina']) $js .= sync_weibo('sina', $moduleid, $do->itemid);
 				if(isset($post['sync_qq']) && $post['sync_qq']) $js .= sync_weibo('qq', $moduleid, $do->itemid);
-				if(isset($post['sync_qzone']) && $post['sync_qzone']) $js .= sync_weibo('qzone', $moduleid, $do->itemid);
 				if($_userid) {
 					set_cookie('dmsg', $msg);
 					$forward = $MODULE[2]['linkurl'].$DT['file_my'].'?mid='.$mid.'&status='.$post['status'];
@@ -136,16 +132,31 @@ switch($action) {
 			if($itemid) {
 				$MG['copy'] && $_userid or dalert(lang('message->without_permission_and_upgrade'), 'goback');
 				$do->itemid = $itemid;
-				$r = $do->get_one();
-				if(!$r || $r['username'] != $_username) message();
-				extract($r);
+				$item = $do->get_one();
+				if(!$item || $item['username'] != $_username) message();
+				extract($item);
+				if($step) {
+					extract(unserialize($step));
+					$a2 > 0 or $a2 = '';
+					$a3 > 0 or $a3 = '';
+					$p2 > 0 or $p2 = '';
+					$p3 > 0 or $p3 = '';
+				} else {
+					$a1 = 1;
+					$p1 = $item['price'];
+					$a2 = $a3 = $p2 = $p3 = '';
+				}
 				$thumb = $thumb1 = $thumb2 = '';
 			} else {
 				foreach($do->fields as $v) {
 					$$v = '';
 				}
+				$a1 = 1;
+				$a2 = $a3 = $p1 = $p2 = $p3 = '';
+				$boc = 1;
 				$content = '';
 				$catid = 0;
+				$mycatid = 0;
 			}
 			$item = array();
 			$mycatid_select = type_select('mall-'.$_userid, 0, 'post[mycatid]', $L['type_default']);
@@ -191,6 +202,17 @@ switch($action) {
 			}
 		} else {
 			extract($item);
+			if($step) {
+				extract(unserialize($step));
+				$a2 > 0 or $a2 = '';
+				$a3 > 0 or $a3 = '';
+				$p2 > 0 or $p2 = '';
+				$p3 > 0 or $p3 = '';
+			} else {
+				$a1 = 1;
+				$p1 = $item['price'];
+				$a2 = $a3 = $p2 = $p3 = '';
+			}
 			$mycatid_select = type_select('mall-'.$_userid, 0, 'post[mycatid]', $L['type_default'], $mycatid);
 		}
 	break;
@@ -200,7 +222,7 @@ switch($action) {
 		$itemids = is_array($itemid) ? $itemid : array($itemid);
 		foreach($itemids as $itemid) {
 			$do->itemid = $itemid;
-			$item = $do->get_one();
+			$item = $db->get_one("SELECT username FROM {$table} WHERE itemid=$itemid");
 			if(!$item || $item['username'] != $_username) message();
 			$do->recycle($itemid);
 		}
@@ -213,7 +235,7 @@ switch($action) {
 		$s = $f = 0;
 		foreach($itemids as $itemid) {
 			$do->itemid = $itemid;
-			$item = $do->get_one();
+			$item = $db->get_one("SELECT username,edittime FROM {$table} WHERE itemid=$itemid");
 			$could_refresh = $item && $item['username'] == $_username;
 			if($could_refresh && $MG['refresh_limit'] && $DT_TIME - $item['edittime'] < $MG['refresh_limit']) $could_refresh = false;
 			if($could_refresh && $MOD['credit_refresh'] && $MOD['credit_refresh'] > $_credit) $could_refresh = false;
@@ -239,7 +261,7 @@ switch($action) {
 		$itemids = $itemid;
 		foreach($itemids as $itemid) {
 			$do->itemid = $itemid;
-			$item = $do->get_one();
+			$item = $db->get_one("SELECT username FROM {$table} WHERE itemid=$itemid");
 			if($item && $item['username'] == $_username) $do->onsale($itemid);		
 		}
 		dmsg($L['success_onsale'], $forward);
@@ -249,7 +271,7 @@ switch($action) {
 		$itemids = $itemid;
 		foreach($itemids as $itemid) {
 			$do->itemid = $itemid;
-			$item = $do->get_one();
+			$item = $db->get_one("SELECT username FROM {$table} WHERE itemid=$itemid");
 			if($item && $item['username'] == $_username) $do->unsale($itemid);		
 		}
 		dmsg($L['success_unsale'], $forward);
@@ -268,7 +290,7 @@ switch($action) {
 		dmsg($L['success_delete'], '?mid='.$mid.'&itemid='.$itemid.'&action=relate');
 	break;
 	case 'relate_add':
-		$relate_name = isset($relate_name) ? htmlspecialchars(trim($relate_name)) : '';
+		$relate_name = isset($relate_name) ? dhtmlspecialchars(trim($relate_name)) : '';
 		$relate_name or message($L['mall_relate_name'] );
 		$itemid or message($L['select_goods']);
 		$do->itemid = $itemid;
@@ -288,7 +310,7 @@ switch($action) {
 		$M = $do->get_one();
 		($M && $M['status'] == 3) or message($L['select_goods']);
 		if($submit) {
-			$relate_name = isset($relate_name) ? htmlspecialchars(trim($relate_name)) : '';
+			$relate_name = isset($relate_name) ? dhtmlspecialchars(trim($relate_name)) : '';
 			$relate_name or message($L['mall_relate_name'] );
 			$do->relate($M, $post, $relate_name);
 			dmsg($L['success_update'], '?mid='.$mid.'&itemid='.$itemid.'&action=relate');
@@ -331,7 +353,7 @@ switch($action) {
 		$condition = "username='$_username' AND status=$status";
 		if($keyword) $condition .= " AND keyword LIKE '%$keyword%'";
 		if($catid) $condition .= $CAT['child'] ? " AND catid IN (".$CAT['arrchildid'].")" : " AND catid=$catid";
-		if($mycatid >= 0) $condition .= " AND mycatid=$mycatid";
+		if($mycatid >= 0) $condition .= " AND mycatid IN (".type_child($mycatid, $MTYPE).")";
 		if($minprice)  $condition .= " AND price>=$minprice";
 		if($maxprice)  $condition .= " AND price<=$maxprice";
 		if($minorders)  $condition .= " AND orders>=$minorders";
@@ -350,7 +372,6 @@ switch($action) {
 		}
 	break;
 }
-$head_title = lang($L['module_manage'], array($MOD['name']));
 if($_userid) {
 	$nums = array();
 	for($i = 1; $i < 5; $i++) {
@@ -368,5 +389,6 @@ if($_username && in_array($action, array('add', 'edit'))) {
 		$EXP[] = $r;
 	}
 }
+$head_title = lang($L['module_manage'], array($MOD['name']));
 include template('my_'.$module, 'member');
 ?>

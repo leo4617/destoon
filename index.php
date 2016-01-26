@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 require 'common.inc.php';
@@ -15,7 +15,7 @@ if(isset($homepage) && check_name($homepage)) {
 	} else {
 		$whost = $host;
 	}
-	if(strpos(DT_PATH, $host) === false) {
+	if($host && strpos(DT_PATH, $host) === false) {
 		$www = str_replace($CFG['com_domain'], '', $host);
 		if(check_name($www)) {
 			$username = $homepage = $www;
@@ -55,7 +55,7 @@ if($username) {
 		if(is_file($html_file)) exit(include($html_file));
 	}
 	$AREA or $AREA = cache_read('area.php');
-	if($EXT['wap_enable']) $head_mobile = $EXT['wap_url'];
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'];
 	$seo_title = $DT['seo_title'];
 	$head_keywords = $DT['seo_keywords'];
 	$head_description = $DT['seo_description'];

@@ -14,6 +14,7 @@ switch($action) {
 			$email = $user['email'];
 			$db->query("UPDATE {$DT_PRE}member SET auth='',groupid=$groupid,vemail=1 WHERE username='$username'");
 			$db->query("UPDATE {$DT_PRE}company SET groupid=$groupid WHERE username='$username'");
+			userclean($username);
 			if($MOD['welcome_message'] || $MOD['welcome_email']) {
 				$title = $L['register_msg_welcome'];
 				$content = ob_template('welcome', 'mail');
@@ -31,10 +32,10 @@ switch($action) {
 			if($submit) {				
 				captcha($captcha);
 				check_name($username) or message($L['send_check_username_bad']);
-				$user = $db->get_one("SELECT email,password,groupid FROM {$DT_PRE}member WHERE username='$username'");
+				$user = userinfo($username);
 				if($user) {
 					if($user['groupid'] != 4) dalert($L['send_check_deny'], DT_PATH);
-					if($user['password'] != (is_md5($password) ? md5($password) : md5(md5($password)))) message($L['send_check_password_bad']);
+					if($user['password'] != dpassword($password, $user['passsalt'])) message($L['send_check_password_bad']);
 					$email = trim($email);
 					if($email && $email != $user['email']) {
 						is_email($email) or message($L['send_check_email_bad']);
@@ -46,6 +47,7 @@ switch($action) {
 					}
 					$auth = make_auth($username);
 					$db->query("UPDATE {$DT_PRE}member SET auth='$auth',authtime='$DT_TIME' WHERE username='$username'");
+					userclean($username);
 					$authurl = $MOD['linkurl'].'send.php?action='.$action.'&auth='.$auth;
 					$title = $L['send_check_mail'];
 					$content = ob_template('check', 'mail');
@@ -69,16 +71,19 @@ switch($action) {
 			$username == $user['username'] or dheader($MOD['linkurl']);
 			$authvalue = $user['authvalue'];
 			$db->query("UPDATE {$DT_PRE}member SET auth='',authvalue='',authtime=0,payword='$authvalue' WHERE username='$username'");
+			userclean($username);
 			message($L['send_payword_success'], $MOD['linkurl']);
 		} else {
 			if($DT['mail_type'] == 'close') message($L['send_mail_close']);
 			if($submit) {
-				captcha($captcha);
+				if(!is_password($username, $password)) message($L['member_login_password_bad']);
 				if(strlen($password) > $MOD['maxpassword'] || strlen($password) < $MOD['minpassword']) message(lang($L['member_payword_len'], array($MOD['minpassword'], $MOD['minpassword'])));
 				if($password != $cpassword) message($L['member_payword_match']);
-				$authvalue = md5(md5($password));
+				$user = userinfo($username);
+				$authvalue = dpassword($password, $user['paysalt']);
 				$auth = make_auth($username);
 				$db->query("UPDATE {$DT_PRE}member SET auth='$auth',authvalue='$authvalue',authtime='$DT_TIME' WHERE username='$username'");
+				userclean($username);
 				$authurl = $MOD['linkurl'].'send.php?action='.$action.'&auth='.$auth;
 				$title = $L['send_payword_mail'];
 				$content = ob_template('payword', 'mail');
@@ -101,14 +106,12 @@ switch($action) {
 			$r = $db->get_one("SELECT email FROM {$DT_PRE}member WHERE email='$email'");
 			if($r) message($L['send_email_exist'], '?action=email');
 			$db->query("UPDATE {$DT_PRE}member SET auth='',authvalue='',authtime=0,email='$email',vemail=1 WHERE username='$username'");
-			$db->query("UPDATE {$DT_PRE}sell SET email='$email' WHERE username='$username'");
-			$db->query("UPDATE {$DT_PRE}buy SET email='$email' WHERE username='$username'");
+			userclean($username);
 			if($MOD['vmember'] && $MOD['vemail']) $db->query("INSERT INTO {$DT_PRE}validate (type,username,ip,addtime,status,title,editor,edittime) VALUES ('email','$username','$DT_IP','$DT_TIME','3','$email','system','$DT_TIME')");
 			message($L['send_email_success'], $MOD['linkurl']);
 		} else {			
 			if($DT['mail_type'] == 'close') message($L['send_mail_close']);
 			if($submit) {
-				captcha($captcha);
 				if(!is_email($email)) message($L['member_email_null']);
 				if(!is_password($username, $password)) message($L['member_login_password_bad']);
 				$r = $db->get_one("SELECT email FROM {$DT_PRE}member WHERE email='$email'");
@@ -116,6 +119,7 @@ switch($action) {
 				$authvalue = $email;
 				$auth = make_auth($username);
 				$db->query("UPDATE {$DT_PRE}member SET auth='$auth',authvalue='$authvalue',authtime='$DT_TIME' WHERE username='$username'");
+				userclean($username);
 				$authurl = $MOD['linkurl'].'send.php?action='.$action.'&auth='.$auth;
 				$title = $L['send_email_mail'];
 				$content = ob_template('editemail', 'mail');
@@ -133,46 +137,54 @@ switch($action) {
 		if($auth) {
 			$user = $db->get_one("SELECT * FROM {$DT_PRE}member WHERE username='$username'");
 			if($auth == $user['auth']) {
-				auth_time($user['authtime']);
+				auth_time($user['authtime'], 1);
 				$mobile = $user['authvalue'];
 				$r = $db->get_one("SELECT userid FROM {$DT_PRE}member WHERE mobile='$mobile' AND vmobile=1 AND userid<>$_userid");
 				if($r) message($L['send_mobile_exist'], $MOD['linkurl']);
 				$db->query("UPDATE {$DT_PRE}member SET mobile='$mobile',vmobile=1,auth='',authvalue='',authtime=0 WHERE username='$username'");
+				userclean($username);
 				$db->query("INSERT INTO {$DT_PRE}validate (type,username,ip,addtime,status,title,editor,edittime) VALUES ('mobile','$username','$DT_IP','$DT_TIME','3','$mobile','system','$DT_TIME')");
 				message($L['send_mobile_success'], $MOD['linkurl']);
 			}
 			message($L['send_mobile_code_error']);
 		} else {			
 			$DT['sms'] or message($L['send_sms_close']);
-			$fee = $DT['sms_fee'];
 			if($submit) {
 				is_mobile($mobile) or message($L['send_mobile_bad']);
+				if(!is_password($username, $password)) message($L['member_login_password_bad']);
 				$r = $db->get_one("SELECT userid FROM {$DT_PRE}member WHERE mobile='$mobile' AND vmobile=1 AND userid<>$_userid");
 				if($r) message($L['send_mobile_exist']);
-				if($fee && $_sms < 1) {
-					$fee <= $_money or message($L['money_not_enough'], $MOD['linkurl'].'charge.php?action=pay');
-					is_payword($_username, $password) or dalert($L['error_payword']);
-				}
+				if(max_sms($mobile)) message($L['sms_msg_max']);
 				$auth = random(6, '0123456789');
-				$content = lang('sms->sms_code', array($auth, $MOD['auth_days'])).$DT['sms_sign'];
+				$content = lang('sms->sms_code', array($auth, $MOD['auth_days']*10)).$DT['sms_sign'];
 				$sms_code = send_sms($mobile, $content);
-				if(strpos($sms_code, $DT['sms_ok']) !== false) {
-					if($fee) {
-						if($_sms < 1) {
-							money_add($_username, -$fee);
-							money_record($_username, -$fee, $L['in_site'], $_username, $L['send_mobile_record'], $mobile);
-						} else {
-							sms_add($_username, -1);
-							sms_record($_username, -1, $_username, $L['send_mobile_record'], $mobile);
-						}
-					}
+				if(1||strpos($sms_code, $DT['sms_ok']) !== false) {
 					$db->query("UPDATE {$DT_PRE}member SET auth='$auth',authvalue='$mobile',authtime='$DT_TIME' WHERE username='$username'");
-					dheader('?code=1&action='.$action);
+					userclean($username);
+					dheader('?code=1&action='.$action.'&mobile='.$mobile);
 				} else {
 					message($L['send_mobile_fail']);
 				}
 			}
-			$head_title = $L['send_mobile_title'];
+			(isset($mobile) && is_mobile($mobile)) or $mobile = '';
+			$head_title = $L['send_passport_title'];
+			include template('send', $module);
+		}
+	break;
+	case 'passport':
+		$_username == $_passport or dheader('edit.php');
+		if($submit) {
+			isset($npassport) or $npassport = '';
+			require MD_ROOT.'/member.class.php';
+			$do = new member;
+			$do->userid = $_userid;
+			if($do->edit_passport($_passport, $npassport, $_username)) {
+				dmsg($L['op_edit_success'], 'edit.php');
+			} else {
+				message($do->errmsg);
+			}
+		} else {			
+			$head_title = $L['send_passport_title'];
 			include template('send', $module);
 		}
 	break;
@@ -184,6 +196,7 @@ switch($action) {
 			$authvalue = $user['authvalue'];
 			$username = $user['username'];
 			$db->query("UPDATE {$DT_PRE}member SET auth='',authvalue='',authtime=0,password='$authvalue' WHERE username='$username'");
+			userclean($username);
 			message($L['send_password_success'], $MOD['linkurl'].$DT['file_login'].'?username='.$username);
 		} else {
 			if($DT['mail_type'] == 'close') message($L['send_mail_close']);
@@ -195,13 +208,14 @@ switch($action) {
 				if($password != $cpassword) message($L['member_payword_match']);
 				$options = array('username', 'passport', 'email', 'mobile', 'company', 'qq', 'msn', 'ali', 'skype', 'userid');
 				in_array($option, $options) or $option = 'username';
-				$r = $db->get_one("SELECT username,groupid FROM {$DT_PRE}member WHERE email='$email' AND `$option`='$username'");
+				$r = $db->get_one("SELECT username,groupid,passsalt FROM {$DT_PRE}member WHERE email='$email' AND `$option`='$username'");
 				if($r) {
 					$username = $r['username'];
 					if($r['groupid'] == 4) message($L['send_password_checking']);
-					$authvalue = md5(md5($password));
+					$authvalue = dpassword($password, $r['passsalt']);
 					$auth = make_auth($username);
 					$db->query("UPDATE {$DT_PRE}member SET auth='$auth',authvalue='$authvalue',authtime='$DT_TIME' WHERE username='$username'");
+					userclean($username);
 					$authurl = $MOD['linkurl'].'send.php?auth='.$auth;
 					$title = $L['send_password_mail'];
 					$content = ob_template('password', 'mail');

@@ -1,31 +1,25 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
 class ip {
 	var $ip;
-	var $iptype;
 	var $ipfile;
 
-	function ip($ip, $type = '') {
+	function ip($ip) {
 		$this->ip = $ip;
-		$this->iptype = $type;
 	}
 
 	function area() {
-		if($this->iptype) {
-			$func = $this->iptype;
-			$this->ipfile = DT_ROOT.'/file/ipdata/'.$func.'.dat';
-			return $this->$func();
-		}
-		foreach(array('wry', 'tiny', 'sina', 'youdao') as $d) {
+		foreach(array('wry', 'tiny') as $d) {
 			$ipfile = DT_ROOT.'/file/ipdata/'.$d.'.dat';
 			if(is_file($ipfile)) {
 				$this->ipfile = $ipfile;
 				return $this->$d();
 			}
+			return iplookup($this->ip);
 		}
 		return 'Unknown';
 	}
@@ -167,34 +161,6 @@ class ip {
 		fseek($fp, $offset['len'] + $index_offset['len'] - 1024);
 		if($index_length['len']) return convert(fread($fp, $index_length['len']), 'GBK', DT_CHARSET);
 		return 'Unknown';
-	}
-
-	function sina() {
-		$api = 'http://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js&ip='.$this->ip;
-		$data = file_get($api);
-		if($data && strpos($data, 'remote_ip_info') !== false) {
-			$data = str_replace(array('var remote_ip_info = ', ';'), array('', ''), $data);
-			$arr = json_decode($data, true);
-			$area = '';
-			if(isset($arr['country']) && strpos($data, "\u4e2d\u56fd") === false) $area .= $arr['country'];
-			if(isset($arr['province'])) $area .= $arr['province'];
-			if(isset($arr['city'])) $area .= $arr['city'];
-			if(isset($arr['isp'])) $area .= $arr['isp'];
-			return $area ? convert($area, 'UTF-8', DT_CHARSET) : 'Unknown';
-		}
-		return 'SINA API Error';
-	}
-
-	function youdao() {
-		$api = 'http://www.youdao.com/smartresult-xml/search.s?type=ip&q='.$this->ip;
-		$data = file_get($api);
-		if($data && strpos($data, '<location>') !== false) {
-			$t1 = explode('<location>', $data);
-			$t2 = explode('</location>', $t1[1]);
-			$area = $t2[0];
-			return $area ? convert($area, 'GBK', DT_CHARSET) : 'Unknown';
-		}
-		return 'YOUDAO API Error';
 	}
 }
 ?>

@@ -1,12 +1,15 @@
 <?php
+$_SERVER['REQUEST_URI'] = '';
 $_DPOST = $_POST;
+$_DGET = $_GET;
 require '../../../common.inc.php';
 $_POST = $_DPOST;
-if(!$_POST) exit('error');
+$_GET = $_DGET;
+if(!$_POST && !$_GET) exit('error');
 $bank = 'chinabank';
 $PAY = cache_read('pay.php');
 if(!$PAY[$bank]['enable']) exit('error');
-if(!$PAY[$bank]['keycode']) exit('error');
+if(strlen($PAY[$bank]['keycode']) < 7) exit('error');
 $key = $PAY[$bank]['keycode'];
 $v_oid     =trim($_POST['v_oid']);
 $v_pmode   =trim($_POST['v_pmode']);
@@ -21,6 +24,7 @@ $v_md5str  =trim($_POST['v_md5str' ]);
 $md5string = strtoupper(md5($v_oid.$v_pstatus.$v_amount.$v_moneytype.$key));
 if($v_md5str == $md5string) {	
    if($v_pstatus == "20") {
+		$v_oid = intval($v_oid);
 		$r = $db->get_one("SELECT * FROM {$DT_PRE}finance_charge WHERE itemid='$v_oid'");
 		if($r) {
 			if($r['status'] == 0) {
@@ -32,7 +36,7 @@ if($v_md5str == $md5string) {
 					$db->query("UPDATE {$DT_PRE}finance_charge SET status=3,money=$charge_money,receivetime='$DT_TIME',editor='$editor' WHERE itemid=$charge_orderid");
 					require DT_ROOT.'/include/module.func.php';
 					money_add($r['username'], $r['amount']);
-					money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '订单ID:'.$charge_orderid);
+					money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '流水号:'.$charge_orderid);
 					$MOD = cache_read('module-2.php');
 					if($MOD['credit_charge'] > 0) {
 						$credit = intval($r['amount']*$MOD['credit_charge']);

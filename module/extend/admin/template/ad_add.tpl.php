@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 include tpl('header');
 show_menu($menusad);
 ?>
@@ -156,7 +156,7 @@ show_menu($menusad);
 <?php if($DT['city']) { ?>
 <tr>
 <td class="tl"><span class="f_hid">*</span> 地区(分站)</td>
-<td><?php echo ajax_area_select('ad[areaid]', $L['allcity'], $cityid);?></td>
+<td><?php echo ajax_area_select('ad[areaid]', '请选择', $areaid);?></td>
 </tr>
 <?php } ?>
 <tr>

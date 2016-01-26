@@ -1,13 +1,14 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
+if(strpos(get_env('self'), '/admin.php') !== false) msg('后台文件名admin.php未修改，此功能已被系统禁用');
 require DT_ROOT.'/include/sql.func.php';
 $menus = array (
-    array('数据库备份', '?file='.$file),
-    array('数据库恢复', '?file='.$file.'&action=import'),
+    array('数据备份', '?file='.$file),
+    array('数据恢复', '?file='.$file.'&action=import'),
     array('字符替换', '?file='.$file.'&action=replace'),
     array('执行SQL', '?file='.$file.'&action=execute'),
     array('显示进程', '?file='.$file.'&action=process'),
@@ -46,7 +47,7 @@ switch($action) {
 				msg('SQL语句为空');
 			} else {
 				$sql = stripslashes($sql);
-				$sql = str_replace(array('updat&#101;','replac&#101;','delet&#101;'), array('update','replace','delete'), $sql);
+				$sql = strip_sql($sql, 0);
 				sql_execute($sql);
 				dmsg('执行成功', '?file='.$file.'&action=execute');
 			}
@@ -56,16 +57,23 @@ switch($action) {
 	break;
 	case 'process':
 		$lists = array();
-		$result = $db->query("SHOW PROCESSLIST");
+		$result = $db->query("SHOW FULL PROCESSLIST");
 		while($r = $db->fetch_array($result)) {
 			$lists[] = $r;
 		}
 		include tpl('database_process');
 	break;
 	case 'kill':
-		$id = isset($id) ? intval($id) : 0;
 		$db->halt = 0;
-		if($id) $db->query("KILL $id");
+		if($itemid) {
+			if(is_array($itemid)) {
+				foreach($itemid as $id) {
+					$db->query("KILL $id");
+				}
+			} else {
+				$db->query("KILL $itemid");
+			}
+		}
 		dmsg('结束成功', '?file='.$file.'&action=process');
 	break;
 	case 'comments':
@@ -125,6 +133,7 @@ switch($action) {
 		if($submit) {
 			$condition = str_replace('and', 'AND', trim($condition));
 			$condition = strpos($condition, 'AND') === false ? "itemid IN ($condition)" : substr($condition, 3);
+			$condition = stripslashes($condition);
 			if($type == 1) {
 				$ftb = $DT_PRE.'sell_5';
 				$ftb_data = $DT_PRE.'sell_data_5';

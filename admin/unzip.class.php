@@ -11,15 +11,33 @@ class unzip {
 	var $old_offset = 0;
 
 	function extract_zip($zipfile, $dir) {
-		$array = $this->list_zip($zipfile);
-		$count = count($array);
-		$f = 0;
-		$d = 0;
-		for($i = 0; $i < $count; $i++) {
-			if($array[$i]['folder'] == 0) {
-				if($this->extract_file($zipfile, $dir, $i) > 0) $f++;
-			} else {
-				$d++;
+		if(function_exists('zip_open')) {
+			$zip = zip_open($zipfile); 
+			if($zip) {			 
+				while($zip_entry = zip_read($zip)) {
+					if(zip_entry_filesize($zip_entry) > 0) {						
+						if(zip_entry_open($zip, $zip_entry, "r")) {
+							$buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+							zip_entry_close($zip_entry);
+							file_put($dir.'/'.zip_entry_name($zip_entry), $buf);
+						}
+					} else {
+						dir_create($dir.'/'.zip_entry_name($zip_entry));
+					}			 
+				}			 
+				zip_close($zip);			 
+			}
+		} else {
+			$array = $this->list_zip($zipfile);
+			$count = count($array);
+			$f = 0;
+			$d = 0;
+			for($i = 0; $i < $count; $i++) {
+				if($array[$i]['folder'] == 0) {
+					if($this->extract_file($zipfile, $dir, $i) > 0) $f++;
+				} else {
+					$d++;
+				}
 			}
 		}
 		return true;
@@ -27,7 +45,7 @@ class unzip {
 
 	function list_zip($zip_name) {
 		$zip = @fopen($zip_name, 'rb');
-		if(!$zip) return(0);
+		if(!$zip) return 0;
 		$centd = $this->rc_dir($zip, $zip_name);
 		@rewind($zip);
 		@fseek($zip, $centd['offset']);
@@ -54,7 +72,7 @@ class unzip {
 	function extract_file($zn, $to, $index = array(-1)) {
 		$ok = 0;
 		$zip = @fopen($zn,'rb');
-		if(!$zip) return(-1);
+		if(!$zip) return -1;
 		$cdir = $this->rc_dir($zip,$zn);
 		$pos_entry = $cdir['offset'];
 		if(!is_array($index)) $index = array($index);
@@ -132,12 +150,13 @@ class unzip {
 		@fseek($zip, $size-$maximum_size);
 		$pos = ftell($zip);
 		$bytes = 0x00000000;
-		while ($pos < $size) {
+		while($pos < $size) {
 			$byte = @fread($zip, 1);
 			$bytes = ($bytes << 8) | Ord($byte);
 			$pos++;
 			if($bytes == 0x504b0506) break;
-		}		$data=unpack('vdisk/vdisk_start/vdisk_entries/ventries/Vsize/Voffset/vcomment_size', fread($zip, 18));
+		}		
+		$data = unpack('vdisk/vdisk_start/vdisk_entries/ventries/Vsize/Voffset/vcomment_size', fread($zip, 18));
 		$centd['comment'] = $data['comment_size'] != 0 ? fread($zip, $data['comment_size']) : '';
 		$centd['entries'] = $data['entries'];
 		$centd['disk_entries'] = $data['disk_entries'];
@@ -151,25 +170,19 @@ class unzip {
 	function uncompress($header, $to, $zip) {
 		$header = $this->rf_header($zip);
 		if(substr($to, -1) != "/") $to .= "/";
-		if(!is_dir($to)) {
-			@mkdir($to);
-			if(DT_CHMOD) @chmod($to, DT_CHMOD);
-		}
+		if(!is_dir($to)) dir_create($to);
 		$pth = explode("/", dirname($header['filename']));
 		$pthss = '';
 		for($i = 0; isset($pth[$i]); $i++) {
 			if(!$pth[$i]) continue;
 			$pthss .= $pth[$i]."/";
-			if(!is_dir($to.$pthss)) {
-				@mkdir($to.$pthss);
-				if(DT_CHMOD) @chmod($to.$pthss, DT_CHMOD);
-			}
+			if(!is_dir($to.$pthss)) dir_create($to.$pthss);
 		}
 		isset($header['external']) or $header['external'] = '';
 		if(!($header['external'] == 0x41FF0010) && !($header['external'] == 16)) {
 			if($header['compression'] == 0) {
 				$fp = @fopen($to.$header['filename'], 'wb');
-				if(!$fp) return(-1);
+				if(!$fp) return -1;
 				$size = $header['compressed_size'];
 				while($size != 0) {
 					$read_size = $size < 2048 ? $size : 2048;
@@ -183,7 +196,7 @@ class unzip {
 
 			} else {
 				$fp = @fopen($to.$header['filename'].'.gz', 'wb');
-				if(!$fp) return(-1);
+				if(!$fp) return -1;
 				$binary_data = pack('va1a1Va1a1', 0x8b1f, chr($header['compression']), chr(0x00), time(), chr(0x00), chr(3));
 				fwrite($fp, $binary_data, 10);
 				$size = $header['compressed_size'];
@@ -198,9 +211,9 @@ class unzip {
 				fwrite($fp, $binary_data, 8);
 				fclose($fp);
 				$gzp = @gzopen($to.$header['filename'].'.gz', 'rb') or die('Can Not gzopen File');
-				if(!$gzp) return(-2);
+				if(!$gzp) return -2;
 				$fp = @fopen($to.$header['filename'], 'wb');
-				if(!$fp) return(-1);
+				if(!$fp) return -1;
 				$size = $header['size'];
 				while($size != 0) {
 					$read_size = $size < 2048 ? $size : 2048;

@@ -17,7 +17,7 @@ switch($action) {
 			if($do->pass($post)) {
 				$post['username'] = $_username;
 				$do->add($post);
-				dmsg($L['op_add_success'], $MOD['linkurl'].'express.php');
+				dmsg($L['op_add_success'], '?action=index');
 			} else {
 				message($do->errmsg);
 			}

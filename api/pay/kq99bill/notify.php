@@ -1,9 +1,10 @@
 <?php
+$_SERVER['REQUEST_URI'] = '';
 require '../../../common.inc.php';
-if(!$_REQUEST) exit('error');
+if(!$_REQUEST) exit('fail');
 $bank = 'kq99bill';
 $PAY = cache_read('pay.php');
-if(!$PAY[$bank]['enable']) exit('error');
+if(!$PAY[$bank]['enable']) exit('fail');
 function kq_ck_null($kq_va,$kq_na){if($kq_va == ""){return $kq_va="";}else{return $kq_va=$kq_na.'='.$kq_va.'&';}}
 //人民币网关账号，该账号为11位人民币网关商户编号+01,该值与提交时相同。
 $kq_check_all_para=kq_ck_null($_REQUEST[merchantAcctId],'merchantAcctId');
@@ -67,7 +68,7 @@ if($ok == 1) {
 						$db->query("UPDATE {$DT_PRE}finance_charge SET status=3,money=$charge_money,receivetime='$DT_TIME',editor='$editor' WHERE itemid=$charge_orderid");
 						require DT_ROOT.'/include/module.func.php';
 						money_add($r['username'], $r['amount']);
-						money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '订单ID:'.$charge_orderid);
+						money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', '在线充值', '流水号:'.$charge_orderid);
 						$MOD = cache_read('module-2.php');
 						if($MOD['credit_charge'] > 0) {
 							$credit = intval($r['amount']*$MOD['credit_charge']);
@@ -99,5 +100,4 @@ if($ok == 1) {
 	$rtnUrl = $MODULE[2]['linkurl'].'charge.php';					
 }
 ?>
-
 <result><?php echo $rtnOK; ?></result> <redirecturl><?php echo $rtnUrl; ?></redirecturl>

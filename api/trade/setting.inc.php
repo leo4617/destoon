@@ -6,7 +6,7 @@ defined('IN_DESTOON') or exit('Access Denied');
 <td>
 <input type="radio" name="setting[trade]" value="alipay"  <?php if($trade){ ?>checked <?php } ?> onclick="Ds('dtrade');"/> ø™∆Ù&nbsp;&nbsp;
 <input type="radio" name="setting[trade]" value=""  <?php if(!$trade){ ?>checked <?php } ?> onclick="Dh('dtrade');"/> πÿ±’&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="<?php echo DT_PATH;?>api/trade/alipay/ico.gif" align="absmiddle"/> <a href="<?php echo $MODULE[3]['linkurl'];?>redirect.php?url=https://b.alipay.com/order/productDetail.htm?productId=2011042200323187" target="_blank" class="t">[…Í«Î’ ∫≈]</a>
+<img src="<?php echo DT_PATH;?>api/trade/alipay/ico.gif" align="absmiddle"/> <a href="<?php echo DT_PATH;?>api/redirect.php?url=https://b.alipay.com/order/productDetail.htm?productId=2011042200323187" target="_blank" class="t">[…Í«Î’ ∫≈]</a>
 </td>
 </tr>
 <tbody id="dtrade" style="display:<?php if(!$trade) echo 'none';?>">

@@ -1,14 +1,14 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $menus = array (
     array('木马扫描', '?file='.$file),
     array('文件校验', '?file=md5'),
 );
-$sys = array('admin', 'api', 'include', 'javascript', 'lang', 'module', 'template', 'wap');
+$sys = array('admin', 'api', 'include', 'javascript', 'lang', 'module', 'template', 'mobile');
 $bd_code = base64_decode('VkJTY3JpcHQuRW5jb2RlfEdldFByb2Nlc3Nlc3xnenVuY29tcHJlc3N8Z3ppbmZsYXRlfHBhc3N0aHJ1fGV2YWx8YmFzZTY0X2RlY29kZXxzaGVsbHx6ZW5kfGV4ZWN8Y21kfHNvbmFtZXx3aW5kb3dzfDAwMDAwMHxmc28ufC5leGV8LmRsbHzlrbF85o+Q5p2DfOaMgumprHzmnKjpqax8XHg=');
 $bd_code = convert($bd_code, 'UTF-8', DT_CHARSET);
 $bd_ext = 'php|asp|aspx|asa|asax|dll|jsp|cgi|fcgi|pl';
@@ -90,7 +90,7 @@ if($submit) {
 		'module/video/admin/install.inc.php' => 1,
 		'upgrade/config.inc.php' => 1,
 		'upgrade/index.php' => 1,
-		'wap/index.php' => 1,
+		'mobile/index.php' => 1,
 	);
 	$filedir or $filedir = $sys;
 	$fileext or $fileext = $bd_ext;

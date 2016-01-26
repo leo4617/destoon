@@ -60,7 +60,7 @@ switch($action) {
 		}
 		if($auth) {
 			if($auth == $user['auth']) {
-				auth_time($user['authtime']);
+				auth_time($user['authtime'], 1);
 				$mobile = $user['authvalue'];
 				$r = $db->get_one("SELECT userid FROM {$DT_PRE}member WHERE mobile='$mobile' AND vmobile=1 AND userid<>$_userid");
 				if($r) message($L['validate_mobile_exist'], $MOD['linkurl']);
@@ -70,28 +70,15 @@ switch($action) {
 			}
 			message($L['validate_mobile_code_error']);
 		} else {
-			$fee = $DT['sms_fee'];
 			if($submit) {
 				is_mobile($mobile) or message($L['validate_mobile_bad']);
 				$r = $db->get_one("SELECT userid FROM {$DT_PRE}member WHERE mobile='$mobile' AND vmobile=1 AND userid<>$_userid");
 				if($r) message($L['validate_mobile_exist']);
-				if($fee && $_sms < 1) {
-					$fee <= $_money or message($L['money_not_enough'], $MOD['linkurl'].'charge.php?action=pay');
-					is_payword($_username, $password) or dalert($L['error_payword']);
-				}
+				if(max_sms($mobile)) message($L['sms_msg_max']);
 				$auth = random(6, '0123456789');
-				$content = lang('sms->sms_code', array($auth, $MOD['auth_days'])).$DT['sms_sign'];
+				$content = lang('sms->sms_code', array($auth, $MOD['auth_days']*10)).$DT['sms_sign'];
 				$sms_code = send_sms($mobile, $content);
 				if(strpos($sms_code, $DT['sms_ok']) !== false) {
-					if($fee) {
-						if($_sms < 1) {
-							money_add($_username, -$fee);
-							money_record($_username, -$fee, $L['in_site'], 'system', $L['validate_mobile_record'], $mobile);
-						} else {
-							sms_add($_username, -1);
-							sms_record($_username, -1, $_username, $L['validate_mobile_record'], $mobile);
-						}
-					}
 					$db->query("UPDATE {$DT_PRE}member SET auth='$auth',authvalue='$mobile',authtime='$DT_TIME' WHERE username='$username'");
 					dheader('?code=1&action='.$action);
 				} else {
@@ -104,8 +91,8 @@ switch($action) {
 	case 'truename':
 		$MOD['vtruename'] or dheader($MOD['linkurl']);
 		$head_title = $L['validate_truename_title'];
-		$v = $db->get_one("SELECT * FROM {$DT_PRE}validate WHERE type='$action' AND username='$username'");
-		if($user['vtruename'] || $v) {
+		$va = $db->get_one("SELECT * FROM {$DT_PRE}validate WHERE type='$action' AND username='$username'");
+		if($user['vtruename'] || $va) {
 			$action = 'v'.$action;
 			include template('validate', $module);
 			exit;
@@ -114,10 +101,10 @@ switch($action) {
 			if(!$truename) message($L['validate_truename_name']);
 			if(!$thumb) message($L['validate_truename_image']);
 			clear_upload($thumb.$thumb1.$thumb2);
-			$truename = htmlspecialchars($truename);
-			$thumb = htmlspecialchars($thumb);
-			$thumb1 = htmlspecialchars($thumb1);
-			$thumb2 = htmlspecialchars($thumb2);
+			$truename = dhtmlspecialchars($truename);
+			$thumb = dhtmlspecialchars($thumb);
+			$thumb1 = dhtmlspecialchars($thumb1);
+			$thumb2 = dhtmlspecialchars($thumb2);
 			$db->query("INSERT INTO {$DT_PRE}validate (type,username,ip,addtime,status,editor,edittime,title,thumb,thumb1,thumb2) VALUES ('$action','$username','$DT_IP','$DT_TIME','2','system','$DT_TIME','$truename','$thumb','$thumb1','$thumb2')");
 			dmsg($L['validate_truename_success'], '?action='.$action);
 		} else {
@@ -127,8 +114,8 @@ switch($action) {
 	case 'company':
 		$MOD['vcompany'] or dheader($MOD['linkurl']);
 		$head_title = $L['validate_company_title'];
-		$v = $db->get_one("SELECT * FROM {$DT_PRE}validate WHERE type='$action' AND username='$username'");
-		if($user['vcompany'] || $v) {
+		$va = $db->get_one("SELECT * FROM {$DT_PRE}validate WHERE type='$action' AND username='$username'");
+		if($user['vcompany'] || $va) {
 			$action = 'v'.$action;
 			include template('validate', $module);
 			exit;
@@ -137,10 +124,10 @@ switch($action) {
 			if(!$company) message($L['validate_company_name']);
 			if(!$thumb) message($L['validate_company_image']);
 			clear_upload($thumb.$thumb1.$thumb2);
-			$company = htmlspecialchars($company);
-			$thumb = htmlspecialchars($thumb);
-			$thumb1 = htmlspecialchars($thumb1);
-			$thumb2 = htmlspecialchars($thumb2);
+			$company = dhtmlspecialchars($company);
+			$thumb = dhtmlspecialchars($thumb);
+			$thumb1 = dhtmlspecialchars($thumb1);
+			$thumb2 = dhtmlspecialchars($thumb2);
 			$db->query("INSERT INTO {$DT_PRE}validate (type,username,ip,addtime,status,editor,edittime,title,thumb,thumb1,thumb2) VALUES ('$action','$username','$DT_IP','$DT_TIME','2','system','$DT_TIME','$company','$thumb','$thumb1','$thumb2')");
 			dmsg($L['validate_company_success'], '?action='.$action);
 		} else {

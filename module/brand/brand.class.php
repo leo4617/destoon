@@ -25,23 +25,24 @@ class brand {
 		if(!is_array($post)) return false;
 		if(!$post['catid']) return $this->_(lang('message->pass_catid'));
 		if(strlen($post['title']) < 3) return $this->_(lang('message->pass_title'));
-		if(!$post['thumb']) return $this->_(lang('message->pass_logo'));
+		if(!is_url($post['thumb'])) return $this->_(lang('message->pass_logo'));
+		if(DT_MAX_LEN && strlen($post['content']) > DT_MAX_LEN) return $this->_(lang('message->pass_max'));
 		return true;
 	}
 
 	function set($post) {
 		global $MOD, $DT_TIME, $DT_IP, $_username, $_userid;
+		$post['filepath'] = (isset($post['filepath']) && is_filepath($post['filepath'])) ? file_vname($post['filepath']) : '';
 		$post['editor'] = $_username;
 		$post['addtime'] = (isset($post['addtime']) && $post['addtime']) ? strtotime($post['addtime']) : $DT_TIME;
 		$post['adddate'] = timetodate($post['addtime'], 3);
 		$post['edittime'] = $DT_TIME;
 		$post['editdate'] = timetodate($post['edittime'], 3);
 		$post['fee'] = dround($post['fee']);
-		$post['homepage'] = fix_link(trim($post['homepage']));
-		$post['video'] = fix_link(trim($post['video']));
+		$post['homepage'] = fix_link($post['homepage']);
+		$post['video'] = fix_link($post['video']);
 		$post['video_width'] = intval($post['video_width']);
 		$post['video_height'] = intval($post['video_height']);
-		$post['title'] = trim($post['title']);
 		$post['content'] = stripslashes($post['content']);
 		$post['content'] = save_local($post['content']);
 		if($MOD['clear_link']) $post['content'] = clear_link($post['content']);
@@ -49,27 +50,31 @@ class brand {
 		if($MOD['introduce_length']) $post['introduce'] = addslashes(get_intro($post['content'], $MOD['introduce_length']));
 		if($this->itemid) {
 			$new = $post['content'];
-			if($post['thumb']) $new .= '<img src="'.$post['thumb'].'">';
+			if($post['thumb']) $new .= '<img src="'.$post['thumb'].'"/>';
 			$r = $this->get_one();
 			$old = $r['content'];
-			if($r['thumb']) $old .= '<img src="'.$r['thumb'].'">';
+			if($r['thumb']) $old .= '<img src="'.$r['thumb'].'"/>';
 			delete_diff($new, $old);
 		} else {
 			$post['ip'] = $DT_IP;
 		}
-		if(!defined('DT_ADMIN')) {
-			$content = $post['content'];
-			unset($post['content']);
-			$post = dhtmlspecialchars($post);
-			$post['content'] = dsafe($content);
-		}
-		$post['content'] = addslashes($post['content']);
+		$content = $post['content'];
+		unset($post['content']);
+		$post = dhtmlspecialchars($post);
+		$post['content'] = addslashes(dsafe($content));
 		return array_map("trim", $post);
 	}
 
 	function get_one() {
-		$content_table = content_table($this->moduleid, $this->itemid, $this->split, $this->table_data);
-        return $this->db->get_one("SELECT * FROM {$this->table} a,{$content_table} c WHERE a.itemid=c.itemid and a.itemid=$this->itemid");
+		$r = $this->db->get_one("SELECT * FROM {$this->table} WHERE itemid=$this->itemid");
+		if($r) {
+			$content_table = content_table($this->moduleid, $this->itemid, $this->split, $this->table_data);
+			$t = $this->db->get_one("SELECT content FROM {$content_table} WHERE itemid=$this->itemid");
+			$r['content'] = $t ? $t['content'] : '';
+			return $r;
+		} else {
+			return array();
+		}
 	}
 
 	function get_list($condition = 'status=3', $order = 'edittime DESC', $cache = '') {
@@ -81,6 +86,7 @@ class brand {
 			$items = $r['num'];
 		}
 		$pages = defined('CATID') ? listpages(1, CATID, $items, $page, $pagesize, 10, $MOD['linkurl']) : pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = $catids = $CATS = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize", $cache);
 		while($r = $this->db->fetch_array($result)) {
@@ -120,7 +126,7 @@ class brand {
 		$this->db->query("INSERT INTO {$this->table} ($sqlk) VALUES ($sqlv)");
 		$this->itemid = $this->db->insert_id();
 		$content_table = content_table($this->moduleid, $this->itemid, $this->split, $this->table_data);
-		$this->db->query("INSERT INTO {$content_table} (itemid,content) VALUES ('$this->itemid', '$post[content]')");
+		$this->db->query("REPLACE INTO {$content_table} (itemid,content) VALUES ('$this->itemid', '$post[content]')");
 		$this->update($this->itemid);
 		if($post['status'] == 3 && $post['username'] && $MOD['credit_add']) {
 			credit_add($post['username'], $MOD['credit_add']);
@@ -140,7 +146,7 @@ class brand {
         $sql = substr($sql, 1);
 	    $this->db->query("UPDATE {$this->table} SET $sql WHERE itemid=$this->itemid");
 		$content_table = content_table($this->moduleid, $this->itemid, $this->split, $this->table_data);
-	    $this->db->query("UPDATE {$content_table} SET content='$post[content]' WHERE itemid=$this->itemid");
+		$this->db->query("REPLACE INTO {$content_table} (itemid,content) VALUES ('$this->itemid', '$post[content]')");
 		$this->update($this->itemid);
 		clear_upload($post['content'].$post['thumb'], $this->itemid);
 		if($post['status'] > 2) $this->tohtml($this->itemid, $post['catid']);
@@ -164,12 +170,7 @@ class brand {
 		$linkurl = itemurl($item);
 		if($linkurl != $item['linkurl']) $update .= ",linkurl='$linkurl'";
 		$member = $item['username'] ? userinfo($item['username']) : array();
-		if($member) {
-			foreach(array('groupid','vip','validated','company','areaid','truename','telephone','mobile','address','qq','msn','ali','skype') as $v) {
-				if($item[$v] != $member[$v]) $update .= ",$v='".addslashes($member[$v])."'";
-			}
-			if($item['email'] != $member['mail']) $update .= ",email='".addslashes($member['mail'])."'";
-		}
+		if($member) $update .= update_user($member, $item);
 		if($update) $this->db->query("UPDATE {$this->table} SET ".(substr($update, 1))." WHERE itemid=$itemid");
 	}
 
@@ -252,7 +253,7 @@ class brand {
 	}
 
 	function clear($condition = 'status=0') {		
-		$result = $this->db->query("SELECT itemid FROM {$this->table} WHERE $condition ");
+		$result = $this->db->query("SELECT itemid FROM {$this->table} WHERE $condition");
 		while($r = $this->db->fetch_array($result)) {
 			$this->delete($r['itemid']);
 		}

@@ -19,7 +19,7 @@ class dlink {
 		if(!is_array($post)) return false;
 		if(!$post['username']) return $this->_($L['link_pass_username']);
 		if(!$post['title']) return $this->_($L['link_pass_title']);
-		if(!$post['linkurl']) return $this->_($L['link_pass_linkurl']);
+		if(!is_url($post['linkurl'])) return $this->_($L['link_pass_linkurl']);
 		return true;
 	}
 
@@ -28,7 +28,7 @@ class dlink {
 		if(!$this->itemid) $post['addtime'] = $DT_TIME;
 		$post['edittime'] = $DT_TIME;
 		$post['editor'] = $_username;
-		if(!defined('DT_ADMIN')) $post = dhtmlspecialchars($post);
+		$post = dhtmlspecialchars($post);
 		return array_map("trim", $post);
 	}
 
@@ -45,6 +45,7 @@ class dlink {
 			$items = $r['num'];
 		}
 		$pages = pages($items, $page, $pagesize);
+		if($items < 1) return array();
 		$lists = array();
 		$result = $this->db->query("SELECT * FROM {$this->table} WHERE $condition ORDER BY $order LIMIT $offset,$pagesize");
 		while($r = $this->db->fetch_array($result)) {

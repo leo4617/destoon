@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 $menu = array(
 	array('数据维护', '?file=database'),
 	array('信息统计', '?file=count'),
@@ -7,6 +7,7 @@ $menu = array(
 	array('标签向导', '?file=tag'),
 	array('后台搜索', '?file=search'),
 	array('木马扫描', '?file=scan'),
+	array('计划任务', '?file=cron'),
 	array('后台日志', '?file=log'),
 	array('上传记录', '?file=upload'),
 	array('404日志', '?file=404'),

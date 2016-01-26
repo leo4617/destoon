@@ -1,14 +1,21 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
-$data = DT_DOMAIN ? 'if(window.location.href.indexOf("'.DT_DOMAIN.'") != -1){document.domain = "'.DT_DOMAIN.'";}' : '';
+if($DT['city']) {
+	$DT['index_html'] = 0;
+	$C = cache_read('module-2.php');
+	$M = $C['linkurl'];
+} else {
+	$M = $MODULE[2]['linkurl'];
+}
+$data = '';
 $data .= 'var DTPath = "'.DT_PATH.'";';
 $data .= 'var SKPath = "'.DT_SKIN.'";';
-$data .= 'var MEPath = "'.$MODULE[2]['linkurl'].'";';
-$data .= 'var EXPath = "'.$MODULE[3]['linkurl'].'";';
+$data .= 'var MEPath = "'.$M.'";';
+$data .= 'var DTEditor = "'.DT_EDITOR.'";';
 $data .= 'var CKDomain = "'.$CFG['cookie_domain'].'";';
 $data .= 'var CKPath = "'.$CFG['cookie_path'].'";';
 $data .= 'var CKPrex = "'.$CFG['cookie_pre'].'";';
@@ -20,7 +27,7 @@ if(!$DT['index_html']) {
 }
 $destoon_task = "moduleid=1&html=index";
 $AREA = cache_read('area.php');
-if($EXT['wap_enable']) $head_mobile = $EXT['wap_url'];
+if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'];
 $seo_title = $DT['seo_title'];
 $head_keywords = $DT['seo_keywords'];
 $head_description = $DT['seo_description'];

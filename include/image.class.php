@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -281,8 +281,8 @@ class image {
                 $p_y = $this->g_h - $p_h - $this->water_margin;
                 break;
             default:
-                $p_x = rand($this->water_margin, ($this->g_w - $p_w - $this->water_margin)); 
-                $p_y = rand($this->water_margin, ($this->g_h - $p_h - $this->water_margin)); 
+                $p_x = mt_rand($this->water_margin, ($this->g_w - $p_w - $this->water_margin)); 
+                $p_y = mt_rand($this->water_margin, ($this->g_h - $p_h - $this->water_margin)); 
                 break;     
         }
 		return array('dest_x'=>$p_x, 'dest_y'=>$p_y);

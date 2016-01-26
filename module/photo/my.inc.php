@@ -7,7 +7,6 @@ include load($module.'.lang');
 include load('my.lang');
 require MD_ROOT.'/photo.class.php';
 $do = new photo($moduleid);
-
 if(in_array($action, array('add', 'edit'))) {
 	$FD = cache_read('fields-'.substr($table, strlen($DT_PRE)).'.php');
 	if($FD) require DT_ROOT.'/include/fields.func.php';
@@ -16,7 +15,6 @@ if(in_array($action, array('add', 'edit'))) {
 	if($CP) require DT_ROOT.'/include/property.func.php';
 	isset($post_ppt) or $post_ppt = array();
 }
-
 $sql = $_userid ? "username='$_username'" : "ip='$DT_IP'";
 $limit_used = $limit_free = $need_password = $need_captcha = $need_question = $fee_add = 0;
 if(in_array($action, array('', 'add'))) {
@@ -24,7 +22,6 @@ if(in_array($action, array('', 'add'))) {
 	$limit_used = $r['num'];
 	$limit_free = $MG['photo_limit'] > $limit_used ? $MG['photo_limit'] - $limit_used : 0;
 }
-
 switch($action) {
 	case 'add':
 		if($MG['photo_limit'] && $limit_used >= $MG['photo_limit']) dalert(lang($L['info_limit'], array($MG[$MOD['module'].'_limit'], $limit_used)), $_userid ? $MODULE[2]['linkurl'].$DT['file_my'].'?mid='.$mid : $MODULE[2]['linkurl'].$DT['file_my']);
@@ -110,7 +107,6 @@ switch($action) {
 				$js = '';
 				if(isset($post['sync_sina']) && $post['sync_sina']) $js .= sync_weibo('sina', $moduleid, $do->itemid);
 				if(isset($post['sync_qq']) && $post['sync_qq']) $js .= sync_weibo('qq', $moduleid, $do->itemid);
-				if(isset($post['sync_qzone']) && $post['sync_qzone']) $js .= sync_weibo('qzone', $moduleid, $do->itemid);
 				if($_userid) {
 					set_cookie('dmsg', $msg);
 					$forward = $MODULE[2]['linkurl'].$DT['file_my'].'?mid='.$mid.'&status='.$post['status'];
@@ -128,9 +124,9 @@ switch($action) {
 				$MG['copy'] && $_userid or dalert(lang('message->without_permission_and_upgrade'), 'goback');
 
 				$do->itemid = $itemid;
-				$r = $do->get_one();
-				if(!$r || $r['username'] != $_username) message();
-				extract($r);
+				$item = $do->get_one();
+				if(!$item || $item['username'] != $_username) message();
+				extract($item);
 				$thumb = '';
 				$totime = $totime > $DT_TIME ? timetodate($totime, 3) : '';
 			} else {
@@ -224,7 +220,7 @@ switch($action) {
 		$itemids = is_array($itemid) ? $itemid : array($itemid);
 		foreach($itemids as $itemid) {
 			$do->itemid = $itemid;
-			$item = $do->get_one();
+			$item = $db->get_one("SELECT username FROM {$table} WHERE itemid=$itemid");
 			if(!$item || $item['username'] != $_username) message();
 			$do->recycle($itemid);
 		}
@@ -241,7 +237,6 @@ switch($action) {
 		$lists = $do->get_list($condition, $MOD['order']);
 	break;
 }
-$head_title = lang($L['module_manage'], array($MOD['name']));
 if($_userid) {
 	$nums = array();
 	for($i = 1; $i < 5; $i++) {
@@ -249,5 +244,6 @@ if($_userid) {
 		$nums[$i] = $r['num'];
 	}
 }
+$head_title = lang($L['module_manage'], array($MOD['name']));
 include template($MOD['template_my'] ? $MOD['template_my'] : 'my_'.$module, 'member');
 ?>

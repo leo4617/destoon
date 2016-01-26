@@ -1,5 +1,5 @@
 <?php
-defined('IN_DESTOON') or exit('Access Denied');
+defined('DT_ADMIN') or exit('Access Denied');
 include template('header');
 ?>
 <div class="m">
@@ -18,16 +18,16 @@ include template('header');
 <td><textarea  style="width:100%;height:40px;font-family:Fixedsys,verdana;overflow:visible;color:blue;" onmouseover="this.select();"><?php echo $code_call;?></textarea></td>
 </tr>
 <tr>
-<td bgcolor="#E3EEF5" class="px13 f_b">JS调用代码</td>
-</tr>
-<tr>
-<td><textarea  style="width:100%;height:40px;font-family:Fixedsys,verdana;overflow:visible;color:#800000;" onmouseover="this.select();"><?php echo $tag_js;?></textarea></td>
-</tr>
-<tr>
 <td bgcolor="#E3EEF5" class="px13 f_b">调试信息</td>
 </tr>
 <tr>
 <td><textarea  style="width:100%;height:40px;font-family:Fixedsys,verdana;overflow:visible;color:#800000;" onmouseover="this.select();"><?php echo $tag_debug;?></textarea></td>
+</tr>
+<tr>
+<td bgcolor="#E3EEF5" class="px13 f_b">JS调用代码</td>
+</tr>
+<tr>
+<td><textarea  style="width:100%;height:80px;font-family:Fixedsys,verdana;overflow:visible;color:#800000;" onmouseover="this.select();"><?php echo $tag_js;?></textarea></td>
 </tr>
 <tr>
 <td bgcolor="#E3EEF5" class="px13"><span class="f_r"><a href="javascript:window.close();">[关闭窗口]</a>&nbsp;</span><strong>源代码</strong></td>

@@ -8,7 +8,7 @@
 您好！<br/>
 欢迎您加入{$DT[sitename]}，您的会员帐号为：<br/>
 <strong>户名：</strong>{$username}<br/>
-<strong>密码：</strong>{if isset($post[password])}{$post[password]} 请您妥善保存，勿告诉他人。{else}<i>已加密</i> (如果您忘记了密码，<a href="{linkurl($MODULE[2][linkurl], 1)}send.php" target="_blank">请点这里找回</a>){/if}<br/>
+<strong>密码：</strong>{if isset($post[password])}{$post[password]} 请您妥善保存，勿告诉他人。{else}<i>已加密</i> (如果您忘记了密码，<a href="{$MODULE[2][linkurl]}send.php" target="_blank">请点这里找回</a>){/if}<br/>
 本站网址：<a href="{DT_PATH}" target="_blank">{DT_PATH}</a><br/>
 </td>
 </tr>

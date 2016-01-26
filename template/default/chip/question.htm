@@ -18,16 +18,15 @@ function checkanswer(s) {
 	if(s.length < 1) {
 		Dd('answer').focus; return;
 	}
-	makeRequest('action=question&answer='+s, AJPath, '_checkanswer');
-}
-function _checkanswer() {    
-	if(xmlHttp.readyState==4 && xmlHttp.status==200) {
-		if(xmlHttp.responseText == '0') {
-			Dd('canswer').innerHTML = '&nbsp;&nbsp;<img src="{DT_SKIN}image/check_right.gif" align="absmiddle"/>';
-		} else {
-			Dd('answer').focus;
-			Dd('canswer').innerHTML = '&nbsp;&nbsp;<img src="{DT_SKIN}image/check_error.gif" align="absmiddle"/>';
+	$.post(AJPath, 'action=question&answer='+s,
+		function(data) {
+			if(data == '0') {
+				Dd('canswer').innerHTML = '&nbsp;&nbsp;<img src="{DT_SKIN}image/check_right.gif" align="absmiddle"/>';
+			} else {
+				Dd('answer').focus;
+				Dd('canswer').innerHTML = '&nbsp;&nbsp;<img src="{DT_SKIN}image/check_error.gif" align="absmiddle"/>';
+			}
 		}
-	}
+	);
 }
 </script>

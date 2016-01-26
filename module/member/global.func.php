@@ -52,8 +52,21 @@ function check_auth($auth) {
 	dalert($L['check_auth'], DT_PATH);
 }
 
-function auth_time($time) {
+function auth_time($time, $type = 0) {
 	global $MOD, $DT_TIME, $L;
-	if($MOD['auth_days'] && $DT_TIME - $time > $MOD['auth_days']*86400) dalert($L['auth_time'], $MOD['linkurl']);
+	$second = $type ? 600 : 86400;
+	if($MOD['auth_days'] && $DT_TIME - $time > $MOD['auth_days']*$second) dalert($L['auth_time'], $MOD['linkurl']);
+}
+
+function max_sms($mobile) {
+	global $DT, $L, $today_endtime, $_username, $db;
+	$max = intval($DT['sms_max']);
+	if($max) {
+		$condition = $_username ? "editor='$_username'" : "mobile='$mobile'";
+		$condition .= " AND message LIKE '%".$L['sms_code']."%' AND sendtime>$today_endtime-86400";
+		$items = $db->count($db->pre.'sms', $condition);
+		if($items >= $max) return true;
+	}
+	return false;
 }
 ?>

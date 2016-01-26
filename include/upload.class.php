@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2013 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -42,13 +42,14 @@ class upload {
 
 	function save() {
 		include load('include.lang');
-        if($this->file_error) return $this->_($L['upload_failed'].' ('.$L['upload_error_'.$this->file_error].')');
-		if($this->maxsize > 0 && $this->file_size > $this->maxsize) return $this->_($L['upload_size_limit'].' ('.intval($this->maxsize/1024).'Kb)');
-        if(!$this->is_allow()) return $this->_($L['upload_not_allow']);
+        if($this->file_error) return $this->_('Error(21)'.$L['upload_failed'].' ('.$L['upload_error_'.$this->file_error].')');
+		if($this->maxsize > 0 && $this->file_size > $this->maxsize) return $this->_('Error(22)'.$L['upload_size_limit'].' ('.intval($this->maxsize/1024).'Kb)');
+        if(!$this->is_allow()) return $this->_('Error(23)'.$L['upload_not_allow']);
         $this->set_savepath($this->savepath);
         $this->set_savename($this->savename);
-        if(!is_writable(DT_ROOT.'/'.$this->savepath)) return $this->_($L['upload_unwritable']);
-		if(!move_uploaded_file($this->file, DT_ROOT.'/'.$this->saveto) && !copy($this->file, DT_ROOT.'/'.$this->saveto)) return $this->_($L['upload_failed']);
+        if(!is_writable(DT_ROOT.'/'.$this->savepath)) return $this->_('Error(24)'.$L['upload_unwritable']);
+		if(!is_uploaded_file($this->file)) return $this->_('Error(25)'.$L['upload_failed']);
+		if(!move_uploaded_file($this->file, DT_ROOT.'/'.$this->saveto)) return $this->_('Error(26)'.$L['upload_failed']);
 		$this->image = $this->is_image();
 		if(DT_CHMOD) @chmod(DT_ROOT.'/'.$this->saveto, DT_CHMOD);
         return true;
@@ -77,8 +78,8 @@ class upload {
             $this->savename = $this->adduserid ? str_replace('.'.$this->ext, $this->userid.'.'.$this->ext, $savename) : $savename;
         } else {
 			$this->uptime = $DT_TIME;
-            $name = date('H-i-s', $this->uptime).'-'.rand(10, 99);
-            $this->savename = $this->adduserid ? $name.'-'.$this->userid.'.'.$this->ext : $name.'.'.$this->ext;
+            $name = date('His', $this->uptime).mt_rand(10, 99);
+            $this->savename = $this->adduserid ? $name.$this->userid.'.'.$this->ext : $name.'.'.$this->ext;
         }
 		$this->saveto = $this->savepath.$this->savename;		
         if(!$this->overwrite && is_file(DT_ROOT.'/'.$this->saveto)) {
