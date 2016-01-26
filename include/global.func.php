@@ -161,7 +161,7 @@ function strip_nr($string, $js = false) {
 function template($template = 'index', $dir = '') {
 	global $CFG;
 	check_name($template) or exit('BAD TPL NAME');
-	if($dir) check_name($dir) or exit('BAP TPL DIR');
+	if($dir) check_name($dir) or exit('BAD TPL DIR');
 	$to = DT_CACHE.'/tpl/'.$CFG['template'].'/'.($dir ? $dir.'/' : '').$template.'.php';
 	$isfileto = is_file($to);
 	if($CFG['template_refresh'] || !$isfileto) {
@@ -515,7 +515,20 @@ function get_env($type) {
 			$ua = strtolower($_SERVER['HTTP_USER_AGENT']);
 			$ck = get_cookie('mobile');
 			$os = $browser = '';
-			if(preg_match("/(iphone|ipod)/", $ua)) {
+			if(strpos($ua, 'android') !== false) {
+				$os = 'android';
+				if($ck == 'app') {
+					$browser = 'app';
+				} else if($ck == 'b2b') {
+					$browser = 'b2b';
+				} else {
+					if(strpos($ua, 'micromessenger/') !== false) {
+						$browser = 'weixin';
+					} else if(strpos($ua, 'qq/') !== false) {
+						$browser = 'qq';
+					}
+				}
+			} else if(strpos($ua, 'iphone') !== false || strpos($ua, 'ipod') !== false) {
 				$os = 'ios';
 				if($ck == 'app') {
 					$browser = 'app';
@@ -524,27 +537,17 @@ function get_env($type) {
 				} else if($ck == 'screen') {
 					$browser = 'screen';
 				} else {
-					if(preg_match("/(safari)/i", $ua)) {
+					if(strpos($ua, 'micromessenger/') !== false) {
+						$browser = 'weixin';
+					} else if(strpos($ua, 'qq/') !== false) {
+						$browser = 'qq';
+					} else if(strpos($ua, 'safari') !== false) {
 						$browser = 'safari';
-					} else if(preg_match("/(micromessenger\/)/", $ua)) {
-						$browser = 'weixin';
-					} else if(preg_match("/(qq\/)/", $ua)) {
-						$browser = 'qq';
 					}
 				}
-			} else if(preg_match("/(android)/", $ua)) {
+			} else if(strpos($ua, 'adr') !== false && strpos($ua, 'ucbrowser') !== false) {
 				$os = 'android';
-				if($ck == 'app') {
-					$browser = 'app';
-				} else if($ck == 'b2b') {
-					$browser = 'b2b';
-				} else {
-					if(preg_match("/(micromessenger\/)/", $ua)) {
-						$browser = 'weixin';
-					} else if(preg_match("/(qq\/)/", $ua)) {
-						$browser = 'qq';
-					}
-				}
+				$browser = 'uc';
 			}
 			return array('os' => $os, 'browser' => $browser);
 		break;

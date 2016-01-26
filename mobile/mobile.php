@@ -39,7 +39,23 @@ if($action == 'pc') {
 		if(preg_match("/(Phone|Mobile)/i", $_SERVER['HTTP_USER_AGENT'])) dheader($url);
 	}
 	$ios_app = '';
+	if($EXT['mobile_ios']) {
+		if(preg_match("/^([0-9]{1,})@([a-z0-9]{16,})$/i", $EXT['mobile_ios'])) {
+			$app = DT_PATH.'/api/app.php?v=i';
+		} else {
+			$app = $EXT['mobile_ios'];
+		}
+		$ios_app = DT_PATH.'api/qrcode.png.php?auth='.encrypt($app, DT_KEY.'QRCODE');
+	}
 	$andriod_app = '';
+	if($EXT['mobile_adr']) {
+		if(preg_match("/^([0-9]{1,})@([a-z0-9]{16,})$/i", $EXT['mobile_adr'])) {
+			$app = DT_PATH.'/api/app.php?v=a';
+		} else {
+			$app = $EXT['mobile_adr'];
+		}
+		$andriod_app = DT_PATH.'api/qrcode.png.php?auth='.encrypt($app, DT_KEY.'QRCODE');
+	}
 	$destoon_task = rand_task();
 	$head_title = $L['mobile_title'];
 	include template('mobile', $module);

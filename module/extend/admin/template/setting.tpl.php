@@ -72,6 +72,14 @@ show_menu($menus);
 <input type="radio" name="setting[mobile_ajax]" value="0"  <?php if(!$mobile_ajax) echo 'checked';?>/> 关闭<?php tips('开启之后页面有类似APP的滚动切换效果，但是会导致百度等第三方联盟广告无法显示');?>
 </td>
 </tr>
+<tr> 
+<td class="tl">苹果APP下载地址</td>
+<td><input name="setting[mobile_ios]" type="text" size="60" value="<?php echo $mobile_ios;?>"/></td>
+</tr>
+<tr> 
+<td class="tl">安卓APP下载地址</td>
+<td><input name="setting[mobile_adr]" type="text" size="60" value="<?php echo $mobile_adr;?>"/></td>
+</tr>
 </table>
 <a name="spread"></a>
 <div class="tt">排名推广</div>

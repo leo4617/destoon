@@ -31,7 +31,10 @@
 <li><div style="border:none;"><a href="guestbook.php">意见反馈</a><div></li>
 <li><div><a href="tips.php">技巧提示</a><div></li>
 {if !in_array($DT_MOB[browser], array('app', 'b2b', 'screen'))}
-<div><a href="mobile.php?action=pc" rel="external">电脑版</a><div></li>
+<li><div><a href="mobile.php?action=pc" rel="external">电脑版</a><div></li>
+{/if}
+{if $app}
+<li><div><a href="{$app}" rel="external">安装APP</a><div></li>
 {/if}
 </ul>
 </div>

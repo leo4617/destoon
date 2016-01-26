@@ -120,7 +120,7 @@ switch($action) {
 			}
 			exit('no');
 		} else if($type == 'email') {
-			$could_mobile or exit('ko');
+			$could_email or exit('ko');
 			is_email($email) or exit('ko');
 			$t = $db->get_one("SELECT userid FROM {$DT_PRE}member WHERE email='$email'");
 			if($t) {
@@ -138,7 +138,7 @@ switch($action) {
 			$could_mobile or dheader('?reload='.$DT_TIME);
 			$head_name = $L['forgot_by_sms'];
 		} else if($type == 'email') {
-			$could_mobile or dheader('?reload='.$DT_TIME);
+			$could_email or dheader('?reload='.$DT_TIME);
 			$head_name = $L['forgot_by_email'];
 		} else {
 			dheader('?reload='.$DT_TIME);

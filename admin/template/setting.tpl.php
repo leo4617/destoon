@@ -1206,5 +1206,5 @@ window.onload=function() {
 	if(all) {all = 0; TabAll();}
 }
 </script>
-<script type="text/javascript" src="http://www.destoon.com/sms.php?action=get&uid=<?php echo DT_CLOUD_UID;?>&key=<?php echo md5(DT_CLOUD_KEY.'|'.DT_CLOUD_UID);?>"></script>
+<script type="text/javascript" src="https://www.destoon.com/sms.php?action=get&uid=<?php echo DT_CLOUD_UID;?>&key=<?php echo md5(DT_CLOUD_KEY.'|'.DT_CLOUD_UID);?>"></script>
 <?php include tpl('footer');?>

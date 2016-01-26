@@ -141,7 +141,7 @@ class member {
 			if($member['payword'] && !$this->is_payword($member['payword'], $member['cpayword'])) return false;
 			if($member['groupid'] > 5) {
 				if(strlen($member['type']) < 2) return $this->_($L['member_type_null']);
-				if(!preg_match("/^[0-9\-]{6,}$/", $member['telephone'])) return $this->_($L['member_telephone_null']);
+				if(!is_telephone($member['telephone'])) return $this->_($L['member_telephone_null']);
 				if(strlen($member['regyear']) != 4 || !is_numeric($member['regyear'])) return $this->_($L['member_regyear_null']);
 				if(empty($member['address'])) return $this->_($L['member_address_null']);
 				if(word_count($member['content']) < 5) return $this->_($L['member_introduce_null']);
@@ -402,7 +402,7 @@ class member {
 			credit_record($login_username, $MOD['credit_login'], 'system', $L['member_record_login'], $DT_IP);
 		}
 		$cookietime = $DT_TIME + ($login_cookietime ? intval($login_cookietime) : 86400*7);
-		$auth = encrypt($user['userid'].'|'.$user['password'], DT_KEY.'USER'.$_SERVER['HTTP_USER_AGENT']);
+		$auth = encrypt($user['userid'].'|'.$user['password'], DT_KEY.'USER');
 		set_cookie('auth', $auth, $cookietime);
 		set_cookie('username', $user['username'], $DT_TIME + 30*86400);
 		$this->db->query("UPDATE {$this->table_member} SET loginip='$DT_IP',logintime=$DT_TIME,logintimes=logintimes+1 WHERE userid=$userid");

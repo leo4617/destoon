@@ -2,13 +2,13 @@
 $_SERVER['REQUEST_URI'] = '';
 $_COOKIE = array();
 require '../common.inc.php';
-check_referer() or exit;
+//check_referer() or exit;
 if($DT_BOT) dhttp(403);
 isset($auth) or $auth = '';
 $auth or exit;
 $string = strpos($auth, '://') === false ? decrypt($auth, DT_KEY.'QRCODE') : $auth;
 $string or exit;
-$size = isset($size) ? intval($size) : 4;
+$size = isset($size) ? intval($size) : 5;
 ($size > 0 && $size < 10) or $size = 4;
 /*
  * PHP QR Code is distributed under LGPL 3

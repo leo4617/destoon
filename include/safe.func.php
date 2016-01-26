@@ -22,10 +22,10 @@ function dsafe($string, $type = 1) {
 		return array_map('dsafe', $string);
 	} else {
 		if($type) {
+			$string = str_replace('<em></em>', '', $string);
 			$string = preg_replace("/\<\!\-\-([\s\S]*?)\-\-\>/", "", $string);
 			$string = preg_replace("/\/\*([\s\S]*?)\*\//", "", $string);
-			$string = preg_replace("/&#([a-z0-9]+)([;]*)/i", "", $string);
-			if(preg_match("/&#([a-z0-9]+)([;]*)/i", $string)) return nl2br(strip_tags($string));
+			$string = preg_replace("/&#([a-z0-9]{1,})/i", "<em></em>&#\\1", $string);
 			$match = array("/s[\s]*c[\s]*r[\s]*i[\s]*p[\s]*t/i","/d[\s]*a[\s]*t[\s]*a[\s]*\:/i","/b[\s]*a[\s]*s[\s]*e/i","/e[\\\]*x[\\\]*p[\\\]*r[\\\]*e[\\\]*s[\\\]*s[\\\]*i[\\\]*o[\\\]*n/i","/i[\\\]*m[\\\]*p[\\\]*o[\\\]*r[\\\]*t/i","/on([a-z]{2,})([\(|\=|\s]+)/i","/about/i","/frame/i","/link/i","/meta/i","/textarea/i","/eval/i","/alert/i","/confirm/i","/prompt/i","/cookie/i","/document/i","/newline/i","/colon/i","/<style/i","/\\\x/i");
 			$replace = array("s<em></em>cript","da<em></em>ta:","ba<em></em>se","ex<em></em>pression","im<em></em>port","o<em></em>n\\1\\2","a<em></em>bout","f<em></em>rame","l<em></em>ink","me<em></em>ta","text<em></em>area","e<em></em>val","a<em></em>lert","/con<em></em>firm/i","prom<em></em>pt","coo<em></em>kie","docu<em></em>ment","new<em></em>line","co<em></em>lon","<sty1e","\<em></em>x");
 			return str_replace(array('isShowa<em></em>bout'), array('isShowAbout'), preg_replace($match, $replace, $string));

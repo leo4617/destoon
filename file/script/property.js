@@ -20,5 +20,5 @@ function load_property() {
 	});
 }
 $(document).ready(function() {
-	if(property_itemid) load_property();
+	if(property_catid) load_property();
 });

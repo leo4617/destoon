@@ -46,16 +46,14 @@ function fields_check($post_fields, $fd = array()) {
 		} else if($v['input_limit'] == 'is_email') {
 			if(!is_email($value)) fields_message(lang($L['fields_valid'], array($v['title'])));
 		} else if(is_numeric($v['input_limit'])) {
-			$length = $v['html'] == 'checkbox' ? count($value) : word_count($value);
+			$length = $value ? ($v['html'] == 'checkbox' ? count($value) : word_count($value)) : 0;
 			if($length < $v['input_limit']) fields_message(lang($L['fields_less'], array($v['title'], $v['input_limit'])));
+		} else if(preg_match("/^([0-9]{1,})\-([0-9]{1,})$/", $v['input_limit'], $m)) {			
+			$length = $value ? ($v['html'] == 'checkbox' ? count($value) : word_count($value)) : 0;
+			if($m[1] && $length < $m[1]) fields_message(lang($L['fields_less'], array($v['title'], $m[1])));
+			if($m[2] && $length > $m[2]) fields_message(lang($L['fields_more'], array($v['title'], $m[2])));
 		} else {
-			if(preg_match("/^([0-9]{1,})\-([0-9]{1,})$/", $v['input_limit'], $m)) {			
-				$length = $v['html'] == 'checkbox' ? count($value) : word_count($value);
-				if($m[1] && $length < $m[1]) fields_message(lang($L['fields_less'], array($v['title'], $m[1])));
-				if($m[2] && $length > $m[2]) fields_message(lang($L['fields_more'], array($v['title'], $m[2])));
-			} else {
-				if(!preg_match("/^".$v['input_limit']."$/", $value)) fields_message(lang($L['fields_match'], array($v['title'])));
-			}
+			if(!preg_match("/^".$v['input_limit']."$/", $value)) fields_message(lang($L['fields_match'], array($v['title'])));
 		}
 	}
 }
@@ -77,20 +75,27 @@ function fields_js($fd = array()) {
 		} else if(is_numeric($v['input_limit'])) {
 			if($v['html'] == 'area') {
 				$js .= 'f = "'.$v['name'].'";l = Dd("areaid_1").value;';
-				$js .= 'if(l == 0) {Dmsg("'.lang($L['fields_area']).'", f);return false;}';
+				$js .= 'if(l == 0) {Dmsg("'.lang($L['fields_area']).'", f, 1);return false;}';
+			} else if($v['html'] == 'checkboxs') {
+				$js .= 'f = "'.$v['name'].'";l = checked_count(f);';
+				$js .= 'if(l < '.$v['input_limit'].') {Dmsg("'.lang($L['fields_less'], array($v['title'], $v['input_limit'])).'", f, 1);return false;}';
 			} else {
 				$js .= 'f = "'.$v['name'].'";l = Dd(f).value.length;';
 				$js .= 'if(l < '.$v['input_limit'].') {Dmsg("'.lang($L['fields_less'], array($v['title'], $v['input_limit'])).'", f);return false;}';
 			}
-		} else {
-			if(preg_match("/^([0-9]{1,})\-([0-9]{1,})$/", $v['input_limit'], $m)) {			
+		} else if(preg_match("/^([0-9]{1,})\-([0-9]{1,})$/", $v['input_limit'], $m)) {
+			if($v['html'] == 'checkbox') {
+				$js .= 'f = "'.$v['name'].'";l = checked_count(f);';
+				if($m[1]) $js .= 'if(l < '.$m[1].') {Dmsg("'.lang($L['fields_less'], array($v['title'], $m[1])).'", f, 1);return false;}';
+				if($m[2]) $js .= 'if(l > '.$m[2].') {Dmsg("'.lang($L['fields_more'], array($v['title'], $m[2])).'", f, 1);return false;}';
+			} else {
 				$js .= 'f = "'.$v['name'].'";l = Dd(f).value.length;';
 				if($m[1]) $js .= 'if(l < '.$m[1].') {Dmsg("'.lang($L['fields_less'], array($v['title'], $m[1])).'", f);return false;}';
 				if($m[2]) $js .= 'if(l > '.$m[2].') {Dmsg("'.lang($L['fields_more'], array($v['title'], $m[2])).'", f);return false;}';
-			} else {
-				$js .= 'f = "'.$v['name'].'";l = Dd(f).value;';
-				$js .= 'if(l.match(/^'.$v['input_limit'].'$/) == null) {Dmsg("'.lang($L['fields_match'], array($v['title'])).'", f);return false;}';
 			}
+		} else {
+			$js .= 'f = "'.$v['name'].'";l = Dd(f).value;';
+			$js .= 'if(l.match(/^'.$v['input_limit'].'$/) == null) {Dmsg("'.lang($L['fields_match'], array($v['title'])).'", f);return false;}';
 		}
 	}
 	return $js;

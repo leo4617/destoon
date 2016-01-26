@@ -36,6 +36,7 @@ switch($action) {
 		if(isset($make)) {
 			if(isset($first)) {
 				$tb or $tb = $DT_PRE.'member';
+				$tb = strip_sql($tb, 0);
 				$num or $num = 1000;
 				$sql or $sql = 'groupid>4';
 				$title = $title ? file_vname('-'.$title) : '';

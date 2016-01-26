@@ -361,7 +361,7 @@ function is_email($email) {
 }
 
 function is_telephone($telephone) {
-	return preg_match("/^[0-9\-\+]{7,}$/", $telephone);
+	return preg_match("/^[0-9\-\+\(\)\s]{6,}$/", $telephone);
 }
 
 function is_qq($qq) {

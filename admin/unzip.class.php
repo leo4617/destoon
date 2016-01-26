@@ -18,11 +18,11 @@ class unzip {
 					if(zip_entry_filesize($zip_entry) > 0) {						
 						if(zip_entry_open($zip, $zip_entry, "r")) {
 							$buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+							file_put($dir.zip_entry_name($zip_entry), $buf);
 							zip_entry_close($zip_entry);
-							file_put($dir.'/'.zip_entry_name($zip_entry), $buf);
 						}
 					} else {
-						dir_create($dir.'/'.zip_entry_name($zip_entry));
+						dir_create($dir.zip_entry_name($zip_entry));
 					}			 
 				}			 
 				zip_close($zip);			 

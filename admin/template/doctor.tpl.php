@@ -27,6 +27,40 @@ show_menu($menus);
 </td>
 </tr>
 <?php } ?>
+</tr>
+<?php
+	if(is_dir(DT_ROOT.'/5.0')) {
+?>
+<tr>
+<td class="t1">升级备份目录</td>
+<td class="t2"><span>5.0</span></td>
+<td class="t3">
+如果已经升级成功，建议将备份目录删除或备份至非站点目录
+</td>
+</tr>
+<?php } ?>
+<?php
+	if(is_dir(DT_ROOT.'/upgrade')) {
+?>
+<tr>
+<td class="t1">升级目录</td>
+<td class="t2"><span>upgrade</span></td>
+<td class="t3">
+如果已经升级成功，建议将升级目录删除
+</td>
+</tr>
+<?php } ?>
+<?php
+	if(is_dir(DT_ROOT.'/install')) {
+?>
+<tr>
+<td class="t1">安装目录</td>
+<td class="t2"><span>install</span></td>
+<td class="t3">
+如果已经安装成功，建议将安装目录删除
+</td>
+</tr>
+<?php } ?>
 <?php
 	$D = is_write(DT_ROOT.'/file/') && is_write(DT_ROOT.'/file/cache/') && is_write(DT_ROOT.'/file/cache/tpl/') && is_write(DT_ROOT.'/file/upload/');
 ?>

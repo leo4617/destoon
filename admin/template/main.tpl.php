@@ -4,11 +4,11 @@ include tpl('header');
 show_menu($menus);
 ?>
 <div id="tips_update" style="display:none;">
-<div class="tt">系统更新提示</div>
+<div class="tt">更新提示</div>
 <table cellpadding="2" cellspacing="1" class="tb">
 <tr>
-<td><div style="padding:20px 30px 20px 20px;" title="当前版本V<?php echo DT_VERSION; ?> 更新时间<?php echo DT_RELEASE;?>"><img src="admin/image/tips_update.gif" width="32" height="32" align="absmiddle"/>&nbsp;&nbsp; <span class="f_red">您的当前软件版本有新的更新，请注意升级</span>&nbsp;&nbsp;最新版本：V<span id="last_v"><?php echo DT_VERSION; ?></span> 更新时间：<span id="last_r"><?php echo DT_RELEASE; ?></span>&nbsp;&nbsp;
-<input type="button" value="检查更新" class="btn" onclick="Go('?file=cloud&action=update');"/></div></td>
+<td><div style="padding:20px 30px 20px 20px;" title="当前版本V<?php echo DT_VERSION; ?> 更新时间<?php echo DT_RELEASE;?>"><img src="admin/image/tips_update.gif" width="32" height="32" align="absmiddle"/>&nbsp;&nbsp; <span class="f_red">您的当前软件版本有新的更新，请注意升级</span>&nbsp;&nbsp;&nbsp;&nbsp;最新版本：V<span id="last_v"><?php echo DT_VERSION; ?></span>&nbsp;&nbsp;更新时间：<span id="last_r"><?php echo DT_RELEASE; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="?file=cloud&action=update" class="t">[立即检查]</a></div></td>
 </tr>
 </table>
 </div>
@@ -121,9 +121,9 @@ var destoon_version = <?php echo DT_VERSION;?>;
 if(typeof destoon_lastrelease != 'undefined') {
 	var lastrelease = parseInt(destoon_lastrelease.replace('-', '').replace('-', ''));
 	if(destoon_lastversion == destoon_version && destoon_release < lastrelease) {
-		Dd('tips_update').style.display = '';
-		Dd('last_v').innerHTML = destoon_lastversion;
-		Dd('last_r').innerHTML = destoon_lastrelease;
+		$('#last_v').html(destoon_lastversion);
+		$('#last_r').html(destoon_lastrelease);
+		$('#tips_update').show('slow');
 	}
 }
 </script>

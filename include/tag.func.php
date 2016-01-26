@@ -93,7 +93,8 @@ function tag($parameter, $expires = 0) {
 			$condition .= " AND areaid IN ($areaid)";
 		}
 	}
-	$table = isset($table) ? $prefix.$table : get_table($moduleid);
+	$table = isset($table) ? $prefix.$table : get_table($moduleid);	
+	$table = str_replace('&#95;', '_', $table);
 	$offset or $offset = ($page-1)*$pagesize;
 	$percent = dround(100/$cols).'%';
 	$num = 0;

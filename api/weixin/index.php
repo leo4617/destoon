@@ -117,6 +117,16 @@ if($wx->signature()) {
 					$post['content'] = $EventKey;
 					$post['misc']['Ticket'] = "$x->Ticket";
 					if($EventKey == '99999') $credit_add = 1;
+					if(preg_match("/^[1-9]{9}$/", $EventKey)) {//已关注未绑定
+						$sid = intval($EventKey);
+						$B = $db->get_one("SELECT * FROM {$DT_PRE}weixin_bind WHERE sid='$sid'");
+						if($B) {
+							if($DT_TIME - $B['addtime'] < 1800 && check_name($B['username'])) weixin_bind($FromUserName, $B['username']);
+							$db->query("DELETE FROM {$DT_PRE}weixin_bind WHERE sid='$sid'");
+							//回复欢迎消息
+							$wx->response($FromUserName, $ToUserName, 'text', '恭喜！您的会员名['.$B['username'].']已经成功与微信绑定');
+						}
+					}
 				break;
 				case 'LOCATION'://上报地理位置事件
 					$post['content'] = '';

@@ -164,7 +164,7 @@ switch($action) {
 			$backtime = $r['item_value'];
 			$backdays = intval(($DT_TIME - $backtime)/86400);
 			$backtime = timetodate($backtime, 6);
-			$notice_url = decrypt('9c86mN4yUrDymsHosfI6kag1VdsjAXdpuY7C5UD3GsPI1P68R7SnbeT3X4qgVLxH0VyC3IcilPVjRchf8M3Zjl0', 'DESTOON').'?action=notice&product=b2b&version='.DT_VERSION.'&release='.DT_RELEASE.'&lang='.DT_LANG.'&charset='.DT_CHARSET.'&domain='.DT_DOMAIN.'&install='.$install.'&os='.PHP_OS.'&soft='.urlencode($_SERVER['SERVER_SOFTWARE']).'&php='.urlencode(phpversion()).'&mysql='.urlencode(mysql_get_server_info()).'&url='.urlencode($DT_URL).'&site='.urlencode($DT['sitename']).'&auth='.strtoupper(md5($DT_URL.$install.$_SERVER['SERVER_SOFTWARE']));
+			$notice_url = 'https://www.destoon.com/client.php?action=notice&product=b2b&version='.DT_VERSION.'&release='.DT_RELEASE.'&lang='.DT_LANG.'&charset='.DT_CHARSET.'&domain='.DT_DOMAIN.'&install='.$install.'&os='.PHP_OS.'&soft='.urlencode($_SERVER['SERVER_SOFTWARE']).'&php='.urlencode(phpversion()).'&mysql='.urlencode(mysql_get_server_info()).'&url='.urlencode($DT_URL).'&site='.urlencode($DT['sitename']).'&auth='.strtoupper(md5($DT_URL.$install.$_SERVER['SERVER_SOFTWARE']));
 			$install = timetodate($install, 5);			
 			$edition = edition(1);
 			include tpl('main');
