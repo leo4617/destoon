@@ -34,27 +34,39 @@ switch($action) {
 	break;
 	case 'make':
 		if(isset($make)) {
-			$tb or $tb = $DT_PRE.'member';
-			$field or $field = 'email';
-			$sql or $sql = 'groupid>4';
-			$sql = stripslashes($page == 1 ? $sql : base64_decode($sql));
-			$num or $num = 1000;
+			if(isset($first)) {
+				$tb or $tb = $DT_PRE.'member';
+				$num or $num = 1000;
+				$sql or $sql = 'groupid>4';
+				$title = $title ? file_vname('-'.$title) : '';
+				$random = strtolower(random(10));
+				$item = array();
+				$item['tb'] = $tb;
+				$item['num'] = $num;
+				$item['sql'] = $sql;
+				$item['title'] = $title;
+				$item['random'] = $random;
+				cache_write('mail-list-'.$_userid.'.php', $item);
+			} else {
+				$item = cache_read('mail-list-'.$_userid.'.php');
+				$item or msg();
+				extract($item);
+			}
 			$pagesize = $num;
 			$offset = ($page-1)*$pagesize;
-			if($page == 1) $random = $title ? $title : mt_rand(1000, 9999);
-			$mail = '';
-			$query = "SELECT $field FROM $tb WHERE $sql LIMIT $offset,$pagesize";
-			$key = strpos($field, '.') === false ? $field : file_ext($field);
+			$data = '';
+			$query = "SELECT email FROM $tb WHERE $sql AND email<>'' LIMIT $offset,$pagesize";
 			$result = $db->query($query);
 			while($r = $db->fetch_array($result)) {
-				if($r[$key]) $mail .= $r[$key]."\r\n";
+				if($r['email']) $data .= $r['email']."\r\n";
 			}
-			if($mail) {
-				$filename = timetodate($DT_TIME, 'Ymd').'_'.$random.'_'.$page.'.txt';
-				file_put(DT_ROOT.'/file/email/'.$filename, trim($mail));
+			if($data) {
+				$filename = timetodate($DT_TIME, 'Ymd').$title.'-'.$random.'-'.$page.'.txt';
+				file_put(DT_ROOT.'/file/email/'.$filename, trim($data));
 				$page++;
-				msg('文件'.$filename.'获取成功。<br/>请稍候，程序将自动继续...', '?moduleid='.$moduleid.'&file='.$file.'&action='.$action.'&tb='.urlencode($tb).'&field='.urlencode($field).'&sql='.urlencode(base64_encode($sql)).'&num='.$num.'&page='.$page.'&random='.urlencode($random).'&make=1');
+				msg('文件'.$filename.'获取成功。<br/>请稍候，程序将自动继续...', '?moduleid='.$moduleid.'&file='.$file.'&action='.$action.'&page='.$page.'&make=1');
 			} else {
+				cache_delete('mail-list-'.$_userid.'.php');
 				msg('列表获取成功', '?moduleid='.$moduleid.'&file='.$file.'&action=list');
 			}
 		} else {

@@ -31,25 +31,38 @@ switch($action) {
 	break;
 	case 'make':
 		if(isset($make)) {
-			$tb or $tb = $DT_PRE.'member';
-			$field or $field = 'mobile';
-			$sql or $sql = 'groupid>4';
-			$sql = stripslashes($page == 1 ? $sql : base64_decode($sql));
-			$num or $num = 1000;
+			if(isset($first)) {
+				$tb or $tb = $DT_PRE.'member';
+				$num or $num = 1000;
+				$sql or $sql = 'groupid>4';
+				$title = $title ? file_vname('-'.$title) : '';
+				$random = strtolower(random(10));
+				$item = array();
+				$item['tb'] = $tb;
+				$item['num'] = $num;
+				$item['sql'] = $sql;
+				$item['title'] = $title;
+				$item['random'] = $random;
+				cache_write('mobile-list-'.$_userid.'.php', $item);
+			} else {
+				$item = cache_read('mobile-list-'.$_userid.'.php');
+				$item or msg();
+				extract($item);
+			}
 			$pagesize = $num;
 			$offset = ($page-1)*$pagesize;
-			if($page == 1) $random = $title ? $title : mt_rand(1000, 9999);
-			$result = $db->query("SELECT $field FROM $tb WHERE $sql LIMIT $offset,$pagesize");
-			$mail = '';
+			$result = $db->query("SELECT mobile FROM $tb WHERE $sql AND mobile<>'' LIMIT $offset,$pagesize");
+			$data = '';
 			while($r = $db->fetch_array($result)) {
-				if($r[$field]) $mail .= $r[$field]."\r\n";
+				if($r['mobile']) $data .= $r['mobile']."\r\n";
 			}
-			if($mail) {
-				$filename = timetodate($DT_TIME, 'Ymd').'_'.$random.'_'.$page.'.txt';
-				file_put(DT_ROOT.'/file/mobile/'.$filename, trim($mail));
+			if($data) {
+				$filename = timetodate($DT_TIME, 'Ymd').$title.'-'.$random.'-'.$page.'.txt';
+				file_put(DT_ROOT.'/file/mobile/'.$filename, trim($data));
 				$page++;
-				msg('文件'.$filename.'获取成功。<br/>请稍候，程序将自动继续...', '?moduleid='.$moduleid.'&file='.$file.'&action='.$action.'&tb='.urlencode($tb).'&field='.urlencode($field).'&sql='.urlencode(base64_encode($sql)).'&num='.$num.'&page='.$page.'&random='.urlencode($random).'&make=1');
+				msg('文件'.$filename.'获取成功。<br/>请稍候，程序将自动继续...', '?moduleid='.$moduleid.'&file='.$file.'&action='.$action.'&page='.$page.'&make=1');
 			} else {
+				cache_delete('mobile-list-'.$_userid.'.php');
 				msg('列表获取成功', '?moduleid='.$moduleid.'&file='.$file.'&action=list');
 			}
 		} else {

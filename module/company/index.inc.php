@@ -13,9 +13,16 @@ if(isset($homepage) && check_name($homepage)) {
 		$whost = $host;
 	}
 	if($host && strpos($MODULE[4]['linkurl'], $host) === false) {
-		$www = str_replace($CFG['com_domain'], '', $host);
-		if(check_name($www)) {
-			$username = $homepage = $www;
+		if(substr($host, -strlen($CFG['com_domain'])) == $CFG['com_domain']) {
+			$www = substr($host, 0, -strlen($CFG['com_domain']));
+			if(check_name($www)) {
+				$username = $homepage = $www;
+			} else {
+				$head_title = $L['not_company'];
+				dhttp(404, $DT_BOT);
+				include template('com-notfound', 'message');
+				exit;
+			}
 		} else {
 			if($whost == $host) {//301 xxx.com to www.xxx.com
 				$w3 = 'www.'.$host;

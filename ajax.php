@@ -5,7 +5,9 @@
 */
 require 'common.inc.php';
 if($DT_BOT) dhttp(403);
-check_referer() or exit;
+if($action != 'mobile') {
+	check_referer() or exit;
+}
 require DT_ROOT.'/include/post.func.php';
 (isset($job) && check_name($job)) or $job = '';
 @include DT_ROOT.'/api/ajax/'.$action.'.inc.php';

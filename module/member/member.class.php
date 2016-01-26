@@ -606,7 +606,7 @@ class member {
 
 	function check_get() {
 		$r = $this->db->get_one("SELECT content FROM {$this->table_member_check} WHERE userid=$this->userid");
-		return $r['content'] ? unserialize($r['content']) : array();
+		return $r['content'] ? dstripslashes(unserialize($r['content'])) : array();
 	}
 
 	function check_add($post) {

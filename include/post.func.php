@@ -405,6 +405,15 @@ function is_payword($username, $payword) {
 	return $r['payword'] == dpassword($payword, $r['paysalt']);
 }
 
+function is_crsf($url) {
+	if(strpos($url, '://') === false) {
+		//
+	} else {
+		if(strpos($url, DT_DOMAIN ? '.'.DT_DOMAIN : DT_PATH) === false) return false;
+	}
+	return preg_match("/(\?|\&|\.php)/i", $url);
+}
+
 function dpassword($password, $salt) {
 	return md5((is_md5($password) ? md5($password) : md5(md5($password))).$salt);
 }
@@ -526,8 +535,11 @@ function save_local($content) {
 	if($content == '&nbsp;') return '';//Chrome
 	$content = preg_replace("/allowScriptAccess=\"always\"/i", "", $content);
 	$content = preg_replace("/allowScriptAccess/i", "allowscr-iptaccess", $content);
-	if(strpos($content, 'data:image') === false) return $content;
 	if(!preg_match_all("/src=([\"|']?)([^ \"'>]+)\\1/i", $content, $matches)) return $content;
+	foreach($matches[2] as $k=>$url) {
+		if(is_crsf($url)) $content = str_replace($url, DT_SKIN.'image/nopic.gif', $content);
+	}
+	if(strpos($content, 'data:image') === false) return $content;
 	require_once DT_ROOT.'/include/image.class.php';
 	$dftp = false;
 	if($DT['ftp_remote'] && $DT['remote_url']) {
@@ -539,7 +551,7 @@ function save_local($content) {
 	$DT['uploaddir'] or $DT['uploaddir'] = 'Ym/d';
 	foreach($matches[2] as $k=>$url) {
 		if(in_array($url, $urls)) continue;
-		$urls[$url] = $url;		
+		$urls[$url] = $url;
 		if(strpos($url, 'data:image') === false) continue;
 		if(strpos($url, ';base64,') === false) continue;
 		$t1 = explode(';base64,', $url);

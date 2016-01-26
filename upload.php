@@ -183,7 +183,7 @@ if($do->save()) {
 				}
 			}
 		} else if($from == 'editor') {
-			if($_groupid == 1 && !isset($watermark)) $DT['water_type'] = 0;
+			if($_groupid == 1 && DT_EDITOR == 'fckeditor' && !isset($watermark)) $DT['water_type'] = 0;
 			if($DT['water_type']) {
 				$image = new image(DT_ROOT.'/'.$do->saveto);
 				if($DT['water_type'] == 2) {

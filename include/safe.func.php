@@ -31,12 +31,12 @@ function dsafe($string, $type = 1) {
 }
 
 function strip_sql($string, $type = 1) {
-	$match = array("/union/i","/where/i","/outfile/i","/dumpfile/i","/0x([a-f0-9]{2,})/i","/select([\s\S]*?)from/i","/select([\s\*\/\-\{\(\+@])/i","/update([\s\*\/\-\{\(\+@])/i","/replace([\s\*\/\-\{\(\+@])/i","/delete([\s\*\/\-\{\(\+@])/i","/drop([\s\*\/\-\{\(\+@])/i","/load_file[\s]*\(/i","/substring[\s]*\(/i","/substr[\s]*\(/i","/left[\s]*\(/i","/concat[\s]*\(/i","/concat_ws[\s]*\(/i","/make_set[\s]*\(/i","/ascii[\s]*\(/i","/hex[\s]*\(/i","/ord[\s]*\(/i","/char[\s]*\(/i");
-	$replace = array('unio&#110;','wher&#101;','outfil&#101;','dumpfil&#101;','0&#120;\\1','selec&#116;\\1from','selec&#116;\\1','updat&#101;\\1','replac&#101;\\1','delet&#101;\\1','dro&#112;\\1','load_fil&#101;(','substrin&#103;(','subst&#114;(','lef&#116;(','conca&#116;(','concat_w&#115;(','make_se&#116;(','asci&#105;(','he&#120;(','or&#100;(','cha&#114;(');
+	$match = array("/union/i","/where/i","/having/i","/outfile/i","/dumpfile/i","/0x([a-f0-9]{2,})/i","/select([\s\S]*?)from/i","/select([\s\*\/\-\{\(\+@`])/i","/update([\s\*\/\-\{\(\+@`])/i","/replace([\s\*\/\-\{\(\+@`])/i","/delete([\s\*\/\-\{\(\+@`])/i","/drop([\s\*\/\-\{\(\+@`])/i","/load_file[\s]*\(/i","/substring[\s]*\(/i","/substr[\s]*\(/i","/left[\s]*\(/i","/right[\s]*\(/i","/mid[\s]*\(/i","/concat[\s]*\(/i","/concat_ws[\s]*\(/i","/make_set[\s]*\(/i","/ascii[\s]*\(/i","/bin[\s]*\(/i","/oct[\s]*\(/i","/hex[\s]*\(/i","/ord[\s]*\(/i","/char[\s]*\(/i","/conv[\s]*\(/i");
+	$replace = array('unio&#110;','wher&#101;','havin&#103;','outfil&#101;','dumpfil&#101;','0&#120;\\1','selec&#116;\\1fro&#109;','selec&#116;\\1','updat&#101;\\1','replac&#101;\\1','delet&#101;\\1','dro&#112;\\1','load_fil&#101;(','substrin&#103;(','subst&#114;(','lef&#116;(','righ&#116;(','mi&#100;(','conca&#116;(','concat_w&#115;(','make_se&#116;(','asci&#105;(','bi&#110;(','oc&#116;(','he&#120;(','or&#100;(','cha&#114;(','con&#118;(');
 	if($type) {
 		return is_array($string) ? array_map('strip_sql', $string) : preg_replace($match, $replace, $string);
 	} else {
-		return str_replace(array('&#100;', '&#101;', '&#103;', '&#105;', '&#110;','&#112;', '&#114;', '&#115;', '&#116;', '&#120;'), array('d', 'e', 'g', 'i', 'n', 'p', 'r', 's', 't', 'x'), $string);
+		return str_replace(array('&#100;', '&#101;', '&#103;', '&#105;', '&#109;', '&#110;','&#112;', '&#114;', '&#115;', '&#116;', '&#118;', '&#120;'), array('d', 'e', 'g', 'i', 'm', 'n', 'p', 'r', 's', 't', 'v', 'x'), $string);
 	}
 }
 

@@ -58,6 +58,7 @@ if($submit) {
 	$post = dstripslashes($post);
 	$post_check = array();
 	if($_E) {
+		if(in_array('thumb', $_E) || in_array('content', $_E)) clear_upload($post['thumb'].$post['content'], $_userid);
 		foreach($_E as $k) {
 			if($post[$k] != $user[$k]) {
 				$post_check[$k] = $post[$k];

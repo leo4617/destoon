@@ -9,14 +9,11 @@ show_menu($menus);
 <input type="hidden" name="file" value="<?php echo $file;?>"/>
 <input type="hidden" name="action" value="<?php echo $action;?>"/>
 <input type="hidden" name="make" value="1"/>
+<input type="hidden" name="first" value="1"/>
 <table cellpadding="2" cellspacing="1" class="tb">
 <tr>
 <td class="tl"><span class="f_red">*</span> 数据表</td>
 <td><input type="text" size="50" name="tb" id="tb" value="<?php echo $DT_PRE;?>member"/></td>
-</tr>
-<tr>
-<td class="tl"><span class="f_red">*</span> 字段名</td>
-<td><input type="text" size="20" name="field" id="field" value="mobile"/></td>
 </tr>
 <tr>
 <td class="tl"><span class="f_red">*</span> SQL条件语句</td>
@@ -58,7 +55,7 @@ function mk(v) {
 <td><input type="text" size="5" name="num" value="1000"/></td>
 </tr>
 <tr>
-<td class="tl">保存文件名</td>
+<td class="tl"><span class="f_hid">*</span> 保存文件名</td>
 <td class="f_gray"><input type="text" size="20" id="title" name="title"/><br/>可填中文(如果服务器支持)，不填则系统自动生成</td>
 </tr>
 </table>

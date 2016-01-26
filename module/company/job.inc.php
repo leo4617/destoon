@@ -36,7 +36,7 @@ if($itemid) {
 	$head_title = $title.$DT['seo_delimiter'].$head_title;
 	$head_keywords = $title.','.$COM['company'];
 	$head_description = dsubstr(strip_tags($content), 200, '...');
-	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].'index.php?moduleid='.$moduleid.'&itemid='.$itemid;
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].mobileurl($moduleid, 0, $itemid, $page);;
 } else {
 	$url = "file=$file";
 	$condition = "username='$username' AND status=3";

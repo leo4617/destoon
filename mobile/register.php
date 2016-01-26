@@ -7,6 +7,7 @@ $moduleid = 2;
 require 'common.inc.php';
 require DT_ROOT.'/module/'.$module.'/common.inc.php';
 !$_userid or dheader('my.php?reload='.$DT_TIME);
+$MOD['enable_register'] or mobile_msg($L['register_msg_close']);
 if($MOD['iptimeout']) {
 	$timeout = $DT_TIME - $MOD['iptimeout']*3600;
 	$r = $db->get_one("SELECT userid FROM {$DT_PRE}member WHERE regip='$DT_IP' AND regtime>'$timeout'");

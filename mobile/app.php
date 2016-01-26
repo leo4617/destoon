@@ -8,6 +8,7 @@ require 'common.inc.php';
 if($action == 'b2b') {
 	if(get_cookie('mobile') != 'b2b') set_cookie('mobile', 'b2b', $DT_TIME + 30*86400);
 	$DT_MOB['browser'] = 'b2b';
+	if(isset($url) && strpos($url, $EXT['mobile_url']) === 0) dheader($url);
 } else {
 	if(get_cookie('mobile') != 'app') set_cookie('mobile', 'app', $DT_TIME + 30*86400);
 	$DT_MOB['browser'] = 'app';
@@ -18,7 +19,7 @@ if($pid > 0) {
 	$result = $db->query("SELECT * FROM {$DT_PRE}ad WHERE pid=$pid AND status=3 AND totime>$DT_TIME ORDER BY listorder ASC,addtime ASC LIMIT 10", 'CACHE');
 	while($r = $db->fetch_array($result)) {
 		$r['image_src'] = linkurl($r['image_src']);
-		$r['url'] = $r['stat'] ? DT_PATH.'/api/redirect.php?aid='.$r['aid'] : linkurl($r['url']);
+		$r['url'] = $r['stat'] ? DT_PATH.'api/redirect.php?aid='.$r['aid'] : linkurl($r['url']);
 		$ads[] = $r;
 	}
 }

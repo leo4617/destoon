@@ -107,6 +107,12 @@ switch($action) {
 				money_add($td['buyer'], $td['money']);
 				money_record($td['buyer'], $td['money'], $L['in_site'], 'system', '订单退款', '单号:'.$itemid.'[网站]');
 				$_msg = '受理成功，交易状态已经改变为 已退款给买家';
+				//更新商品数据 增加库存
+				if($td['mid'] == 16) {
+					$db->query("UPDATE {$DT_PRE}mall SET orders=orders-1,sales=sales-$td[number],amount=amount+$td[number] WHERE itemid=$mallid");
+				} else {
+					$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount+$td[number] WHERE itemid=$mallid");
+				}
 			} else if($status == 4) {//已退款，卖家胜 付款
 				money_add($td['seller'], $td['money']);
 				money_record($td['seller'], $td['money'], $L['in_site'], 'system', '交易成功', '单号:'.$itemid.'[网站]');

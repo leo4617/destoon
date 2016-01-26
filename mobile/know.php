@@ -53,7 +53,7 @@ switch($action) {
 	break;
 	case 'answer':
 		$itemid or dheader(mobileurl($moduleid));
-		$_userid or dheader('login.php?forward='.urlencode('club.php?action='.$action.'&itemid='.$itemid));
+		$_userid or dheader('login.php?forward='.urlencode('know.php?action='.$action.'&itemid='.$itemid));
 		check_group($_groupid, $MOD['group_answer']) or mobile_msg($L['know_msg_right']);
 		$item = $db->get_one("SELECT * FROM {$table} WHERE itemid=$itemid");
 		($item && $item['status'] > 2) or mobile_msg($L['know_msg_not_question']);
@@ -78,7 +78,7 @@ switch($action) {
 			$need_check =  $MOD['check_answer'] == 2 ? $MG['check'] : $MOD['check_answer'];
 			$status = get_status(3, $need_check);
 			$db->query("INSERT INTO {$table}_answer (qid,content,username,addtime,ip,status) VALUES ('$itemid', '$content', '$_username', '$DT_TIME', '$DT_IP', '$status')");			
-			if($status == 3) $db->query("UPDATE {$table} SET answer=answer+1");
+			if($status == 3) $db->query("UPDATE {$table} SET answer=answer+1 WHERE itemid=$itemid");
 			if($MOD['credit_answer'] && $_username && $status == 3) {
 				$could_credit = true;
 				if($MOD['credit_maxanswer'] > 0) {					

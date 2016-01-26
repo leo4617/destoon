@@ -19,7 +19,7 @@ if(in_array($module, $mobile_modules)) {
 		$result = $db->query("SELECT * FROM {$DT_PRE}ad WHERE pid=$pid AND status=3 AND totime>$DT_TIME ORDER BY listorder ASC,addtime ASC LIMIT 10", 'CACHE');
 		while($r = $db->fetch_array($result)) {
 			$r['image_src'] = linkurl($r['image_src']);
-			$r['url'] = $r['stat'] ? DT_PATH.'/api/redirect.php?aid='.$r['aid'] : linkurl($r['url']);
+			$r['url'] = $r['stat'] ? DT_PATH.'api/redirect.php?aid='.$r['aid'] : linkurl($r['url']);
 			$ads[] = $r;
 		}
 	}

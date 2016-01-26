@@ -158,7 +158,7 @@ switch($action) {
 			$do->item_update($post);
 			$t = $db->get_one("SELECT SUM(polls) AS total FROM {$DT_PRE}poll_item WHERE pollid=$itemid");
 			if($t['total'] != $P['poll']) $db->query("UPDATE {$DT_PRE}poll SET polls=$t[total] WHERE itemid=$itemid");
-			dmsg('更新成功', '?moduleid='.$moduleid.'&file='.$file.'&action='.$action.'&itemid='.$itemid);
+			dmsg('更新成功', '?moduleid='.$moduleid.'&file='.$file.'&action='.$action.'&pollid='.$itemid);
 		} else {
 			$sorder  = array('结果排序方式', '投票次数降序', '投票次数升序');
 			$dorder  = array('listorder DESC,itemid DESC', 'polls DESC', 'polls ASC');

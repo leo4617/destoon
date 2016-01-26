@@ -38,6 +38,8 @@ if($action == 'pc') {
 		if(preg_match("/(iPhone|iPod|Android)/i", $_SERVER['HTTP_USER_AGENT'])) dheader($url);
 		if(preg_match("/(Phone|Mobile)/i", $_SERVER['HTTP_USER_AGENT'])) dheader($url);
 	}
+	$ios_app = '';
+	$andriod_app = '';
 	$destoon_task = rand_task();
 	$head_title = $L['mobile_title'];
 	include template('mobile', $module);

@@ -12,6 +12,7 @@ var _del = 0;
 <input type="hidden" name="file" value="<?php echo $file;?>"/>
 <input type="hidden" name="action" value="<?php echo $action;?>"/>
 <input type="hidden" name="itemid" value="<?php echo $itemid;?>"/>
+<input type="hidden" name="pollid" value="<?php echo $pollid;?>"/>
 <table cellpadding="2" cellspacing="1" class="tb">
 <tr>
 <td>&nbsp;
@@ -31,6 +32,7 @@ var _del = 0;
 <input type="hidden" name="file" value="<?php echo $file;?>"/>
 <input type="hidden" name="action" value="<?php echo $action;?>"/>
 <input type="hidden" name="itemid" value="<?php echo $itemid;?>"/>
+<input type="hidden" name="pollid" value="<?php echo $pollid;?>"/>
 <div class="tt">选项管理</div>
 <table cellpadding="2" cellspacing="1" class="tb">
 <tr>

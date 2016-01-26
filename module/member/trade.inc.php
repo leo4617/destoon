@@ -129,6 +129,12 @@ if($action == 'update') {
 					}
 				}
 				//send sms
+				//更新商品数据
+				if($td['mid'] == 16) {
+					$db->query("UPDATE {$DT_PRE}mall SET orders=orders+1,sales=sales+$td[number],amount=amount-$td[number] WHERE itemid=$mallid");
+				} else {
+					$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
+				}
 				message($L['trade_pay_order_success'], '?action=order&itemid='.$itemid, 5);
 			} else {
 				$head_title = $L['trade_pay_order_title'];
@@ -163,6 +169,12 @@ if($action == 'update') {
 				money_add($td['buyer'], $money);
 				money_record($td['buyer'], $money, $L['in_site'], 'system', $L['trade_refund'], $L['trade_order_id'].':'.$itemid.$L['trade_refund_by_seller']);
 				$db->query("UPDATE {$table} SET status=6,editor='$_username',updatetime=$DT_TIME,refund_reason='$content' WHERE itemid=$itemid");
+				//更新商品数据 增加库存
+				if($td['mid'] == 16) {
+					$db->query("UPDATE {$DT_PRE}mall SET orders=orders-1,sales=sales-$td[number],amount=amount+$td[number] WHERE itemid=$mallid");
+				} else {
+					$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount+$td[number] WHERE itemid=$mallid");
+				}
 				message($L['trade_refund_agree_success'], $forward, 3);
 			} else {
 				$head_title = $L['trade_refund_agree_title'];
@@ -210,6 +222,15 @@ if($action == 'update') {
 					}
 				}
 				//send sms
+				
+				//更新商品数据 限货到付款的商品
+				if($td['cod']) {
+					if($td['mid'] == 16) {
+						$db->query("UPDATE {$DT_PRE}mall SET orders=orders+1,sales=sales+$td[number],amount=amount-$td[number] WHERE itemid=$mallid");
+					} else {
+						$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
+					}
+				}
 				message($L['trade_send_success'], $forward, 3);
 			} else {
 				$head_title = $L['trade_send_title'];
@@ -221,12 +242,6 @@ if($action == 'update') {
 			if($td['status'] != 7 || !$td['cod'] || !$td['send_time'] || $td['seller'] != $_username) message($L['trade_msg_deny']);
 			$db->query("UPDATE {$table} SET status=4,updatetime=$DT_TIME WHERE itemid=$itemid");
 			//交易成功
-			//更新商品数据
-			if($td['mid'] == 16) {
-				$db->query("UPDATE {$DT_PRE}mall SET orders=orders+1,sales=sales+$td[number],amount=amount-$td[number] WHERE itemid=$mallid");
-			} else {
-				$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
-			}
 			message($L['trade_success'], $forward, 3);
 			
 		break;
@@ -262,13 +277,6 @@ if($action == 'update') {
 				}
 			}
 			$db->query("UPDATE {$table} SET status=4,updatetime=$DT_TIME WHERE itemid=$itemid");
-			//更新商品数据
-			if($td['mid'] == 16) {
-				$db->query("UPDATE {$DT_PRE}mall SET orders=orders+1,sales=sales+$td[number],amount=amount-$td[number] WHERE itemid=$mallid");
-			} else {
-				$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
-			}
-
 			$touser = $td['seller'];
 			$title = lang($L['trade_message_t4'], array($itemid));
 			$url = $memberurl.'trade.php?itemid='.$itemid;
@@ -297,12 +305,6 @@ if($action == 'update') {
 				}
 			}
 			$db->query("UPDATE {$table} SET status=4,updatetime=$DT_TIME WHERE itemid=$itemid");
-			//更新商品数据
-			if($td['mid'] == 16) {
-				$db->query("UPDATE {$DT_PRE}mall SET orders=orders+1,sales=sales+$td[number],amount=amount-$td[number] WHERE itemid=$mallid");
-			} else {
-				$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
-			}
 			message($L['trade_success'], $forward, 3);
 		break;
 		case 'comment'://交易评价
@@ -441,6 +443,12 @@ if($action == 'update') {
 				}
 			}
 			//send sms
+			//更新商品数据
+			if($td['mid'] == 16) {
+				$db->query("UPDATE {$DT_PRE}mall SET orders=orders+1,sales=sales+$td[number],amount=amount-$td[number] WHERE itemid=$mallid");
+			} else {
+				$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
+			}
 		}
 		message($L['trade_pay_order_success'], '?action=order&status=2', 5);
 	} else {

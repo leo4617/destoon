@@ -71,7 +71,7 @@ if($itemid) {
 			$t = $db->get_one("SELECT content FROM {$content_table} WHERE itemid=$itemid");
 			$content = $t['content'];
 		}
-		if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].'index.php?moduleid='.$moduleid.'&itemid='.$itemid;
+		if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].mobileurl($moduleid, 0, $itemid, $page);;
 	} else {
 		$error = '';
 		if($submit) {

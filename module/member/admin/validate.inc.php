@@ -144,7 +144,7 @@ switch($action) {
 		$t or msg('记录不存在');
 		$U = userinfo($username);
 		$U or msg('会员不存在');
-		$E = unserialize($t['content']);
+		$E = dstripslashes(unserialize($t['content']));
 		$userid = $U['userid'];
 		$content_table = content_table(4, $userid, is_file(DT_CACHE.'/4.part'), $DT_PRE.'company_data');
 		$t = $db->get_one("SELECT * FROM {$content_table} WHERE userid=$userid");
