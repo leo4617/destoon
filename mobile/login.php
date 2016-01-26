@@ -37,6 +37,14 @@ if(isset($_POST['ok'])) {
 	$username or $username = get_cookie('username');
 	(check_name($username) || is_email($username) || is_mobile($username)) or $username = '';
 	if(strpos($forward, '://') === false) $forward = $EXT['mobile_url'].$forward;
+	$OAUTH = cache_read('oauth.php');
+	$oa = 0;
+	foreach($OAUTH as $v) {
+		if($v['enable']) {
+			$oa = 1;
+			break;
+		}
+	}
 	$head_title = $L['member_login'].$DT['seo_delimiter'].$head_title;
 	$foot =  'my';
 	include template('login', 'mobile');

@@ -22,7 +22,13 @@ function file_ext($filename) {
 }
 
 function file_vname($name) {
-	return str_replace(array(' ', '\\', '/', ':', '*', '?', '"', '<', '>', '|', "'", '$', '&', '%', '#', '@'), array('-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), $name);
+	if(strpos($name, '/') === false) return str_replace(array(' ', '\\', ':', '*', '?', '"', '<', '>', '|', "'", '$', '&', '%', '#', '@'), array('-', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''), $name);
+	$tmp = explode('/', $name);
+	$str = '';
+	foreach($tmp as $k=>$v) {
+		$str .= ($k ? '/' : '').file_vname($v);
+	}
+	return $str;
 }
 
 function file_down($file, $filename = '', $data = '') {

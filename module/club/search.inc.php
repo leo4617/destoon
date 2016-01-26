@@ -8,11 +8,8 @@ require DT_ROOT.'/include/post.func.php';
 include load('search.lang');
 $CP = $MOD['cat_property'] && $catid && $CAT['property'];
 (isset($username) && check_name($username)) or $username = '';
-
-
 $thumb = isset($thumb) ? intval($thumb) : 0;
 $level = isset($level) ? intval($level) : 0;
-
 if(!$areaid && $cityid && strpos($DT_URL, 'areaid') === false) {
 	$areaid = $cityid;
 	$ARE = $AREA[$cityid];
@@ -25,8 +22,6 @@ $totime = $todate ? strtotime($todate.' 23:59:59') : 0;
 $category_select = ajax_category_select('catid', $L['all_category'], $catid, $moduleid);
 $area_select = ajax_area_select('areaid', $L['all_area'], $areaid);
 $tags = array();
-
-
 $pagesize = $MOD['pagesize'];
 $offset = ($page-1)*$pagesize;
 if($DT_QST) {
@@ -42,7 +37,7 @@ if($DT_QST) {
 	if($action == 'group') {
 		$condition = 'status=3';
 		if($keyword) $condition .= " AND title LIKE '%$keyword%'";
-		if($username) $condition .= " AND passport='$username'";
+		if($catid) $condition .= ($CAT['child']) ? " AND catid IN (".$CAT['arrchildid'].")" : " AND catid=$catid";
 		$items = $db->count($table.'_group', $condition, $DT['cache_search']);
 		$pages = pages($items, $page, $pagesize);
 		if($items) {
@@ -101,14 +96,11 @@ if($DT_QST) {
 		}
 		$condition = 'status=3';
 		if($keyword) $condition .= " AND keyword LIKE '%$keyword%'";
-		if($catid) $condition .= ($CAT['child']) ? " AND catid IN (".$CAT['arrchildid'].")" : " AND catid=$catid";
-		if($areaid) $condition .= ($ARE['child']) ? " AND areaid IN (".$ARE['arrchildid'].")" : " AND areaid=$areaid";
-		if($thumb) $condition .= " AND thumb<>''";
+		if($username) $condition .= " AND passport='$username'";
 		if($fromtime) $condition .= " AND edittime>=$fromtime";
 		if($totime) $condition .= " AND edittime<=$totime";
-		if($level) $condition .= " AND level=$level";
 
-		if($pptsql) $condition .= $pptsql;//PPT
+		if($pptsql) $condition .= $pptsql;//PPT		
 		require MD_ROOT.'/club.class.php';
 		$do = new club($moduleid);
 		$tags = $do->get_list($condition, $MOD['order'], $DT['cache_search'] ? 'CACHE' : '');
@@ -125,5 +117,13 @@ if($DT_QST) {
 $action or $action = 'post';
 $seo_file = 'search';
 include DT_ROOT.'/include/seo.inc.php';
+if($EXT['mobile_enable']) {
+	if($action == 'post') {
+		$mgid = $tags ? $tags[0]['gid'] : 0;;
+		$head_mobile = $EXT['mobile_url'].($kw ? 'index.php?moduleid='.$moduleid.'&catid='.$mgid.'&kw='.encrypt($kw, DT_KEY.'KW') : 'search.php?action=post'.$mgid);
+	} else if($action == 'group') {
+		$head_mobile = $EXT['mobile_url'].($kw ? 'index.php?moduleid='.$moduleid.'&kw='.encrypt($kw, DT_KEY.'KW') : 'search.php?action=mod'.$moduleid);
+	}
+}
 include template('search', $module);
 ?>

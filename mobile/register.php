@@ -107,7 +107,7 @@ switch($action) {
 			if(max_sms($mobile)) exit('max');
 			$mobilecode = random(6, '0123456789');
 			$_SESSION['mobile'] = $mobile;
-			$_SESSION['mobile_code'] = md5($mobile.'|'.$mobilecode);
+			$_SESSION['mobile_code'] = md5($mobile.'|'.$mobilecode.'|RM');
 			$_SESSION['mobile_time'] = $DT_TIME;
 			$_SESSION['mobile_send'] = $_SESSION['mobile_send'] + 1;
 			$content = lang('sms->sms_code', array($mobilecode, $MOD['auth_days']*10)).$DT['sms_sign'];
@@ -125,7 +125,7 @@ switch($action) {
 			if($_SESSION['email_send'] > 9) exit('max');
 			$emailcode = random(6, '0123456789');
 			$_SESSION['email'] = $email;
-			$_SESSION['email_code'] = md5($email.'|'.$emailcode);
+			$_SESSION['email_code'] = md5($email.'|'.$emailcode.'|RE');
 			$_SESSION['email_time'] = $DT_TIME;
 			$_SESSION['email_send'] = $_SESSION['email_send'] + 1;
 			$title = $L['register_msg_emailcode'];
@@ -144,9 +144,9 @@ switch($action) {
 		$t or exit('ko');
 		$t['groupid'] == 4 or exit('ko');
 		if($verify_type == 'mobile') {
-			$_SESSION['mobile_code'] == md5($t['mobile'].'|'.$code) or exit('ko');
+			$_SESSION['mobile_code'] == md5($t['mobile'].'|'.$code.'|RM') or exit('ko');
 		} else if($verify_type == 'email') {
-			$_SESSION['email_code'] == md5($t['email'].'|'.$code) or exit('ko');
+			$_SESSION['email_code'] == md5($t['email'].'|'.$code.'|RE') or exit('ko');
 		}
 		$db->query("UPDATE {$DT_PRE}member SET groupid='$t[regid]',".($verify_type == 'mobile' ? 'vmobile' : 'vemail')."=1 WHERE username='$username'");
 		$db->query("UPDATE {$DT_PRE}company SET groupid='$t[regid]' WHERE username='$username'");

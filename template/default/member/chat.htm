@@ -199,7 +199,7 @@ $(document).ready(function() {
 	<div class="i_user">
 	<table cellpadding="6" cellspacing="0" width="100%">
 	<tr>
-	<td class="i_user_l"><img src="{useravatar($user[username])}"/></td>
+	<td class="i_user_l"><img src="{useravatar($user[username])}" width="48" height="48"/></td>
 	<td style="line-height:24px;">&nbsp;<strong>{$user[username]}</strong> {if $online == 1}<span class="f_red">ÔÚÏß</span>{else}<span class="f_gray">ÀëÏß</span>{/if}<br/>
 	&nbsp;<a href="{$user[linkurl]}" target="_blank" class="t">{$user[company]}</a>
 	</td>

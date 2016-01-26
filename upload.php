@@ -7,8 +7,27 @@
 require 'common.inc.php';
 if($DT_BOT) dhttp(403);
 $from = isset($from) ? trim($from) : '';
+$width = isset($width) ? intval($width) : 0;
+$height = isset($height) ? intval($height) : 0;
 $swfupload = isset($swfupload) ? 1 : 0;
 $errmsg = '';
+if($swfupload) {//Fix FlashPlayer Bug
+	$swf_userid = intval($swf_userid);
+	if($swf_userid != $_userid && is_md5($swf_auth)) {
+		$swf_groupid = intval($swf_groupid);
+		if($swf_auth == md5($swf_userid.$swf_username.$swf_groupid.$swf_company.DT_KEY.$DT_IP) || $swf_auth == md5($swf_userid.$swf_username.$swf_groupid.convert($swf_company, 'utf-8', DT_CHARSET).DT_KEY.$DT_IP)) {
+			$_userid = $swf_userid;
+			$_username = $swf_username;
+			$_groupid = $swf_groupid;
+			$_company = convert($swf_company, 'utf-8', DT_CHARSET);
+			$MG = cache_read('group-'.$_groupid.'.php');
+		} else {
+			$errmsg = 'Error(0)'.'SWFUpload Denied';
+			if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
+			dalert($errmsg);
+		}
+	}
+}
 $upload_table = $DT_PRE.'upload_'.($_userid%10);
 if(!in_array($from, array('thumb', 'album', 'photo', 'editor', 'attach', 'file'))) {
 	$errmsg = 'Error(1)'.'Access Denied';
@@ -100,6 +119,11 @@ if($do->save()) {
 				$errmsg = 'Error(9)'.lang('message->upload_jpg');
 				if($swfupload) exit(convert($errmsg, DT_CHARSET, 'utf-8'));
 				dalert($errmsg, '', $errjs);
+			}
+		}
+		if($DT['gif_ani'] && $do->ext == 'gif') {
+			if(strpos(file_get(DT_ROOT.'/'.$do->saveto), chr(0x21).chr(0xff).chr(0x0b).'NETSCAPE2.0') !== false) {
+				$DT['max_image'] =  $DT['water_type'] = $width = $height = 0;
 			}
 		}
 		if($DT['bmp_jpg'] && $do->ext == 'bmp') {

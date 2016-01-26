@@ -26,6 +26,7 @@ switch($action) {
 			$img_info or message($L['avatar_img_t']);
 			$img_info[0] >= 128 or message($L['avatar_img_w']);
 			$img_info[1] >= 128 or message($L['avatar_img_h']);
+			$ani = ($ext == 'gif' && strpos(file_get($file), chr(0x21).chr(0xff).chr(0x0b).'NETSCAPE2.0') !== false && $_FILES['upfile']['size'] < 200*1024) ? 1 : 0;
 			$md5 = md5($_userid);
 			$dir = DT_ROOT.'/file/avatar/'.substr($md5, 0, 2).'/'.substr($md5, 2, 2).'/'.$_userid;
 			$img = array();
@@ -38,16 +39,22 @@ switch($action) {
 			$img[5] = $dir.'x48.jpg';
 			$img[6] = $dir.'x20.jpg';
 			require DT_ROOT.'/include/image.class.php';
-			$image = new image($file);
-			$image->thumb(128, 128);
+			if(!$ani) {
+				$image = new image($file);
+				$image->thumb(128, 128);
+			}
 			file_copy($file, $img[1]);
 			file_copy($file, $img[4]);
-			$image = new image($file);
-			$image->thumb(48, 48);
+			if(!$ani) {
+				$image = new image($file);
+				$image->thumb(48, 48);
+			}
 			file_copy($file, $img[2]);
 			file_copy($file, $img[5]);
-			$image = new image($file);
-			$image->thumb(20, 20);
+			if(!$ani) {
+				$image = new image($file);
+				$image->thumb(20, 20);
+			}
 			file_copy($file, $img[3]);
 			file_copy($file, $img[6]);
 			file_del($file);

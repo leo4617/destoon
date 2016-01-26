@@ -87,7 +87,7 @@ class news {
         $sqlv = substr($sqlv, 1);
 		$this->db->query("INSERT INTO {$this->table} ($sqlk) VALUES ($sqlv)");
 		$this->itemid = $this->db->insert_id();
-		$this->db->query("INSERT INTO {$this->table_data} (itemid,content) VALUES ('$this->itemid', '$post[content]')");		
+		$this->db->query("REPLACE INTO {$this->table_data} (itemid,content) VALUES ('$this->itemid', '$post[content]')");		
 		$this->update($this->itemid);
 		if($post['username'] && $MOD['credit_add_news']) {
 			credit_add($post['username'], $MOD['credit_add_news']);

@@ -816,6 +816,14 @@ function TestFTP() {
 </td>
 </tr>
 <tr>
+<td class="tl">GIF图片保留动画</td>
+<td>
+<input type="radio" name="setting[gif_ani]" value="1"  <?php if($gif_ani==1){ ?>checked <?php } ?> /> 开启&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio" name="setting[gif_ani]" value="0"  <?php if($gif_ani==0){ ?>checked <?php } ?> /> 关闭
+<?php tips('开启之后，系统对有动画效果的GIF图片不添加水印或缩略');?>
+</td>
+</tr>
+<tr>
 <td class="tl">产品大图加公司名水印</td>
 <td>
 <input type="radio" name="setting[water_com]" value="1"  <?php if($water_com==1){ ?>checked <?php } ?> /> 开启&nbsp;&nbsp;&nbsp;&nbsp;

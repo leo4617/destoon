@@ -480,7 +480,7 @@
 	<tr>
 	<td class="tl"> </td>
 	<td class="tr">
-	<input type="submit" name="submit" value=" 确 定 " class="btn_g"/>&nbsp;&nbsp;<input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
+	<input type="submit" name="submit" value=" 立即支付 " class="btn_g"/>&nbsp;&nbsp;<input type="button" value=" 返 回 " class="btn" onclick="history.back(-1);"/>
 	</td>
 	</tr>
 	</table>
@@ -489,7 +489,7 @@
 	var total = {$money};
 	function check() {
 		if(total > {$_money}) {
-			if(confirm('账户余额不足，是否现在充值？')) Go('charge.php?action=pay&reason=trade|{$itemid}&amount='+(total-{$_money}));
+			Go('charge.php?action=pay&reason=trade|{$itemid}&amount='+(total-{$_money}));
 			return false;
 		}
 		if(Dd('password').value.length < 6) {
@@ -1008,7 +1008,7 @@
 {/if}
 <tr>
 <td class="tl">&nbsp;</td>
-<td class="tr" height="50"><input type="submit" name="submit" value=" 批量付款 " class="btn_g"/></td>
+<td class="tr" height="50"><input type="submit" name="submit" value=" 立即支付 " class="btn_g"/></td>
 </tr>
 </table>
 </form>
@@ -1043,7 +1043,7 @@ function check() {
 				k += k ? ','+itemid : itemid;
 			}
 		}
-		if(confirm('账户余额不足，是否现在充值？')) Go('charge.php?action=pay&reason=trades|'+k+'&amount='+(total - {$_money}));
+		Go('charge.php?action=pay&reason=trades|'+k+'&amount='+(total - {$_money}));
 		return false;
 	}
 	var f,l;

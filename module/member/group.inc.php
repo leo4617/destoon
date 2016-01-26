@@ -117,9 +117,16 @@ if($action == 'update') {
 		case 'pay'://Âò¼Ò¸¶¿î
 			if($td['status'] != 6 || $td['buyer'] != $_username) message($L['group_msg_deny']);
 			$money = $td['amount'];
+			$money > 0 or message($L['group_msg_deny']);
 			$seller = userinfo($td['seller']);
+			$auto = 0;
+			$auth = isset($auth) ? dround(decrypt($auth, DT_KEY.'CG')) : '';
+			if($auth && $_money >= $money && $auth <= $money && $auth >= dround($money*0.5)) $auto = $submit = 1;
 			if($submit) {
-				is_payword($_username, $password) or message($L['error_payword']);
+				if(!$auto) {
+					is_payword($_username, $password) or message($L['error_payword']);
+				}
+				$_money >= $money or message($L['money_not_enough']);
 				money_add($_username, -$money);
 				money_record($_username, -$money, $L['in_site'], 'system', $L['group_order_credit'], $L['trade_order_id'].$itemid);
 				$password = $td['logistic'] ? '' : random(6, '0123456789');
@@ -134,7 +141,7 @@ if($action == 'update') {
 					//send sms
 				}
 				$db->query("UPDATE {$DT_PRE}group SET orders=orders+1,sales=sales+$td[number] WHERE itemid=$td[gid]");
-				message($L['group_pay_order_success'], '?action=order&itemid='.$itemid, 5);
+				dmsg($L['group_pay_order_success'], '?action=order&nav=0&itemid='.$itemid);
 			} else {
 				$head_title = $L['group_pay_order_title'];
 			}

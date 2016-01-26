@@ -53,6 +53,7 @@ if($MOD['reply_pagesize']) {
 if($page == 1) {
 	$items = $db->count($table.'_reply', "tid=$itemid AND status=3");
 	if($items != $reply) $update .= ",reply='$items'";
+	if($GRP['areaid'] != $item['areaid']) $update .= ",areaid='$GRP[areaid]'";
 } else {
 	$items = $reply;
 }

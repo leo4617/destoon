@@ -11,7 +11,7 @@
 .channel ul {width:10000px;}
 .channel li {height:42px;line-height:42px;padding:0 10px;border-bottom:#EFEFF4 2px solid;float:left;}
 .channel .on {border-bottom:#007AFF 2px solid;color:#007AFF;}
-.channel_fix {position:fixed;z-index:9;left:0;top:{if $DT_MOB[browser]=='b2b'}58{else}38{/if}px;right:0;border-top:#A7A7AA 0.5px solid;}
+.channel_fix {position:fixed;z-index:9;left:0;top:{if $DT_MOB[browser]=='b2b'&&$DT_MOB[os]=='ios'}58{else}38{/if}px;right:0;border-top:#A7A7AA 0.5px solid;}
 #main {background:#FFFFFF;}
 .spin-more,.spin-load {height:44px;background:#FFFFFF url('static/img/spinner.gif') no-repeat center center;background-size:16px 16px;display:none;}
 .home-search {text-align:center;padding:10px;}
@@ -87,7 +87,7 @@ function Dmenu(i) {
 	C = i;
 	$('#m_'+C).addClass('on');
 	P = 1;
-	$('html, body').animate({scrollTop:$('#segment').offset().top-{if $DT_MOB[browser]=='b2b'}108{else}88{/if}}, 500);
+	$('html, body').animate({scrollTop:$('#segment').offset().top-{if $DT_MOB[browser]=='b2b'&&$DT_MOB[os]=='ios'}108{else}88{/if}}, 500);
 	$('#channel').addClass('channel_fix');
 	Dload();
 }

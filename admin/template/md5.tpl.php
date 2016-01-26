@@ -31,7 +31,7 @@ show_menu($menus);
 </table>
 
 <?php } else { ?>
-<form method="post">
+<form method="post" id="dform">
 <div class="tt">文件校验</div>
 <table cellpadding="6" cellspacing="1" class="tb">
 <tr>
@@ -44,6 +44,11 @@ show_menu($menus);
 <?php if($k%4==3) {?></tr><?php } ?>
 <?php } ?>
 </table>
+<div>&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dform'), 1);" class="t">反选</a>&nbsp;&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dform'), 2);" class="t">全选</a>&nbsp;&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dform'), 3);" class="t">全不选</a>&nbsp;&nbsp;
+</div>
 </td>
 </tr>
 <tr>
@@ -68,7 +73,7 @@ show_menu($menus);
 </tr>
 </table>
 </form>
-<form method="post" action="?">
+<form method="post" action="?" id="dmd5">
 <input type="hidden" name="file" value="<?php echo $file;?>"/>
 <input type="hidden" name="action" value="add"/>
 <div class="tt">创建镜像</div>
@@ -83,6 +88,11 @@ show_menu($menus);
 <?php if($k%4==3) {?></tr><?php } ?>
 <?php } ?>
 </table>
+<div>&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dmd5'), 1);" class="t">反选</a>&nbsp;&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dmd5'), 2);" class="t">全选</a>&nbsp;&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dmd5'), 3);" class="t">全不选</a>&nbsp;&nbsp;
+</div>
 </td>
 </tr>
 <tr>

@@ -40,7 +40,7 @@ show_menu($menus);
 </tr>
 <?php foreach($lists as $k=>$v) {?>
 <tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
-<td><img src="<?php echo useravatar($v['username']);?>" style="padding:5px;"/></td>
+<td><img src="<?php echo useravatar($v['username']);?>" style="padding:5px;" width="48" height="48"/></td>
 <td><a href="javascript:_user('<?php echo $v['username'];?>')"><?php echo $v['username'];?></a></td>
 <td><?php echo $v['online'] ? '<span class="f_green">ÔÚÏß</span>' : '<span class="f_gray">ÒşÉí</span>';?></td>
 <td><a href="<?php echo $MODULE[$v['moduleid']]['linkurl'];?>" target="_blank"><?php echo $MODULE[$v['moduleid']]['name'];?></a></td>

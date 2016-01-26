@@ -394,9 +394,6 @@ class member {
 		}
 		if($user['groupid'] == 2) return $this->_($L['member_login_member_ban']);
 		$userid = $user['userid'];
-
-		if(isset($MODULE[16])) $this->cart($userid);
-
 		if($MOD['credit_login'] > 0 && timetodate($DT_TIME, 3) != timetodate($user['logintime'], 3)) {
 			credit_add($login_username, $MOD['credit_login']);
 			credit_record($login_username, $MOD['credit_login'], 'system', $L['member_record_login'], $DT_IP);
@@ -406,6 +403,8 @@ class member {
 		set_cookie('auth', $auth, $cookietime);
 		set_cookie('username', $user['username'], $DT_TIME + 30*86400);
 		$this->db->query("UPDATE {$this->table_member} SET loginip='$DT_IP',logintime=$DT_TIME,logintimes=logintimes+1 WHERE userid=$userid");
+		if(isset($MODULE[16])) $this->cart($userid);
+		$this->bind($user['username'], $DT_TIME);
 		return $user;
 	}
 
@@ -415,6 +414,19 @@ class member {
 		if($r && $r['data']) {
 			$cart = unserialize($r['data']);
 			set_cookie('cart', count($cart), $DT_TIME + 30*86400);
+		}
+	}
+
+	function bind($username, $addtime) {
+		$auth = get_cookie('bind');
+		if($auth) {
+			set_cookie('bind', '');
+			$auth = decrypt($auth, DT_KEY.'BIND');
+			if(strpos($auth, '|') !== false) {
+				$t = explode('|', $auth);
+				$itemid = intval($t[0]);
+				$this->db->query("UPDATE {$this->db->pre}oauth SET username='$username',addtime='$addtime' WHERE itemid=$itemid");
+			}
 		}
 	}
 

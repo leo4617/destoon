@@ -5,6 +5,7 @@ $names = array (
   'announce' => '网站公告',
   'area' => '地区',
   'article' => '文章模块',
+  'bind' => '帐号绑定',
   'brand' => '品牌模块',
   'buy' => '求购模块',
   'cart' => '购物车',

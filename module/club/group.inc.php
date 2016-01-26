@@ -31,24 +31,17 @@ if($typeid) {
 		break;
 	}
 }
-if($cityid) {
-	$areaid = $cityid;
-	$ARE = $AREA[$cityid];
-	$condition .= $ARE['child'] ? " AND areaid IN (".$ARE['arrchildid'].")" : " AND areaid=$areaid";
+if($typeid) {
 	$items = $db->count($table, $condition, $CFG['db_expires']);
 } else {
-	if($typeid) {
+	if($page == 1) {
 		$items = $db->count($table, $condition, $CFG['db_expires']);
-	} else {
-		if($page == 1) {
-			$items = $db->count($table, $condition, $CFG['db_expires']);
-			if($items != $GRP['post']) {
-				$GRP['post'] = $items;
-				$db->query("UPDATE {$table}_group SET post=$items WHERE itemid=$catid");
-			}
-		} else {
-			$items = $GRP['post'];
+		if($items != $GRP['post']) {
+			$GRP['post'] = $items;
+			$db->query("UPDATE {$table}_group SET post=$items WHERE itemid=$catid");
 		}
+	} else {
+		$items = $GRP['post'];
 	}
 }
 $pagesize = $MOD['pagesize'];

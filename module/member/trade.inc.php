@@ -95,10 +95,17 @@ if($action == 'update') {
 			if($td['status'] == 0) message($L['trade_msg_confirm'], '?action=update&step=detail&itemid='.$itemid);
 			if($td['status'] != 1 || $td['buyer'] != $_username) message($L['trade_msg_deny']);
 			$money = $td['amount'] + $td['fee'];
+			$money > 0 or message($L['trade_msg_deny']);
 			$seller = userinfo($td['seller']);
 			if($DT['trade']) exit(include DT_ROOT.'/api/trade/'.$DT['trade'].'/update.inc.php');
+			$auto = 0;
+			$auth = isset($auth) ? dround(decrypt($auth, DT_KEY.'CG')) : '';
+			if($auth && $_money >= $money && $auth <= $money && $auth >= dround($money*0.5)) $auto = $submit = 1;
 			if($submit) {
-				is_payword($_username, $password) or message($L['error_payword']);
+				if(!$auto) {
+					is_payword($_username, $password) or message($L['error_payword']);
+				}
+				$_money >= $money or message($L['money_not_enough']);
 				money_add($_username, -$money);
 				money_record($_username, -$money, $L['in_site'], 'system', $L['trade_pay_order_title'], $L['trade_order_id'].$itemid);
 				$db->query("UPDATE {$table} SET status=2,updatetime=$DT_TIME WHERE itemid=$itemid");
@@ -135,7 +142,7 @@ if($action == 'update') {
 				} else {
 					$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
 				}
-				message($L['trade_pay_order_success'], '?action=order&itemid='.$itemid, 5);
+				dmsg($L['trade_pay_order_success'], '?action=order&nav=2&itemid='.$itemid);
 			} else {
 				$head_title = $L['trade_pay_order_title'];
 			}
@@ -402,8 +409,8 @@ if($action == 'update') {
 	}
 } else if($action == 'muti') {//ÅúÁ¿¸¶¿î
 	if($submit) {
-		($itemid && is_array($itemid)) or message($L['trade_msg_muti_choose']);
 		is_payword($_username, $password) or message($L['error_payword']);
+		($itemid && is_array($itemid)) or message($L['trade_msg_muti_choose']);
 		$itemids = implode(',', $itemid);
 		$condition = "buyer='$_username' AND status=1 AND itemid IN ($itemids)";
 		$result = $db->query("SELECT * FROM {$table} WHERE $condition ORDER BY itemid DESC LIMIT 50");
@@ -450,7 +457,7 @@ if($action == 'update') {
 				$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount-$td[number] WHERE itemid=$mallid");
 			}
 		}
-		message($L['trade_pay_order_success'], '?action=order&status=2', 5);
+		dmsg($L['trade_pay_order_success'], '?action=order&nav=2');
 	} else {
 		$ids = isset($ids) ? explode(',', $ids) : array();
 		if($ids) $ids = array_map('intval', $ids);

@@ -11,23 +11,21 @@ function fontZoom(z, i) {
 	$('#'+i).css('font-size', new_size+'px');
 	$('#'+i+' *').css('font-size', new_size+'px');
 }
-function ImgZoom(i, m) {
-	var m = m ? m : 550; var w = i.width;
-	if(w < m) {
-		//i.className = '';
-	} else {
-		var h = i.height;
-		i.height = parseInt(h*m/w);
-		i.width = m;
-		i.title = L['click_open'];
-		i.onclick = function (e) {window.open(DTPath+'api/view.php?img='+i.src);}
-	}
-}
-window.onload = function() {
+$(document).ready(function(){
 	try {
-	var Imgs = content_id ? Dd(content_id).getElementsByTagName("img") : $('img');
-	for(var i=0;i<Imgs.length;i++) {ImgZoom(Imgs[i], img_max_width);}
-	var Links = Dd(content_id).getElementsByTagName("a");
-	for(var i=0;i<Links.length;i++)	{if(Links[i].target != '_blank') {if(document.domain && Links[i].href.indexOf(document.domain) == -1) Links[i].target = '_blank';}}
+		$(content_id ? '#'+content_id+' img' : 'img').each(function(i){
+			var m = img_max_width ? img_max_width : 550;
+			var w = $(this).width();
+			if(w >= m) {
+				$(this).css({'width':m+'px','height':parseInt($(this).height()*m/w)+'px'});
+				$(this).attr('title', L['click_open']);
+				$(this).click(function(){window.open(DTPath+'api/view.php?img='+$(this).attr('src'));});
+			}
+		});
+		if(CKDomain) {
+			$('#'+(content_id ? content_id : 'content')+' a').each(function(i){
+				if($(this).attr('target') != '_blank') {if($(this).attr('href').indexOf(CKDomain) == -1) $(this).attr('target', '_blank');}
+			});
+		}
 	} catch(e) {}
-}
+});

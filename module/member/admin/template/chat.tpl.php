@@ -39,7 +39,7 @@ show_menu($menus);
 <?php foreach($lists as $k=>$v) {?>
 <tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
 <td><input type="checkbox" name="chatid[]" value="<?php echo $v['chatid'];?>"/></td>
-<td><img src="<?php echo useravatar($v['fromuser']);?>" style="padding:5px;"/></td>
+<td><img src="<?php echo useravatar($v['fromuser']);?>" style="padding:5px;" width="48" height="48"/></td>
 <td>
 <?php if(check_name($v['fromuser'])) { ?>
 <a href="javascript:_user('<?php echo $v['fromuser'];?>')"><?php echo $v['fromuser'];?></a>
@@ -49,7 +49,7 @@ show_menu($menus);
 </td>
 <td class="px11"><?php echo $v['fnew'];?></td>
 <td class="px11"><?php echo timetodate($v['freadtime'], 6);?></td>
-<td><img src="<?php echo useravatar($v['touser']);?>" style="padding:5px;"/></td>
+<td><img src="<?php echo useravatar($v['touser']);?>" style="padding:5px;" width="48" height="48"/></td>
 <td><a href="javascript:_user('<?php echo $v['touser'];?>')"><?php echo $v['touser'];?></a></td>
 <td class="px11"><?php echo $v['tnew'];?></td>
 <td class="px11"><?php echo timetodate($v['treadtime'], 6);?></td>

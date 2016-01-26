@@ -17,7 +17,6 @@ $L['msg_no_right'] = '无权浏览的页面';
 $L['msg_no_search'] = '无权搜索';
 $L['msg_error'] = '出错了，请重试';
 
-
 $L['about_title'] = '关于网站';
 $L['address_title'] = '收货地址';
 $L['address_add'] = '创建地址';
@@ -113,4 +112,7 @@ $L['com_sell'] = '产品展示';
 $L['com_type_sell'] = '产品分类';
 $L['com_type_mall'] = '商品分类';
 $L['com_type_news'] = '新闻分类';
+
+#R20151125+
+$L['bind_title'] = '帐号绑定';
 ?>

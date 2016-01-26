@@ -12,7 +12,7 @@ include tpl('header');
 </tr>
 <?php foreach($lists as $k=>$v) {?>
 <tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
-<td><img src="<?php echo useravatar($v['name']);?>" style="padding:5px;"/></td>
+<td><img src="<?php echo useravatar($v['name']);?>" style="padding:5px;" width="48" height="48"/></td>
 <td>
 <?php if(check_name($v['name'])) { ?>
 <a href="javascript:_user('<?php echo $v['name'];?>')"><?php echo $v['name'];?></a>

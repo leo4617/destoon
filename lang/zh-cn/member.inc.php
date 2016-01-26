@@ -23,8 +23,6 @@ $L['limit_add'] = '最多可添加{V0}条记录,当前已添加{V1}条记录';
 $L['default_type'] = '默认';
 $L['all_type'] = '所有分类';
 $L['choose_type'] = '请选择分类';
-$L['check_auth'] = '您的请求未通过系统验证';//global.func
-$L['auth_time'] = '您的请求已经过期';
 $L['check_sign'] = '数据校验失败';
 $L['goto'] = '转到';
 $L['job_name'] = '招聘';
@@ -475,4 +473,10 @@ $L['vip_record'] = '{V0}年,{V1}到期';
 $L['weixin_title'] = '微信关注';
 $L['weixin_push_open'] = '开启成功';
 $L['weixin_push_close'] = '关闭成功';
+
+#R20151125+
+$L['send_too_many'] = '尝试次数过多，请稍后再试';
+$L['send_too_quick'] = '发送频率过快，请稍后再试';
+$L['send_bad_email'] = '邮件地址不存在';
+$L['send_bad_mobile'] = '认证手机号码不存在';
 ?>

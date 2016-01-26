@@ -125,7 +125,7 @@ if($itemid) {
 		$back_link = mobileurl($moduleid);
 		if($kw) {
 			$back_link = mobileurl($moduleid, $catid);
-			$head_name = $L['club_post_search'];
+			$head_name = $L['club_post'];
 			$head_title = $kw.$DT['seo_delimiter'].$head_title;
 		} else {
 			$head_name = $GRP['title'].$MOD['seo_name'];

@@ -118,6 +118,7 @@ switch($action) {
 		$could_color = check_group($_groupid, $MOD['group_color']) && $MOD['credit_color'] && $_userid;
 
 		if($submit) {
+			$post['credit'] = abs(intval($post['credit']));
 			if($post['credit'] && $post['credit'] > $_credit) dalert($L['balance_lack']);
 			if(isset($post['hidden']) && $post['credit'] + $MOD['credit_hidden'] > $_credit) dalert($L['balance_lack']);
 			if($fee_add && $fee_add > ($fee_currency == 'money' ? $_money : $_credit)) dalert($L['balance_lack']);

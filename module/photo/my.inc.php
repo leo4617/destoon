@@ -185,7 +185,6 @@ switch($action) {
 		$do->itemid = $itemid;
 		$item = $do->get_one();
 		if(!$item || $item['username'] != $_username) message();
-
 		if(isset($update)) {
 			$thumb = '';
 			if($swf_upload) {
@@ -196,7 +195,10 @@ switch($action) {
 					}
 				}
 			}
-			$do->item_update($post);
+			$do->item_update($post);			
+			$need_check =  $MOD['check_add'] == 2 ? $MG['check'] : $MOD['check_add'];
+			$status = get_status($item['status'], $need_check);
+			if($status != $item['status']) $db->query("UPDATE {$table} SET status=$status WHERE itemid=$itemid");
 			$session = new dsession();
 			$_SESSION['uploads'] = array();
 			if($MOD['show_html']) tohtml('show', $module);

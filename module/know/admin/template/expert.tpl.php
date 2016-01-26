@@ -41,7 +41,7 @@ show_menu($menus);
 <?php foreach($lists as $k=>$v) {?>
 <tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
 <td><input type="checkbox" name="itemid[]" value="<?php echo $v['itemid'];?>"/></td>
-<td><img src="<?php echo useravatar($v['username']);?>" alt="" style="padding:5px;"/></a></td>
+<td><img src="<?php echo useravatar($v['username']);?>" alt="" style="padding:5px;" width="48" height="48"/></a></td>
 <td><a href="<?php echo $v['linkurl'];?>" target="_blank"><?php echo $v['title'];?></a></td>
 <td><a href="javascript:_user('<?php echo $v['username'];?>');"><?php echo $v['passport'];?></a></td>
 <td><?php echo $v['major'];?></td>

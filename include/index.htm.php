@@ -25,6 +25,7 @@ if(!$DT['index_html']) {
 	if(is_file($filename)) unlink($filename);
 	return false;
 }
+if(!$db->linked) return false;
 $destoon_task = "moduleid=1&html=index";
 $AREA = cache_read('area.php');
 if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'];

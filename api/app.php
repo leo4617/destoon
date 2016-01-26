@@ -5,7 +5,7 @@
 */
 $_COOKIE = array();
 require '../common.inc.php';
-isset($v) or $v = '';
+$v = isset($_GET['v']) ? $_GET['v'] : '';
 $url = $EXT['mobile_url'];
 if($v == 'i') {
 	if(preg_match("/^([0-9]{1,})@([a-z0-9]{16,})$/i", $EXT['mobile_ios'])) {

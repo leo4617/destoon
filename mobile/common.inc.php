@@ -5,12 +5,12 @@
 */
 define('DT_MOBILE', true);
 require substr(str_replace("\\", '/', dirname(__FILE__)), 0, -7).'/common.inc.php';
+$UA = strtoupper($_SERVER['HTTP_USER_AGENT']);
+if(strpos($UA, 'WINDOWS NT') !== false && !DT_DEBUG) dheader($EXT['mobile_url'].'mobile.php?action=device');
 if(DT_CHARSET != 'UTF-8') header("Content-type:text/html; charset=utf-8");
 require DT_ROOT.'/mobile/include/global.func.php';
 include load('mobile.lang');
 $EXT['mobile_enable'] or mobile_msg($L['msg_mobile_close']);
-$UA = strtoupper($_SERVER['HTTP_USER_AGENT']);
-if(strpos($UA, 'WINDOWS NT') !== false && !DT_DEBUG) dheader($EXT['mobile_url'].'mobile.php?action=device');
 $_mobile = get_cookie('mobile');
 if($_mobile == '' || $_mobile == 'pc') {
 	set_cookie('mobile', 'touch', $DT_TIME + 30*86400);

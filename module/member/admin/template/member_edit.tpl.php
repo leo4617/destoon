@@ -17,9 +17,8 @@ load('profile.js');
 <table cellpadding="2" cellspacing="1" class="tb">
 <tr>
 <td class="tl"><span class="f_hid">*</span> 会员头像</td>
-<td><img src="<?php echo useravatar($username, 'large');?>" style="margin:6px;"/></td>
+<td><img src="<?php echo useravatar($username, 'large');?>" style="margin:6px;" width="128" height="128"/></td>
 </tr>
-
 <tr>
 <td class="tl"><span class="f_hid">*</span> 会员登录名</td>
 <td><strong><?php echo $username;?></strong>&nbsp;&nbsp;<a href="?moduleid=<?php echo $moduleid;?>&username=<?php echo urlencode($username);?>&catid=1#editusername" class="t">[修改会员名]</a></td>

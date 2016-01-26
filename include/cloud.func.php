@@ -7,7 +7,7 @@ defined('IN_DESTOON') or exit('Access Denied');
 function dcloud($url) {
 	$arr = explode('->', $url);
 	$url = 'http://cloud.destoon.com/'.$arr[0].'/';
-	$par = $arr[1].'&version='.DT_VERSION.'&release='.DT_RELEASE.'&charset='.DT_CHARSET.'&uid='.DT_CLOUD_UID.'&auth='.encrypt($arr[1], DT_CLOUD_KEY);
+	$par = $arr[1].'&version='.DT_VERSION.'&release='.DT_RELEASE.'&charset='.DT_CHARSET.'&domain='.(DT_DOMAIN ? DT_DOMAIN : DT_PATH).'&uid='.DT_CLOUD_UID.'&auth='.encrypt($arr[1], DT_CLOUD_KEY);
 	return dcurl($url, $par);
 }
 

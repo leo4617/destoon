@@ -16,7 +16,7 @@
 	<ul>
 	{if $item[hidden]}
 	<li><strong>匿名</strong></li>
-	<li><img src="{useravatar('', 'large')}" alt=""/></li>
+	<li><img src="{useravatar('', 'large')}" alt="" width="128" height="128"/></li>
 	{else}
 	<li>
 		{if $item[username]}
@@ -25,7 +25,7 @@
 		<strong title="{hide_ip($item[ip])}">游客</strong>
 		{/if}
 	</li>
-	<li><img src="{useravatar($item[username], 'large')}" alt=""/></li>
+	<li><img src="{useravatar($item[username], 'large')}" alt="" width="128" height="128"/></li>
 	{if $item[username] && $DT[im_web]}<li>{im_web($item[username], 1)}</li>{/if}
 	{/if}
 	<li></li>
@@ -76,14 +76,14 @@
 	<ul>
 	{if $E}
 		<li><a href="{$MOD[linkurl]}{rewrite('expert.php?itemid='.$E['itemid'])}" target="_blank" class="b"><strong>{$E[title]}</strong></a></li>
-		<li><img src="{useravatar($E[username], 'large')}" alt=""/></li>
+		<li><img src="{useravatar($E[username], 'large')}" alt="" width="128" height="128"/></li>
 		{if $DT[im_web]}<li>{im_web($E[username], 1)}</li>{/if}
 		<li class="f_red">知道专家</li>
 		<li title="擅长领域：{$E[major]}"><a href="{$MODULE[2][linkurl]}{$DT[file_my]}?mid=10&action=add&askto={$E[username]}" target="_blank" class="b">向TA提问</a></li>
 	{else}
 		{if $best[hidden]}
 		<li><strong>匿名</strong></li>
-		<li><img src="{useravatar('', 'large')}" alt=""/></li>
+		<li><img src="{useravatar('', 'large')}" alt="" width="128" height="128"/></li>
 		{else}
 		<li>
 			{if $best[username]}
@@ -92,7 +92,7 @@
 			<strong title="{hide_ip($best[ip])}">游客</strong>
 			{/if}
 		</li>
-		<li><img src="{useravatar($best[username], 'large')}" alt=""/></li>
+		<li><img src="{useravatar($best[username], 'large')}" alt="" width="128" height="128"/></li>
 		{if $best[username] && $DT[im_web]}<li>{im_web($best[username], 1)}</li>{/if}
 		{/if}
 	{/if}
@@ -160,7 +160,7 @@ function V(op, nm) {
 		<ul>
 		{if $v[hidden]}
 		<li id="u_{$v[itemid]}"><strong>匿名</strong></li>
-		<li><img src="{useravatar('', 'large')}" alt=""/></li>
+		<li><img src="{useravatar('', 'large')}" alt="" width="128" height="128"/></li>
 		{else}
 		<li id="u_{$v[itemid]}">
 			{if $v[username]}
@@ -169,7 +169,7 @@ function V(op, nm) {
 			<strong title="{hide_ip($item[ip])}">游客</strong>
 			{/if}
 		</li>
-		<li><img src="{useravatar($v[username], 'large')}" alt=""/></li>
+		<li><img src="{useravatar($v[username], 'large')}" alt="" width="128" height="128"/></li>
 		{if $v[username] && $DT[im_web]}<li>{im_web($v[username], 1)}</li>{/if}
 		{/if}
 		{if $v[expert]}<li class="f_red">知道专家</li>{/if}

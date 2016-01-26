@@ -62,10 +62,10 @@ switch($action) {
 	case 'run':
 		$itemid or msg();
 		$do->itemid = $itemid;
-		$r = $do->get_one();
-		$r or msg('任务不存在');
-		include DT_ROOT.'/api/cron/'.$r['name'].'.inc.php';
-		$nexttime = $do->nexttime($r['schedule'], $DT_TIME);
+		$cron = $do->get_one();
+		$cron or msg('任务不存在');
+		include DT_ROOT.'/api/cron/'.$cron['name'].'.inc.php';
+		$nexttime = $do->nexttime($cron['schedule'], $DT_TIME);
 		$db->query("UPDATE {$DT_PRE}cron SET lasttime=$DT_TIME,nexttime=$nexttime WHERE itemid=$itemid");
 		dmsg('运行成功', $forward);
 	break;

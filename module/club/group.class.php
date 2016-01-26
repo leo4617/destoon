@@ -11,7 +11,7 @@ class group {
 		global $db;
 		$this->table = $db->pre.'club_group';
 		$this->db = &$db;
-		$this->fields = array('catid', 'title','level','style','thumb','filepath','content','template','show_template','join_type','list_type', 'show_type','post_type','reply_type','status','manager','reason','username','addtime','editor','edittime');
+		$this->fields = array('catid','areaid','title','level','style','thumb','filepath','content','template','show_template','join_type','list_type','show_type','post_type','reply_type','status','manager','reason','username','addtime','editor','edittime');
     }
 
 	function pass($post) {

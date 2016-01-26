@@ -46,7 +46,7 @@ class db_mysqlrw {
 		if($version > '4.1' && $dbcharset) mysql_query(IN_ADMIN ? "SET NAMES '".$dbcharset."'" : "SET character_set_connection=".$dbcharset.", character_set_results=".$dbcharset.", character_set_client=binary", $this->connid);
 		if($version > '5.0') mysql_query("SET sql_mode=''", $this->connid);
 		if($dbname && !mysql_select_db($dbname, $this->connid)) $this->halt('Cannot use database '.$dbname);
-		if(IN_ADMIN) {
+		if(IN_ADMIN || defined('DT_MEMBER')) {
 			$this->connrw = &$this->connid;
 		} else {
 			include DT_ROOT.'/file/config/mysqlrw.inc.php';

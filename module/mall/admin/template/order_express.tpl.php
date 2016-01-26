@@ -45,7 +45,7 @@ show_menu($menus);
 <?php foreach($lists as $k=>$v) {?>
 <tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
 <td title="¶©µ¥ÏêÇé"><a href="?moduleid=<?php echo $moduleid;?>&file=<?php echo $file;?>&action=show&mallid=<?php echo $mallid;?>&itemid=<?php echo $v['itemid'];?>"><?php echo $v['itemid'];?></a></td>
-<td title="¿ìµÝ¹ÙÍø"><a href="<?php echo DT_PATH;?>api/express/home.php?e=<?php echo urlencode($v['send_type']);?>&n=<?php echo $v['send_no'];?>" target="_blank"><?php echo $v['send_type'];?></a>
+<td title="¿ìµÝ¹ÙÍø"><a href="<?php echo DT_PATH;?>api/express.php?action=home&e=<?php echo urlencode($v['send_type']);?>&n=<?php echo $v['send_no'];?>" target="_blank"><?php echo $v['send_type'];?></a>
 </td>
 <td title="¿ìµÝ×·×Ù"><a href="javascript:Dwidget('?moduleid=<?php echo $moduleid;?>&file=<?php echo $file;?>&action=show&id=<?php echo $v['mallid'];?>&itemid=<?php echo $v['itemid'];?>', '¿ìµÝ×·×Ù');"><?php echo $v['send_no'];?></a></td>
 <td><?php echo $_send_status[$v['send_status']];?></td>

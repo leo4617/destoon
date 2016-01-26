@@ -16,6 +16,7 @@ if($job == 'comment') {
 	$condition = $star ? "mallid=$itemid AND seller_star=$star" : "mallid=$itemid AND seller_star>0";
 	$r = $db->get_one("SELECT COUNT(*) AS num FROM {$DT_PRE}mall_comment WHERE $condition");
 	$items = $r['num'];
+	if($sum && $items != $sum && !$star) $db->query("UPDATE {$DT_PRE}mall SET comments=$items WHERE itemid=$itemid");
 	$pages = pages($items, $page, $pagesize, '#comment" onclick="javascript:load_comment(\'{destoon_page}&star='.$star.'\');');
 	$tmp = explode('<input type="text"', $pages);
 	$pages = $tmp[0];
@@ -45,6 +46,7 @@ if($job == 'comment') {
 	*/
 	$r = $db->get_one("SELECT COUNT(*) AS num FROM {$DT_PRE}mall_order WHERE mallid=$itemid AND status=4");
 	$items = $r['num'];
+	if($sum && $items != $sum) $db->query("UPDATE {$DT_PRE}mall SET orders=$items WHERE itemid=$itemid");
 	$pages = pages($items, $page, $pagesize, '#order" onclick="javascript:load_order({destoon_page});');
 	$tmp = explode('<input type="text"', $pages);
 	$pages = $tmp[0];

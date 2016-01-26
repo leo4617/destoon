@@ -43,7 +43,7 @@ if($action == 'login') {
 		if(is_openid($openid)) {
 			set_cookie('weixin_openid', $auth);
 			set_cookie('weixin_url', 'my.php');
-			dheader('weixin.php?action=login&wx='.$DT_TIME);
+			dheader('weixin.php?action=login&reload='.$DT_TIME);
 		}
 	}
 } else if($action == 'callback') {
@@ -55,17 +55,17 @@ if($action == 'login') {
 		if($arr['openid']) {
 			$openid = $arr['openid'];
 			set_cookie('weixin_openid', encrypt($openid, DT_KEY.'WXID'));
-			dheader('weixin.php?action=login&wx='.$DT_TIME);
+			dheader('weixin.php?action=login&reload='.$DT_TIME);
 		}
 	}
 } else {
-	isset($url) or $url = 'index.php';
-	if($moduleid == 2 || $moduleid > 3) $url = mobileurl($moduleid);
+	isset($url) or $url = 'my.php';
+	if($moduleid > 2) $url = mobileurl($moduleid);
 	if($_userid) dheader($url);
 	set_cookie('weixin_url', $url);
-	if(get_cookie('weixin_openid')) dheader('weixin.php?action=login&wx='.$DT_TIME);
+	if(get_cookie('weixin_openid')) dheader('weixin.php?action=login&reload='.$DT_TIME);
 	include DT_ROOT.'/api/weixin/config.inc.php';
 	dheader('https://open.weixin.qq.com/connect/oauth2/authorize?appid='.WX_APPID.'&redirect_uri='.urlencode($EXT['mobile_url'].'weixin.php?action=callback').'&response_type=code&scope=snsapi_base&state=1#wechat_redirect');
 }
-dheader('index.php?wx='.$DT_TIME);
+dheader('index.php?reload='.$DT_TIME);
 ?>

@@ -54,7 +54,7 @@
 <script type="text/javascript">
 function check() {
 	if($('#year').val()*{$MG[fee]} > {$_money}) {
-		if(confirm('账户余额不足，是否现在充值？')) Go('charge.php?action=pay&reason=vip|'+$('#year').val()+'&amount='+($('#payment').html() - {$_money}));
+		Go('charge.php?action=pay&reason=vip|'+$('#year').val()+'&amount='+($('#payment').html() - {$_money}));
 		return false;
 	}
 	var f,l;

@@ -177,6 +177,7 @@ switch($action) {
 		} else {
 			$cm = array();
 		}
+		$id = isset($id) ? intval($id) : 0;
 		include tpl('order_show', $module);
 	break;
 	case 'comment':

@@ -3,7 +3,7 @@ defined('IN_DESTOON') or exit('Access Denied');
 $task_item or $task_item = 3600;
 if($html == 'webpage') {
 	$itemid or exit;
-	$r = $db->get_one("SELECT linkurl FROM {$DT_PRE}webpage WHERE itemid=$itemid");
+	$r = $db->get_one("SELECT linkurl,islink FROM {$DT_PRE}webpage WHERE itemid=$itemid");
 	$r or exit;
 	$r['islink'] and exit;
 	$db->query("UPDATE {$DT_PRE}webpage SET hits=hits+1 WHERE itemid=$itemid");

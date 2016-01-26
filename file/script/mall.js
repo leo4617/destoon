@@ -35,7 +35,7 @@ function load_comment(p) {
 		return;
 	}
 	if(p == 0 && Dd('c_comment').innerHTML != c_c) return;
-	makeRequest('action=mall&job=comment&moduleid=16&itemid='+mallid+'&page='+p, AJPath, '_load_comment');
+	makeRequest('action=mall&job=comment&moduleid=16&sum='+n_c+'&itemid='+mallid+'&page='+p, AJPath, '_load_comment');
 }
 function _load_comment() {
 	if(xmlHttp.readyState==4 && xmlHttp.status==200) {
@@ -48,7 +48,7 @@ function load_order(p) {
 		return;
 	}
 	if(p == 0 && Dd('c_order').innerHTML != c_o) return;
-	makeRequest('action=mall&job=order&moduleid=16&itemid='+mallid+'&page='+p, AJPath, '_load_order');
+	makeRequest('action=mall&job=order&moduleid=16&sum='+n_o+'&itemid='+mallid+'&page='+p, AJPath, '_load_order');
 
 }
 function _load_order() {

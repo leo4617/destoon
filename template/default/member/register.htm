@@ -30,7 +30,7 @@ $('.head-bar-right').html('<a href="{$EXT[mobile_url]}login.php"><span>登录</spa
 				&raquo; 已经是会员？请<a href="{$DT[file_login]}?forward={urlencode($forward)}" class="b">点这里登录</a>&nbsp;
 				&raquo; 忘记了密码？请<a href="send.php?forward={urlencode($forward)}" class="b">点这里找回</a>&nbsp;
 				{if $MOD[checkuser] == 2}
-				&raquo; <span class="f_red">未收到验证信？</span>请<a href="send.php?action=check&?forward={urlencode($forward)}" class="b">点这里重发</a>
+				&raquo; <span class="f_red">未收到验证信？</span>请<a href="send.php?action=check&forward={urlencode($forward)}" class="b">点这里重发</a>
 				{/if}
 				</span>
 				<br/>

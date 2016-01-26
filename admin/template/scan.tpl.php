@@ -34,7 +34,7 @@ show_menu($menus);
 </table>
 
 <?php } else { ?>
-<form method="post" action="?">
+<form method="post" action="?" id="dform">
 <input type="hidden" name="file" value="<?php echo $file;?>"/>
 <div class="tt">木马扫描</div>
 <table cellpadding="6" cellspacing="1" class="tb">
@@ -48,6 +48,11 @@ show_menu($menus);
 <?php if($k%4==3) {?></tr><?php } ?>
 <?php } ?>
 </table>
+<div>&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dform'), 1);" class="t">反选</a>&nbsp;&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dform'), 2);" class="t">全选</a>&nbsp;&nbsp;
+<a href="javascript:" onclick="checkall(Dd('dform'), 3);" class="t">全不选</a>&nbsp;&nbsp;
+</div>
 </td>
 </tr>
 <tr>

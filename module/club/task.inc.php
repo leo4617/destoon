@@ -51,6 +51,7 @@ if($html == 'show') {
 	}
 	if($_userid && is_admin(get_group($gid))) echo '$(".manage").show();';
 	$update = '';
+	if($GRP['areaid'] != $item['areaid']) $update .= ",areaid='$GRP[areaid]'";
 	include DT_ROOT.'/include/update.inc.php';
 	if($page == 1) echo 'Inner("hits", \''.$item['hits'].'\');';
 	if($MOD['show_html'] && $task_item && $DT_TIME - @filemtime(DT_ROOT.'/'.$MOD['moduledir'].'/'.$item['linkurl']) > $task_item) tohtml('show', $module);

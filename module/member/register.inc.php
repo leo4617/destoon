@@ -36,10 +36,10 @@ if($could_emailcode) {
 		if($do->email_exists($email)) exit('3');
 		if(!$do->is_email($email)) exit('4');
 		isset($_SESSION['email_send']) or $_SESSION['email_send'] = 0;
-		if($_SESSION['email_time'] && $DT_TIME - $_SESSION['email_time'] < 60) exit('5');
+		if($_SESSION['email_time'] && (($DT_TIME - $_SESSION['email_time']) < 60)) exit('5');
 		if($_SESSION['email_send'] > 9) exit('6');
 		$emailcode = random(6, '0123456789');
-		$_SESSION['email'] = $email;
+		$_SESSION['email_save'] = $email;
 		$_SESSION['email_code'] = md5($email.'|'.$emailcode);
 		$_SESSION['email_time'] = $DT_TIME;
 		$_SESSION['email_send'] = $_SESSION['email_send'] + 1;
@@ -58,11 +58,11 @@ if($could_mobilecode) {
 		if(!is_mobile($mobile)) exit('2');
 		isset($_SESSION['mobile_send']) or $_SESSION['mobile_send'] = 0;
 		if($do->mobile_exists($mobile)) exit('3');
-		if($_SESSION['mobile_time'] && $DT_TIME - $_SESSION['mobile_time'] < 180) exit('5');
+		if($_SESSION['mobile_time'] && (($DT_TIME - $_SESSION['mobile_time']) < 180)) exit('5');
 		if($_SESSION['mobile_send'] > 4) exit('6');
 		if(max_sms($mobile)) exit('6');
 		$mobilecode = random(6, '0123456789');
-		$_SESSION['mobile'] = $mobile;
+		$_SESSION['mobile_save'] = $mobile;
 		$_SESSION['mobile_code'] = md5($mobile.'|'.$mobilecode);
 		$_SESSION['mobile_time'] = $DT_TIME;
 		$_SESSION['mobile_send'] = $_SESSION['mobile_send'] + 1;
@@ -129,13 +129,7 @@ if($submit) {
 		}
 		//send sms
 		if($MOD['checkuser'] == 2) {
-			$auth = make_auth($username);
-			$db->query("UPDATE {$DT_PRE}member SET auth='$auth',authvalue='$email',authtime='$DT_TIME' WHERE username='$username'");
-			$authurl = $MOD['linkurl'].'send.php?action=check&auth='.$auth;
-			$title = $L['register_msg_activate'];
-			$content = ob_template('check', 'mail');
-			send_mail($email, $title, $content);
-			$goto = 'goto.php?action=register_check&email='.$email;
+			$goto = 'send.php?action=check&auth='.encrypt($email.'|'.$DT_TIME, DT_KEY.'REG');
 			dalert('', '', 'parent.window.location="'.$goto.'";');
 		} else if($MOD['checkuser'] == 1) {
 			$forward = $MOD['linkurl'];
@@ -144,12 +138,11 @@ if($submit) {
 				$title = $L['register_msg_welcome'];
 				$content = ob_template('welcome', 'mail');
 				if($MOD['welcome_message']) send_message($username, $title, $content);
-				if($MOD['welcome_email'] && $DT['mail_type'] != 'close') send_mail($post['email'], $title, $content);
+				if($MOD['welcome_email'] && $DT['mail_type'] != 'close') send_mail($email, $title, $content);
 			}
 		}
 		if($could_emailcode) $db->query("UPDATE {$DT_PRE}member SET vemail=1 WHERE username='$username'");
 		if($could_mobilecode) $db->query("UPDATE {$DT_PRE}member SET vmobile=1 WHERE username='$username'");
-		if(!get_cookie('bind')) session_destroy();
 		$forward = 'goto.php?action=register_success&username='.$username.'&auth='.encrypt('LOGIN|'.$username.'|'.$post['password'].'|'.$DT_TIME, DT_KEY.'LOGIN').'&forward='.urlencode($forward);
 		dalert('', '', 'parent.window.location="'.$forward.'"');
 	} else {
@@ -158,12 +151,13 @@ if($submit) {
 		dalert($do->errmsg, '', $reload_captcha.$reload_question);
 	}
 } else {
+	if($DT_TOUCH) dheader($EXT['mobile_url'].'register.php?forward='.urlencode($forward));
 	$COM_TYPE = explode('|', $MOD['com_type']);
 	$COM_SIZE = explode('|', $MOD['com_size']);
 	$COM_MODE = explode('|', $MOD['com_mode']);
 	$MONEY_UNIT = explode('|', $MOD['money_unit']);
 	$mode_check = dcheckbox($COM_MODE, 'post[mode][]', '', 'onclick="check_mode(this);"', 0);
-	$auth = isset($auth) ? rawurldecode($auth) : '';
+	isset($auth) or $auth = '';
 	$username = $password = $email = $passport = '';
 	if($auth) {
 		$auth = decrypt($auth, DT_KEY.'UC');

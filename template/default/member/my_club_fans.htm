@@ -35,7 +35,7 @@
 {loop $lists $k $v}
 <tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
 <td><input type="checkbox" name="itemid[]" value="{$v[itemid]}"/></td>
-<td><img src="{useravatar($v[username])}" style="padding:5px;"/></td>
+<td><img src="{useravatar($v[username])}" width="48" height="48" style="padding:5px;"/></td>
 <td><a href="{userurl($v[username])}" target="_blank">{$v[username]}</a></td>
 <td><a href="{$v[groupurl]}" target="_blank">{$v[groupname]}</a></td>
 <td>{$v[adddate]}</td>

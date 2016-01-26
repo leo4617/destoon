@@ -41,20 +41,20 @@ if($action == 'pc') {
 	$ios_app = '';
 	if($EXT['mobile_ios']) {
 		if(preg_match("/^([0-9]{1,})@([a-z0-9]{16,})$/i", $EXT['mobile_ios'])) {
-			$app = DT_PATH.'/api/app.php?v=i';
+			$app = DT_PATH.'api/app.php?v=i';
 		} else {
 			$app = $EXT['mobile_ios'];
 		}
 		$ios_app = DT_PATH.'api/qrcode.png.php?auth='.encrypt($app, DT_KEY.'QRCODE');
 	}
-	$andriod_app = '';
+	$android_app = '';
 	if($EXT['mobile_adr']) {
 		if(preg_match("/^([0-9]{1,})@([a-z0-9]{16,})$/i", $EXT['mobile_adr'])) {
-			$app = DT_PATH.'/api/app.php?v=a';
+			$app = DT_PATH.'api/app.php?v=a';
 		} else {
 			$app = $EXT['mobile_adr'];
 		}
-		$andriod_app = DT_PATH.'api/qrcode.png.php?auth='.encrypt($app, DT_KEY.'QRCODE');
+		$android_app = DT_PATH.'api/qrcode.png.php?auth='.encrypt($app, DT_KEY.'QRCODE');
 	}
 	$destoon_task = rand_task();
 	$head_title = $L['mobile_title'];

@@ -180,6 +180,7 @@ class club {
 			$passport = addslashes(get_user($item['username'], 'username', 'passport'));
 			if($passport != $item['passport']) $update .= ",passport='$passport'";
 		}
+		if($GRP['areaid'] != $item['areaid']) $update .= ",areaid='$GRP[areaid]'";
 		$item['itemid'] = $itemid;
 		$linkurl = itemurl($item);
 		if($linkurl != $item['linkurl']) $update .= ",linkurl='$linkurl'";

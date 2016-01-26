@@ -5,9 +5,9 @@ require DT_ROOT.'/module/'.$module.'/common.inc.php';
 require DT_ROOT.'/include/post.func.php';
 $PAY = cache_read('pay.php');
 $amount = isset($amount) ? dround($amount) : '';
-function get_reason_url($reason) {
+function get_reason_url($r = array()) {
 	$url = '';
-	$arr = explode('|', $reason);
+	$arr = explode('|', $r['reason']);
 	switch($arr[0]) {
 		case 'deposit':
 			$url = 'deposit.php?action=add&sum='.intval($arr[1]);
@@ -22,13 +22,13 @@ function get_reason_url($reason) {
 			if(is_numeric($arr[1]) && is_numeric($arr[2])) $url = DT_PATH.'api/redirect.php?mid='.intval($arr[1]).'&itemid='.intval($arr[2]).'&sum=1';
 		break;
 		case 'trade':
-			if(is_numeric($arr[1])) $url = 'trade.php?action=update&step=pay&itemid='.intval($arr[1]);
+			if(is_numeric($arr[1])) $url = 'trade.php?action=update&step=pay&itemid='.intval($arr[1]).'&auth='.encrypt($r['amount'], DT_KEY.'CG', 600);
 		break;
 		case 'trades':
-			$url = 'trade.php?action=muti&ids='.$arr[1];
+			$url = 'trade.php?action=muti&step=pay&ids='.$arr[1];
 		break;
 		case 'group':
-			if(is_numeric($arr[1])) $url = 'group.php?action=update&step=pay&itemid='.intval($arr[1]);
+			if(is_numeric($arr[1])) $url = 'group.php?action=update&step=pay&itemid='.intval($arr[1]).'&auth='.encrypt($r['amount'], DT_KEY.'CG', 600);
 		break;
 		default:
 		break;
@@ -240,7 +240,7 @@ switch($action) {
 						}
 					}
 					if($r['reason']) {
-						$url = get_reason_url($r['reason']);
+						$url = get_reason_url($r);
 						if($url) $charge_forward = $url;
 					}
 					if($bank == 'tenpay') {
@@ -260,7 +260,7 @@ switch($action) {
 			} else {
 				if($DT_TIME - $r['receivetime'] < 600) {
 					if($r['reason']) {
-						$url = get_reason_url($r['reason']);
+						$url = get_reason_url($r);
 						if($url) $charge_forward = $url;
 					}
 					$charge_status = 1;
@@ -272,6 +272,7 @@ switch($action) {
 			$charge_status = 2;		
 			$charge_errcode = $L['charge_msg_not_order'];
 		}
+		if($charge_forward) dheader($charge_forward);
 	break;
 }
 include template('charge', $module);

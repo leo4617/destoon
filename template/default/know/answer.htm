@@ -112,7 +112,7 @@
 		<ul>
 		{if $v[hidden]}
 		<li id="u_{$v[itemid]}"><strong>匿名</strong></li>
-		<li><img src="{useravatar('', 'large')}" alt=""/></li>
+		<li><img src="{useravatar('', 'large')}" alt="" width="128" height="128"/></li>
 		{else}
 		<li id="u_{$v[itemid]}">
 			{if $v[username]}
@@ -121,7 +121,7 @@
 			<strong title="{hide_ip($item[ip])}">游客</strong>
 			{/if}
 		</li>
-		<li><img src="{useravatar($v[username], 'large')}" alt=""/></li>
+		<li><img src="{useravatar($v[username], 'large')}" alt="" width="128" height="128"/></li>
 		{if $v[username] && $DT[im_web]}<li>{im_web($v[username], 1)}</li>{/if}
 		{/if}
 		{if $v[expert]}<li class="f_red">知道专家</li>{/if}

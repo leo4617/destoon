@@ -11,11 +11,11 @@ function nexttime($schedule, $time) {
 	}
 }
 $result = $db->query("SELECT * FROM {$DT_PRE}cron WHERE nexttime<$DT_TIME ORDER BY itemid");
-while($r = $db->fetch_array($result)) {
-	if($r['status']) continue;
-	include DT_ROOT.'/api/cron/'.$r['name'].'.inc.php';
-	$nexttime = nexttime($r['schedule'], $DT_TIME);
-	$db->query("UPDATE {$DT_PRE}cron SET lasttime=$DT_TIME,nexttime=$nexttime WHERE itemid=$r[itemid]");
+while($cron = $db->fetch_array($result)) {
+	if($cron['status']) continue;
+	include DT_ROOT.'/api/cron/'.$cron['name'].'.inc.php';
+	$nexttime = nexttime($cron['schedule'], $DT_TIME);
+	$db->query("UPDATE {$DT_PRE}cron SET lasttime=$DT_TIME,nexttime=$nexttime WHERE itemid=$cron[itemid]");
 }
 if($DT['message_email'] && $DT['mail_type'] != 'close' && !$_userid) include DT_ROOT.'/api/cron/message.php';
 ?>

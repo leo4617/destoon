@@ -89,10 +89,10 @@ function dsubstr($string, $length, $suffix = '', $start = 0) {
 	return $str == $string ? $str : $str.$suffix;
 }
 
-function encrypt($txt, $key = '') {
+function encrypt($txt, $key = '', $expiry = 0) {
 	strlen($key) > 5 or $key = DT_KEY;
 	$str = $txt.substr($key, 0, 3);
-	return str_replace(array('+', '/', '0x', '0X'), array('-P-', '-S-', '-Z-', '-X-'), mycrypt($str, $key, 'ENCODE'));
+	return str_replace(array('+', '/', '0x', '0X'), array('-P-', '-S-', '-Z-', '-X-'), mycrypt($str, $key, 'ENCODE', $expiry));
 }
 
 function decrypt($txt, $key = '') {
@@ -109,7 +109,7 @@ function mycrypt($string, $key, $operation = 'DECODE', $expiry = 0) {
 	$keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
 	$cryptkey = $keya.md5($keya.$keyc);
 	$key_length = strlen($cryptkey);
-	$string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
+	$string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + $GLOBALS['DT_TIME'] : 0).substr(md5($string.$keyb), 0, 16).$string;
 	$string_length = strlen($string);
 	$result = '';
 	$box = range(0, 255);
@@ -132,7 +132,7 @@ function mycrypt($string, $key, $operation = 'DECODE', $expiry = 0) {
 		$result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
 	}
 	if($operation == 'DECODE') {
-		if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16)) {
+		if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - $GLOBALS['DT_TIME'] > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16)) {
 			return substr($result, 26);
 		} else {
 			return '';
@@ -1221,6 +1221,7 @@ function dcurl($url, $par = '') {
 			curl_setopt($cur, CURLOPT_POST, 1);
 			curl_setopt($cur, CURLOPT_POSTFIELDS, $par);
 		}
+		curl_setopt($cur, CURLOPT_REFERER, DT_PATH);
 		curl_setopt($cur, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
 		curl_setopt($cur, CURLOPT_FOLLOWLOCATION, 1);
 		curl_setopt($cur, CURLOPT_HEADER, 0);

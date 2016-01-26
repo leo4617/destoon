@@ -4,16 +4,12 @@ class form {
 	var $itemid;
 	var $db;
 	var $table;
-	var $table_item;
-	var $table_record;
 	var $fields;
 	var $errmsg = errmsg;
 
     function form() {
 		global $db, $DT_PRE;
 		$this->table = $DT_PRE.'form';
-		$this->table_item = $DT_PRE.'form_item';
-		$this->table_record = $DT_PRE.'form_record';
 		$this->db = &$db;
 		$this->fields = array('typeid','areaid', 'title','style','level','content','groupid','verify','display','addtime','fromtime','totime','editor','edittime', 'linkurl','template');
     }
@@ -143,8 +139,9 @@ class form {
 			$userid = get_user($r['editor']);
 			if($r['content']) delete_local($r['content'], $userid);
 			$this->db->query("DELETE FROM {$this->table} WHERE itemid=$itemid");
-			$this->db->query("DELETE FROM {$this->table_item} WHERE formid=$itemid");
-			$this->db->query("DELETE FROM {$this->table_record} WHERE formid=$itemid");
+			$this->db->query("DELETE FROM {$this->table}_record WHERE fid=$itemid");
+			$this->db->query("DELETE FROM {$this->table}_answer WHERE fid=$itemid");
+			$this->db->query("DELETE FROM {$this->table}_question WHERE fid=$itemid");
 		}
 	}
 

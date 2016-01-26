@@ -30,8 +30,8 @@
 					{if $ios_app}
 					<li class="qr_li" id="type_2" onclick="Dqr(2);"><img src="{DT_STATIC}file/image/qr-ios.png" align="absmiddle"/> 苹果客户端</li>
 					{/if}
-					{if $andriod_app}
-					<li class="qr_li" id="type_3" onclick="Dqr(3);"><img src="{DT_STATIC}file/image/qr-andriod.png" align="absmiddle"/> 安卓客户端</li>
+					{if $android_app}
+					<li class="qr_li" id="type_3" onclick="Dqr(3);"><img src="{DT_STATIC}file/image/qr-android.png" align="absmiddle"/> 安卓客户端</li>
 					{/if}
 					</ul>
 				</td>
@@ -51,7 +51,7 @@ var qrc = [
 	'{DT_PATH}api/qrcode.png.php?auth={urlencode($url)}',
 	'{DT_PATH}api/weixin/qrcode.php',
 	'{$ios_app}',
-	'{$andriod_app}',
+	'{$android_app}',
 ];
 function Dqr(id) {
 	if(id == tid) return;

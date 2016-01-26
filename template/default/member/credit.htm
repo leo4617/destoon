@@ -97,7 +97,7 @@ function check() {
 var k = {$select};
 function check() {
 	if($('#p_'+k).html() > {$_money}) {
-		if(confirm('账户余额不足，是否现在充值？')) Go('charge.php?action=pay&reason=credit|'+k+'&amount='+($('#p_'+k).html() - {$_money}));
+		Go('charge.php?action=pay&reason=credit|'+k+'&amount='+($('#p_'+k).html() - {$_money}));
 		return false;
 	}
 	var f,l;

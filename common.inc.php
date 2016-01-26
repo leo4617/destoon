@@ -169,7 +169,7 @@ if($destoon_auth) {
 			extract($USER, EXTR_PREFIX_ALL, '');
 		} else {
 			$_userid = 0;
-			if($db->linked) set_cookie('auth', '');
+			if($db->linked && !isset($swfupload) && strpos($_SERVER['HTTP_USER_AGENT'], 'Flash') === false) set_cookie('auth', '');
 		}
 		unset($destoon_auth, $USER, $_dauth, $_password);
 	}

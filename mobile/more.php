@@ -6,15 +6,15 @@ if(!in_array($DT_MOB['browser'], array('app', 'b2b'))) {
 	if($DT_MOB['os'] == 'ios') {
 		if($EXT['mobile_ios']) {
 			if(preg_match("/^([0-9]{1,})@([a-z0-9]{16,})$/i", $EXT['mobile_ios'])) {
-				$app = DT_PATH.'/api/app.php?v=i';
+				$app = DT_PATH.'api/app.php?v=i';
 			} else {
 				$app = $EXT['mobile_ios'];
 			}
 		}
-	} else if($DT_MOB['os'] == 'andriod') {
+	} else if($DT_MOB['os'] == 'android') {
 		if($EXT['mobile_adr']) {
 			if(preg_match("/^([0-9]{1,})@([a-z0-9]{16,})$/i", $EXT['mobile_adr'])) {
-				$app = DT_PATH.'/api/app.php?v=a';
+				$app = DT_PATH.'api/app.php?v=a';
 			} else {
 				$app = $EXT['mobile_adr'];
 			}

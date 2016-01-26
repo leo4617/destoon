@@ -42,7 +42,7 @@ a:hover {color:#FF6600;}
 .pages strong {background:#258CFF;padding:3px;border:#258CFF 1px solid;color:#FFFFFF;}
 .pages_inp {width:30px;border:#DDDDDD 1px solid;color:#666666;padding:2px;text-align:center;}
 .pages_btn {width:26px;border:#FF6600 1px solid;color:#FFFFFF;padding:1px;background:#FF6600;font-weight:bold;font-size:11px;}
-.pages label {background:#FFFFFF;border:#2E6AB1 1px solid;color:#004499;padding:1px 5px 1px 5px;}
+.pages label {background:#FFFFFF;border:#DDDDDD 1px solid;color:#666666;padding:3px 5px 3px 5px;}
 .pages label em {color:red;font-weight:bold;font-style:normal;}
 .pages label span {font-weight:bold;}
 .pages cite {font-style:normal;}

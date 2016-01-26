@@ -16,6 +16,7 @@ if(!$itemid) show_menu($menus);
 <input type="text" size="30" name="kw" value="<?php echo $kw;?>" title="关键词"/>&nbsp;
 <?php echo $level_select;?>&nbsp;
 <?php echo category_select('catid', '不限分类', $catid, $moduleid);?>&nbsp;
+<?php echo ajax_area_select('areaid', '不限地区', $areaid);?>&nbsp;
 <?php echo $order_select;?>&nbsp;
 <input type="text" name="psize" value="<?php echo $pagesize;?>" size="2" class="t_c" title="条/页"/>
 <input type="submit" value="搜 索" class="btn"/>&nbsp;

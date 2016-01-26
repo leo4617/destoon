@@ -65,6 +65,7 @@ switch($action) {
 			$post['username'] = $_username;
 			if($do->pass($post)) {
 				$post['catid'] = $item['catid'];
+				$post['areaid'] = $item['areaid'];
 				$post['title'] = addslashes($item['title']);
 				$post['level'] = $item['level'];
 				$post['fee'] = $item['fee'];

@@ -24,7 +24,7 @@
 		<strong title="{hide_ip($item[ip])}">游客</strong>
 		{/if}
 	</li>
-	<li><img src="{useravatar($item[username], 'large')}" alt=""/></li>
+	<li><img src="{useravatar($item[username], 'large')}" alt="" width="128" height="128"/></li>
 	{if $item[username] && $DT[im_web]}<li>{im_web($item[username], 1)}</li>{/if}
 	{if $item[username] == $GRP[username]}
 	<li class="f_red">圈主</span></li>
@@ -71,7 +71,7 @@
 			<strong title="{hide_ip($item[ip])}">游客</strong>
 			{/if}
 		</li>
-		<li><img src="{useravatar($v[username], 'large')}" alt=""/></li>
+		<li><img src="{useravatar($v[username], 'large')}" alt="" width="128" height="128"/></li>
 		{if $v[username] && $DT[im_web]}<li>{im_web($v[username], 1)}</li>{/if}
 		
 		{if $v[username] == $GRP[username]}

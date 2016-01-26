@@ -9,7 +9,7 @@ function property_update($post_ppt, $moduleid, $catid, $itemid) {
 	if(!$post_ppt || !$moduleid || !$catid || !$itemid) return;
 	$OP = property_option($catid);
 	if(!$OP) return;
-	if(!defined('DT_ADMIN')) $post_ppt = dhtmlspecialchars($post_ppt);	
+	$post_ppt = dhtmlspecialchars($post_ppt);	
 	$db->query("DELETE FROM {$db->pre}category_value WHERE moduleid=$moduleid AND itemid=$itemid");
 	$ppt = array();
 	foreach($OP as $v) {

@@ -23,7 +23,7 @@
 </tr>
 {loop $lists $k $v}
 <tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center" title="{$v[note]}">
-<td><img src="{useravatar($v[username], 'small')}" width="20"/></td>
+<td><img src="{useravatar($v[username], 'small')}" width="20" height="20"/></td>
 <td align="left">&nbsp;<a href="{userurl($v[username])}" target="_blank" class="t">{$v[company]}</a></td>
 <td>{$v[truename]}</td>
 <td id="v_{$v[itemid]}">{if $from=='sms'}{$v[mobile]}{else}{$v[username]}{/if}</td>

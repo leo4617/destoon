@@ -24,8 +24,10 @@ if(in_array($action, array('', 'check', 'reject', 'recycle'))) {
 
 	$condition = '';
 	if($_childs) $condition .= " AND catid IN (".$_childs.")";//CATE
+	if($_areaids) $condition .= " AND areaid IN (".$_areaids.")";//CITY
 	if($keyword) $condition .= " AND $dfields[$fields] LIKE '%$keyword%'";
 	if($catid) $condition .= ($CAT['child']) ? " AND catid IN (".$CAT['arrchildid'].")" : " AND catid=$catid";
+	if($areaid) $condition .= ($ARE['child']) ? " AND areaid IN (".$ARE['arrchildid'].")" : " AND areaid=$areaid";
 	if($level) $condition .= $level > 9 ? " AND level>0" : " AND level=$level";
 }
 require MD_ROOT.'/group.class.php';

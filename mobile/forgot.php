@@ -47,11 +47,11 @@ switch($action) {
 			$email == $t['email'] or  exit('ko');
 			isset($_SESSION['email_send']) or $_SESSION['email_send'] = 0;
 			isset($_SESSION['email_time']) or $_SESSION['email_time'] = 0;
-			if($_SESSION['email_time'] && $DT_TIME - $_SESSION['email_time'] < 60) exit('ko'.($DT_TIME - $_SESSION['email_time']));
+			if($_SESSION['email_time'] && (($DT_TIME - $_SESSION['email_time']) < 60)) exit('ko'.($DT_TIME - $_SESSION['email_time']));
 			if($_SESSION['email_send'] > 9) exit('max');
 			$emailcode = random(6, '0123456789');
-			$_SESSION['email'] = $email;
-			$_SESSION['email_code'] = md5($email.'|'.$emailcode);
+			$_SESSION['email_save'] = $email;
+			$_SESSION['email_code'] = md5($email.'|'.$emailcode.'|FE');
 			$_SESSION['email_time'] = $DT_TIME;
 			$_SESSION['email_send'] = $_SESSION['email_send'] + 1;
 			$title = $L['register_msg_emailcode'];
@@ -63,12 +63,12 @@ switch($action) {
 			($mobile == $t['mobile'] && $t['vmobile']) or  exit('ko');
 			isset($_SESSION['mobile_send']) or $_SESSION['mobile_send'] = 0;
 			isset($_SESSION['mobile_time']) or $_SESSION['mobile_time'] = 0;
-			if($_SESSION['mobile_time'] && $DT_TIME - $_SESSION['mobile_time'] < 180) exit('ko');
+			if($_SESSION['mobile_time'] && (($DT_TIME - $_SESSION['mobile_time']) < 180)) exit('ko');
 			if($_SESSION['mobile_send'] > 4) exit('max');
 			if(max_sms($mobile)) exit('max');
 			$mobilecode = random(6, '0123456789');
-			$_SESSION['mobile'] = $mobile;
-			$_SESSION['mobile_code'] = md5($mobile.'|'.$mobilecode);
+			$_SESSION['mobile_save'] = $mobile;
+			$_SESSION['mobile_code'] = md5($mobile.'|'.$mobilecode.'|FM');
 			$_SESSION['mobile_time'] = $DT_TIME;
 			$_SESSION['mobile_send'] = $_SESSION['mobile_send'] + 1;
 			$content = lang('sms->sms_code', array($mobilecode, $MOD['auth_days']*10)).$DT['sms_sign'];
@@ -79,29 +79,38 @@ switch($action) {
 	break;
 	case 'verify':
 		isset($code) or $code = '';
-		preg_match("/^[0-9]{6}$/", $code) or exit('ko');
+		preg_match("/^[0-9a-z]{6,}$/i", $code) or exit('ko');
 		isset($password) or $password = '';
 		(strlen($password) >= $MOD['minpassword'] && strlen($password) <= $MOD['maxpassword']) or exit('ko');
 		(isset($_SESSION['f_uid']) && isset($_SESSION['f_key'])) or exit('ko');
 		$userid = intval($_SESSION['f_uid']);
-		$t = $db->get_one("SELECT email,mobile,vmobile,groupid FROM {$DT_PRE}member WHERE userid='$userid'");
+		$t = $db->get_one("SELECT email,vemail,mobile,vmobile,groupid FROM {$DT_PRE}member WHERE userid='$userid'");
 		$t or exit('ko');
 		if($t['groupid'] == 2 || $t['groupid'] == 4) exit('ko');
+		$vemail = $t['vemail'];
 		if(is_email($_SESSION['f_key'])) {
+			$vemail = 1;
 			$email = $_SESSION['f_key'];
 			$email == $t['email'] or exit('ko');
-			$_SESSION['email_code'] == md5($t['email'].'|'.$code) or exit('ko');
+			$_SESSION['email_code'] == md5($t['email'].'|'.$code.'|FE') or exit('ko');
 			set_cookie('username', $email);
+			unset($_SESSION['email_save']);
+			unset($_SESSION['email_code']);
+			unset($_SESSION['email_time']);
+			unset($_SESSION['email_send']);
 		} else {
 			$mobile = $_SESSION['f_key'];
 			($mobile == $t['mobile'] && $t['vmobile']) or exit('ko');
-			$_SESSION['mobile_code'] == md5($t['mobile'].'|'.$code) or exit('ko');
+			$_SESSION['mobile_code'] == md5($t['mobile'].'|'.$code.'|FM') or exit('ko');
 			set_cookie('username', $mobile);
+			unset($_SESSION['mobile_save']);
+			unset($_SESSION['mobile_code']);
+			unset($_SESSION['mobile_time']);
+			unset($_SESSION['mobile_send']);
 		}
 		$salt = random(8);
 		$pass = dpassword($password, $salt);
-		$db->query("UPDATE {$DT_PRE}member SET password='$pass',passsalt='$salt' WHERE userid='$userid'");
-		session_destroy();
+		$db->query("UPDATE {$DT_PRE}member SET password='$pass',passsalt='$salt',vemail='$vemail' WHERE userid='$userid'");
 		exit('ok');
 	break;
 	case 'check':

@@ -72,6 +72,10 @@ show_menu($menus);
 <td><input name="post[manager]" type="text"  size="60" value="<?php echo $manager;?>" id="manager"/><?php tips('请填写版主会员昵称，多个版主用|分隔');?> <span id="dmanager" class="f_red"></span></td>
 </tr>
 <tr>
+<td class="tl"><span class="f_hid">*</span> 所在地区</td>
+<td><?php echo ajax_area_select('post[areaid]', '请选择', $areaid);?></td>
+</tr>
+<tr>
 <td class="tl"><span class="f_hid">*</span> 商圈状态</td>
 <td>
 <input type="radio" name="post[status]" value="3" <?php if($status == 3) echo 'checked';?>/> 通过
