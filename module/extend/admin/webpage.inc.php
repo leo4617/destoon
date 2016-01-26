@@ -123,7 +123,7 @@ switch($action) {
 		$sfields = array('按条件', '标题', '链接地址', '内容', '绑定域名');
 		$dfields = array('title','title','linkurl','content','domain');
 		$sorder  = array('结果排序方式', '更新时间降序', '更新时间升序', '浏览次数降序', '浏览次数升序');
-		$dorder  = array('listorder DESC,itemid DESC', 'addtime DESC', 'addtime ASC', 'hits DESC', 'hits ASC');
+		$dorder  = array('listorder DESC,itemid DESC', 'edittime DESC', 'edittime ASC', 'hits DESC', 'hits ASC');
 		isset($fields) && isset($dfields[$fields]) or $fields = 0;
 		isset($order) && isset($dorder[$order]) or $order = 0;
 		$level = isset($level) ? intval($level) : 0;

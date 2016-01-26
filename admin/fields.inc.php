@@ -1,6 +1,6 @@
 <?php
 defined('DT_ADMIN') or exit('Access Denied');
-$tb = isset($tb) ? trim($tb) : '';
+$tb = isset($tb) ? strip_sql(trim($tb), 0) : '';
 $tb or msg();
 $len = strlen($DT_PRE);
 if(substr($tb, 0, $len) == $DT_PRE) $tb = substr($tb, $len);

@@ -5,11 +5,11 @@
 */
 defined('IN_DESTOON') or exit('Access Denied');
 function daddslashes($string) {
-	return is_array($string) ? array_map('addslashes', $string) : addslashes($string);
+	return is_array($string) ? array_map('daddslashes', $string) : addslashes($string);
 }
 
 function dstripslashes($string) {
-	return is_array($string) ? array_map('stripslashes', $string) : stripslashes($string);
+	return is_array($string) ? array_map('dstripslashes', $string) : stripslashes($string);
 }
 
 function dtrim($string) {
