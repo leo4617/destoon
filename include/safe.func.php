@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2014 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -8,12 +8,7 @@ function dhtmlspecialchars($string) {
 	if(is_array($string)) {
 		return array_map('dhtmlspecialchars', $string);
 	} else {
-		$string = htmlspecialchars($string, ENT_QUOTES, DT_CHARSET == 'GBK' ? 'GB2312' : 'UTF-8');
-		$string = str_replace('&amp;', '&', $string);
-		if(defined('DT_ADMIN')) return $string;
-		$_string = str_replace(array('&quot;', '&#34;', '"'), array('', '', ''), $string);
-		if($_string == $string) return $string;
-		return strip_sql($_string);
+		return htmlspecialchars($string, ENT_QUOTES, DT_CHARSET == 'GBK' ? 'GB2312' : 'UTF-8');
 	}
 }
 
@@ -36,7 +31,7 @@ function dsafe($string, $type = 1) {
 }
 
 function strip_sql($string, $type = 1) {
-	$match = array("/union/i","/where/i","/outfile/i","/dumpfile/i","/0x([a-f0-9]{2,})/i","/select([\s\S]*?)from/i","/select([\s\*\/\-\(\+@])/i","/update([\s\*\/\-\(\+@])/i","/replace([\s\*\/\-\(\+@])/i","/delete([\s\*\/\-\(\+@])/i","/drop([\s\*\/\-\(\+@])/i","/load_file[\s]*\(/i","/substring[\s]*\(/i","/substr[\s]*\(/i","/left[\s]*\(/i","/concat[\s]*\(/i","/concat_ws[\s]*\(/i","/make_set[\s]*\(/i","/ascii[\s]*\(/i","/hex[\s]*\(/i","/ord[\s]*\(/i","/char[\s]*\(/i");
+	$match = array("/union/i","/where/i","/outfile/i","/dumpfile/i","/0x([a-f0-9]{2,})/i","/select([\s\S]*?)from/i","/select([\s\*\/\-\{\(\+@])/i","/update([\s\*\/\-\{\(\+@])/i","/replace([\s\*\/\-\{\(\+@])/i","/delete([\s\*\/\-\{\(\+@])/i","/drop([\s\*\/\-\{\(\+@])/i","/load_file[\s]*\(/i","/substring[\s]*\(/i","/substr[\s]*\(/i","/left[\s]*\(/i","/concat[\s]*\(/i","/concat_ws[\s]*\(/i","/make_set[\s]*\(/i","/ascii[\s]*\(/i","/hex[\s]*\(/i","/ord[\s]*\(/i","/char[\s]*\(/i");
 	$replace = array('unio&#110;','wher&#101;','outfil&#101;','dumpfil&#101;','0&#120;\\1','selec&#116;\\1from','selec&#116;\\1','updat&#101;\\1','replac&#101;\\1','delet&#101;\\1','dro&#112;\\1','load_fil&#101;(','substrin&#103;(','subst&#114;(','lef&#116;(','conca&#116;(','concat_w&#115;(','make_se&#116;(','asci&#105;(','he&#120;(','or&#100;(','cha&#114;(');
 	if($type) {
 		return is_array($string) ? array_map('strip_sql', $string) : preg_replace($match, $replace, $string);
@@ -51,7 +46,7 @@ function strip_uri($uri) {
 			$uri = urldecode($uri);
 		}
 	}
-	if(strpos($uri, '<') !== false || strpos($uri, "'") !== false || strpos($uri, '"') !== false) {
+	if(strpos($uri, '<') !== false || strpos($uri, "'") !== false || strpos($uri, '"') !== false || strpos($uri, '0x') !== false) {
 		dhttp(403, 0);
 		dalert('HTTP 403 Forbidden', DT_PATH);
 	}

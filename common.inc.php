@@ -122,12 +122,11 @@ $cityid = 0;
 $city_name = $L['allcity'];
 $city_domain = $city_template = $city_sitename = '';
 if($DT['city']) include DT_ROOT.'/include/city.inc.php';
-($DT['gzip_enable'] && !$_POST) ? ob_start('ob_gzhandler') : ob_start();
-##$forward = isset($forward) ? urldecode($forward) : $DT_REF; strip_uri($forward);
+($DT['gzip_enable'] && !$_POST && !defined('DT_MOBILE')) ? ob_start('ob_gzhandler') : ob_start();
 if(isset($forward)) {
 	if(isset($_GET['forward'])) $forward = urldecode($forward);
 } else {
-	$forward = $DT_REF;
+	$forward = strpos($DT_REF, (DT_DOMAIN ? DT_DOMAIN : DT_PATH)) === false ? DT_PATH : $DT_REF;
 }
 strip_uri($forward);
 (isset($action) && check_name($action)) or $action = '';

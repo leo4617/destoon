@@ -17,8 +17,6 @@ if($userid || $username) {
 	$COMGROUP = cache_read('group-'.$COM['groupid'].'.php');
 	if(!isset($COMGROUP['homepage']) || !$COMGROUP['homepage']) mobile_msg($L['com_no_home']);
 	require_once DT_ROOT.'/module/member/global.func.php';
-	//unset($COM['keyword']);
-	//extract($COM);	
 	$userid = $COM['userid'];
 	$company = $COM['company'];
 	$HURL = 'index.php?moduleid=4&username='.$username;
@@ -298,6 +296,7 @@ if($userid || $username) {
 		$lists = array();
 		$result = $db->query("SELECT * FROM {$table} WHERE $condition ORDER BY edittime DESC LIMIT $offset,$pagesize");
 		while($r = $db->fetch_array($result)) {
+			$r['linkurl'] = mobileurl($moduleid, 0, $r['itemid']);
 			$r['date'] = timetodate($r['edittime'], 5);
 			$lists[] = $r;
 		}

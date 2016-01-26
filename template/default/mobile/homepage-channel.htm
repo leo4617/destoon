@@ -17,27 +17,27 @@
 {loop $lists $v}
 {if $action == 'mall'}
 <div class="list-img">
-<a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
 <ul>
-<li><a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
 <li class="price">{$DT[money_sign]}{$v[price]}</li>
 <li><em>{$v[date]}</em></li>
 </ul>
 </div>
 {elseif $action == 'sell'}
 <div class="list-img">
-<a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
 <ul>
-<li><a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
 <li><em>{$v[date]}</em></li>
 <li><span>{$v[introduce]}</span></li>
 </ul>
 </div>
 {elseif $action == 'buy'}
 <div class="list-img">
-<a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
 <ul>
-<li><a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
 <li><em>{$v[date]}</em></li>
 <li><span>{$v[introduce]}</span></li>
 </ul>
@@ -45,7 +45,7 @@
 {elseif $action == 'job'}
 <div class="list-img">
 <ul>
-<li><a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
 <li class="f_orange px12">
 	{if $v[minsalary] && $v[maxsalary]}
 		{$v[minsalary]}-{$v[maxsalary]}{$DT[money_unit]}/月
@@ -62,35 +62,35 @@
 </div>
 {elseif $action == 'photo'}
 <div class="list-img">
-<a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-80.png{/if}" width="80" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-80.png{/if}" width="80" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
 <ul>
-<li><a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
 <li><span>{$v[items]} 张图片</span></li>
 <li><em>{$v[date]}</em></li>
 </ul>
 </div>
 {elseif $action == 'info'}
 <div class="list-img">
-<a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}static/img/nopic-60.png{/if}" width="60" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
 <ul>
-<li><a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
 <li><em>{$v[date]}</em></li>
 <li><span>{$v[introduce]}</span></li>
 </ul>
 </div>
 {elseif $action == 'brand'}
 <div class="list-img" style="height:60px;">
-<a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-120.png{/if}" width="120" height="40" alt="" onerror="this.src='static/img/nopic-120.png';"/></a>
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-120.png{/if}" width="120" height="40" alt="" onerror="this.src='static/img/nopic-120.png';"/></a>
 <ul>
-<li><a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
 <li><em>{$v[date]}</em></li>
 </ul>
 </div>
 {elseif $action == 'video'}
 <div class="list-img">
-<a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-80.png{/if}" width="80" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
+<a href="{$v[linkurl]}"><img src="{if $v[thumb]}{$v[thumb]}{else}image/nopic-80.png{/if}" width="80" height="60" alt="" onerror="this.src='static/img/nopic-60.png';"/></a>
 <ul>
-<li><a href="index.php?moduleid={$moduleid}&itemid={$v[itemid]}"><strong>{$v[title]}</strong></a></li>
+<li><a href="{$v[linkurl]}"><strong>{$v[title]}</strong></a></li>
 <li><span>{$v[hits]} 次播放</span></li>
 <li><em>{$v[date]}</em></li>
 </ul>

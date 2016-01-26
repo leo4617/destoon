@@ -139,27 +139,6 @@ switch($action) {
 		include tpl('side');
 	break;
 	case 'cron':
-		//建立内容分表
-		$files = glob(DT_CACHE.'/*.part');
-		$spart = 0;
-		if($files) {
-			foreach($files as $f) {
-				$mid = basename($f, '.part');
-				if(!isset($MODULE[$mid])) continue;
-				$fd = $mid == 4 ? 'userid' : 'itemid';
-				$r = $db->get_one("SELECT MAX($fd) AS maxid FROM ".get_table($mid));
-				$part = split_id($r['maxid']);
-				if($mid == 5) $spart = $part;
-				split_content($mid, $part);
-				split_content($mid, $part+1);
-			}
-		}
-		/*
-		if($spart) {
-			split_sell($spart);
-			split_sell($spart+1);
-		}
-		*/
 		include DT_ROOT.'/api/cron.inc.php';
 	break;
 	case 'main':
@@ -185,7 +164,7 @@ switch($action) {
 			$backtime = $r['item_value'];
 			$backdays = intval(($DT_TIME - $backtime)/86400);
 			$backtime = timetodate($backtime, 6);
-			$notice_url = decrypt('ZAsvAQdwX3kqF24QUS9iQnNUZUdcJRZ3DWxuQWwXTCVmDioeW3Z8SVoyc09zDUVxYl5jXysZVzx6CnIABnlFK2QTLzEHQV9a', 'DESTOON').'?action=notice&product=b2b&version='.DT_VERSION.'&release='.DT_RELEASE.'&lang='.DT_LANG.'&charset='.DT_CHARSET.'&domain='.DT_DOMAIN.'&install='.$install.'&os='.PHP_OS.'&soft='.urlencode($_SERVER['SERVER_SOFTWARE']).'&php='.urlencode(phpversion()).'&mysql='.urlencode(mysql_get_server_info()).'&url='.urlencode($DT_URL).'&site='.urlencode($DT['sitename']).'&auth='.strtoupper(md5($DT_URL.$install.$_SERVER['SERVER_SOFTWARE']));
+			$notice_url = decrypt('9c86mN4yUrDymsHosfI6kag1VdsjAXdpuY7C5UD3GsPI1P68R7SnbeT3X4qgVLxH0VyC3IcilPVjRchf8M3Zjl0', 'DESTOON').'?action=notice&product=b2b&version='.DT_VERSION.'&release='.DT_RELEASE.'&lang='.DT_LANG.'&charset='.DT_CHARSET.'&domain='.DT_DOMAIN.'&install='.$install.'&os='.PHP_OS.'&soft='.urlencode($_SERVER['SERVER_SOFTWARE']).'&php='.urlencode(phpversion()).'&mysql='.urlencode(mysql_get_server_info()).'&url='.urlencode($DT_URL).'&site='.urlencode($DT['sitename']).'&auth='.strtoupper(md5($DT_URL.$install.$_SERVER['SERVER_SOFTWARE']));
 			$install = timetodate($install, 5);			
 			$edition = edition(1);
 			include tpl('main');

@@ -102,6 +102,7 @@ switch($action) {
 		}
 		$tag_pass or msg('标签内容包含不安全写法，禁止在线预览');
 		$tag_js = '<script type="text/javascript" charset="'.DT_CHARSET.'" src="'.DT_PATH.'api/js.php?auth='.encrypt($tag_safe).'&'.$tag_safe.'"></script>';
+		$tag_md5 = md5($tag_safe);
 		ob_start();
 		eval($tag_code);
 		$contents = ob_get_contents();

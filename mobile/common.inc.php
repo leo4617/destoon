@@ -3,7 +3,6 @@
 	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
-//define('DT_MEMBER', true);
 define('DT_MOBILE', true);
 require substr(str_replace("\\", '/', dirname(__FILE__)), 0, -7).'/common.inc.php';
 if(DT_CHARSET != 'UTF-8') header("Content-type:text/html; charset=utf-8");
@@ -21,14 +20,12 @@ $mobile_modules = array('member', 'sell', 'buy', 'quote', 'company', 'exhibit', 
 $pages = '';
 $areaid = isset($areaid) ? intval($areaid) : 0;
 $site_name = $head_title = $EXT['mobile_sitename'] ? $EXT['mobile_sitename'] : $DT['sitename'].$L['mobile_version'];
-
 $kw = $kw ? decrypt($kw) : '';
 if(strlen($kw) < $DT['min_kw'] || strlen($kw) > $DT['max_kw']) $kw = '';
 $keyword = $kw ? str_replace(array(' ', '*'), array('%', '%'), $kw) : '';
 $MURL = $MODULE[2]['linkurl'];
 if($DT_MOB['browser'] == 'screen' && $_username) $MURL = 'mobile.php?action=sync&auth='.encrypt($_username.'|'.$DT_IP.'|'.$DT_TIME).'&goto=';
 $_cart = isset($MODULE[16]) ? intval(get_cookie('cart')) : 0;
-
 $MOB_MODULE = array();
 foreach($MODULE as $v) {
 	if(in_array($v['module'], $mobile_modules) && $v['module'] != 'member' && $v['ismenu']) $MOB_MODULE[] = $v;

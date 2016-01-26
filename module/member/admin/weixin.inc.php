@@ -253,8 +253,8 @@ switch($action) {
 		include tpl('weixin_user', $module);
 	break;
 	case 'menu':
-		require DT_ROOT.'/api/weixin/init.inc.php';
 		if($submit) {
+			require DT_ROOT.'/api/weixin/init.inc.php';
 			update_setting('weixin-menu', array('menu' => serialize($post)));
 			cache_weixin();
 			$menu = $sub = $btn = array();
@@ -308,7 +308,7 @@ switch($action) {
 			#print_r($wx->http_get('https://api.weixin.qq.com/cgi-bin/menu/get?access_token='.$access_token));
 			cache_weixin();
 			$menu = cache_read('weixin-menu.php');
-			if(count($menu) < 1 || count($menu) > 3) {
+			if(!is_array($menu) || count($menu) < 1 || count($menu) > 3) {
 				$menu = array();
 				for($i = 0; $i < 3; $i++) {
 					for($j = 0; $j < 6; $j++) {

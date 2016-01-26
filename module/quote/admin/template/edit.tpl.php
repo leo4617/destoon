@@ -155,7 +155,7 @@ function _price() {
 	if(xmlHttp.readyState==4 && xmlHttp.status==200) {
 		if(xmlHttp.responseText) {
 			var c = xmlHttp.responseText.split('|*|');
-			if(confirm('查找到 '+c[0]+' 条产品报价，是否替换编辑器中当前内容？')) FCKeditorAPI.GetInstance('content').SetData(c[1]);
+			if(confirm('查找到 '+c[0]+' 条产品报价，是否替换编辑器中当前内容？')) EditorAPI('content', 'set', c[1]);
 		} else {
 			Dmsg('未找到产品报价，请换个产品名称或者日期再试', 'tag');
 		}

@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2014 Destoon.COM
+	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -94,41 +94,56 @@ function dsubstr($string, $length, $suffix = '', $start = 0) {
 }
 
 function encrypt($txt, $key = '') {
-	$key or $key = DT_KEY;
-	$rnd = random(32);
-	$txt = $txt.substr($key, 0, 3);
-	$len = strlen($txt);
-	$ctr = 0;
-	$str = '';
-	for($i = 0; $i < $len; $i++) {
-		$ctr = $ctr == 32 ? 0 : $ctr;
-		$str .= $rnd[$ctr].($txt[$i] ^ $rnd[$ctr++]);
-	}
-	return str_replace(array('=', '+', '/', '0x', '0X'), array('', '-P-', '-S-', '-Z-', '-X-'), base64_encode(kecrypt($str, $key)));
+	strlen($key) > 5 or $key = DT_KEY;
+	$str = $txt.substr($key, 0, 3);
+	return str_replace(array('+', '/', '0x', '0X'), array('-P-', '-S-', '-Z-', '-X-'), mycrypt($str, $key, 'ENCODE'));
 }
 
 function decrypt($txt, $key = '') {
-	$key or $key = DT_KEY;
-	$txt = kecrypt(base64_decode(str_replace(array('-P-', '-S-', '-Z-', '-X-'), array('+', '/', '0x', '0X'), $txt)), $key);
-	$len = strlen($txt);
-	$str = '';
-	for($i = 0; $i < $len; $i++) {
-		$tmp = $txt[$i];
-		$str .= $txt[++$i] ^ $tmp;
-	}
+	strlen($key) > 5 or $key = DT_KEY;
+	$str = mycrypt(str_replace(array('-P-', '-S-', '-Z-', '-X-'), array('+', '/', '0x', '0X'), $txt), $key, 'DECODE');
 	return substr($str, -3) == substr($key, 0, 3) ? substr($str, 0, -3) : '';
 }
 
-function kecrypt($txt, $key) {
-	$key = md5($key);
-	$len = strlen($txt);
-	$ctr = 0;
-	$str = '';
-	for($i = 0; $i < $len; $i++) {
-		$ctr = $ctr == 32 ? 0 : $ctr;
-		$str .= $txt[$i] ^ $key[$ctr++];
+function mycrypt($string, $key, $operation = 'DECODE', $expiry = 0) {
+	$ckey_length = 4;
+	$key = md5(strlen($key) > 5 ? $key : DT_KEY);
+	$keya = md5(substr($key, 0, 16));
+	$keyb = md5(substr($key, 16, 16));
+	$keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';
+	$cryptkey = $keya.md5($keya.$keyc);
+	$key_length = strlen($cryptkey);
+	$string = $operation == 'DECODE' ? base64_decode(substr($string, $ckey_length)) : sprintf('%010d', $expiry ? $expiry + time() : 0).substr(md5($string.$keyb), 0, 16).$string;
+	$string_length = strlen($string);
+	$result = '';
+	$box = range(0, 255);
+	$rndkey = array();
+	for($i = 0; $i <= 255; $i++) {
+		$rndkey[$i] = ord($cryptkey[$i % $key_length]);
 	}
-	return $str;
+	for($j = $i = 0; $i < 256; $i++) {
+		$j = ($j + $box[$i] + $rndkey[$i]) % 256;
+		$tmp = $box[$i];
+		$box[$i] = $box[$j];
+		$box[$j] = $tmp;
+	}
+	for($a = $j = $i = 0; $i < $string_length; $i++) {
+		$a = ($a + 1) % 256;
+		$j = ($j + $box[$a]) % 256;
+		$tmp = $box[$a];
+		$box[$a] = $box[$j];
+		$box[$j] = $tmp;
+		$result .= chr(ord($string[$i]) ^ ($box[($box[$a] + $box[$j]) % 256]));
+	}
+	if($operation == 'DECODE') {
+		if((substr($result, 0, 10) == 0 || substr($result, 0, 10) - time() > 0) && substr($result, 10, 16) == substr(md5(substr($result, 26).$keyb), 0, 16)) {
+			return substr($result, 26);
+		} else {
+			return '';
+		}
+	} else {
+		return $keyc.str_replace('=', '', base64_encode($result));
+	}
 }
 
 function dround($var, $precision = 2, $sprinft = false) {
@@ -1158,9 +1173,8 @@ function check_referer() {
 		$U = parse_url(DT_PATH);
 		if(strpos($R['host'], str_replace('www.', '.', $U['host'])) !== false) return true;
 		return false;
-	} else {
-		return true;
 	}
+	return true;
 }
 
 function is_robot() {
