@@ -65,6 +65,12 @@ show_menu($menus);
 <input type="radio" name="setting[mobile_goto]" value="1"  <?php if($mobile_goto) echo 'checked';?>/> 开启&nbsp;&nbsp;&nbsp;&nbsp;
 <input type="radio" name="setting[mobile_goto]" value="0"  <?php if(!$mobile_goto) echo 'checked';?>/> 关闭
 </td>
+</tr><tr>
+<td class="tl">手机版页面动画效果</td>
+<td>
+<input type="radio" name="setting[mobile_ajax]" value="1"  <?php if($mobile_ajax) echo 'checked';?>/> 开启&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio" name="setting[mobile_ajax]" value="0"  <?php if(!$mobile_ajax) echo 'checked';?>/> 关闭<?php tips('开启之后页面有类似APP的滚动切换效果，但是会导致百度等第三方联盟广告无法显示');?>
+</td>
 </tr>
 </table>
 <a name="spread"></a>

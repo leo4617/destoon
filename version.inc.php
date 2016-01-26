@@ -1,4 +1,4 @@
 <?php
 define('DT_VERSION', '6.0');
-define('DT_RELEASE', '20150921');
+define('DT_RELEASE', '20150930');
 ?>

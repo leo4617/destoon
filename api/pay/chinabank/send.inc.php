@@ -23,7 +23,7 @@ $remark2 = '[url:='.$notify_url.']'; //±¸×¢×Ö¶Î2
 </head>
 <body onload="document.getElementById('pay').submit();">
 <?php if($key == 'SANDBOX') { ?>
-<form method="post" action="http://www.destoon.com/api/sandbox.php" id="pay">
+<form method="post" action="http://demo.destoon.com/api/sandbox.php" id="pay">
 <input type="hidden" name="v_notify"    value="<?php echo $notify_url;?>"/>
 <?php } else { ?>
 <form method="post" action="https://Pay3.chinabank.com.cn/PayGate" id="pay">

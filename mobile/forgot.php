@@ -106,7 +106,7 @@ switch($action) {
 	break;
 	case 'check':
 		isset($type) or exit('ko');
-		$captcha = isset($captcha) ? input_trim($captcha) : '';
+		$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 		$msg = captcha($captcha, 1, true);
 		if($msg) exit('captcha');
 		if($type == 'mobile') {

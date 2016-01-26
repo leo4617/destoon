@@ -27,7 +27,11 @@
 <script type="text/javascript" src="static/lib/jquery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript">
 $(document).bind("mobileinit", function() {
-　　$.mobile.defaultPageTransition = "slide";
+　　{if isset($EXT[mobile_ajax]) && $EXT[mobile_ajax]}
+	$.mobile.defaultPageTransition = 'slide';
+	{else}
+	$.mobile.ajaxEnabled = false;
+	{/if}
 });
 var AJPath = 'ajax.php';
 var Dbrowser = '{$DT_MOB[browser]}';

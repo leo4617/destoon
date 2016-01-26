@@ -26,10 +26,14 @@ function mobile_pages($total, $page = 1, $perpage = 20, $demo = '') {
 	if($demo) {
 		$demo_url = $demo;
 	} else {
-		$demo_url = preg_replace("/(.*)([&?]page=[0-9]*)(.*)/i", "\\1\\3", $DT_URL);
-		$s = strpos($demo_url, '?') === false ? '?' : '&';
-		$demo_url = $demo_url.$s.'page={destoon_page}';
-		$demo_url = urldecode($demo_url);
+		if(substr($DT_URL, -5) == '.html') {
+			$demo_url = preg_replace("/[0-9]{1,}\.html/", "{destoon_page}.html", $DT_URL);
+		} else {
+			$demo_url = preg_replace("/(.*)([&?]page=[0-9]*)(.*)/i", "\\1\\3", $DT_URL);
+			$s = strpos($demo_url, '?') === false ? '?' : '&';
+			$demo_url = $demo_url.$s.'page={destoon_page}';
+			$demo_url = urldecode($demo_url);
+		}
 	}
 	$pages = '<a href="javascript:GoPage('.$total.', \''.$demo_url.'\');"><b>'.$page.'</b>/'.$total.'</a> ';
 	$_page = $page >= $total ? 1 : $page + 1;

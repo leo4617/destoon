@@ -192,7 +192,7 @@ class mall {
 	function update($itemid) {
 		$item = $this->db->get_one("SELECT * FROM {$this->table} WHERE itemid=$itemid");
 		$update = '';
-		$keyword = $item['title'].','.$item['brand'].','.strip_tags(cat_pos(get_cat($item['catid']), ','));
+		$keyword = $item['title'].','.($item['brand'] ? $item['brand'].',' : '').strip_tags(cat_pos(get_cat($item['catid']), ','));
 		if($keyword != $item['keyword']) {
 			$keyword = str_replace("//", '', addslashes($keyword));
 			$update .= ",keyword='$keyword'";

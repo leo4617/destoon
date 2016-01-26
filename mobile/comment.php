@@ -96,7 +96,7 @@ switch($action) {
 				exit('login');
 			}
 		}
-		$captcha = isset($captcha) ? input_trim($captcha) : '';
+		$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 		$msg = captcha($captcha, $need_captcha, true);
 		if($msg) exit('captcha');
 		$sql = $_userid ? "username='$_username'" : "ip='$DT_IP'";

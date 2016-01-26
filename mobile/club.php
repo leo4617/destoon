@@ -148,7 +148,7 @@ switch($action) {
 		$need_question = $MOD['question_reply'] == 2 ? $MG['question'] : $MOD['question_reply'];
 		if($need_question) $need_captcha = 1;
 		if(isset($_POST['ok'])) {
-			$captcha = isset($captcha) ? input_trim($captcha) : '';
+			$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 			$msg = captcha($captcha, $need_captcha, true);
 			if($msg) exit('captcha');
 			$post = array();
@@ -199,7 +199,7 @@ switch($action) {
 		$need_question = $MOD['question_add'] == 2 ? $MG['question'] : $MOD['question_add'];
 		if($need_question) $need_captcha = 1;
 		if(isset($_POST['ok'])) {
-			$captcha = isset($captcha) ? input_trim($captcha) : '';
+			$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 			$msg = captcha($captcha, $need_captcha, true);
 			if($msg) exit('captcha');
 			$post = array();			

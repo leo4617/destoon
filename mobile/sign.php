@@ -26,7 +26,7 @@ $head_title = $head_name.$DT['seo_delimiter'].$MOD['name'].$DT['seo_delimiter'].
 $foot = '';
 require DT_ROOT.'/include/post.func.php';
 if(isset($_POST['ok'])) {
-	$captcha = isset($captcha) ? input_trim($captcha) : '';
+	$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 	$msg = captcha($captcha, $need_captcha, true);
 	if($msg) exit('captcha');
 	$amount = intval($amount);

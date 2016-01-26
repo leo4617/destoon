@@ -52,7 +52,7 @@ foreach($MODULE as $v) {
 <th>状态</th>
 </tr>
 <?php foreach($lists as $k=>$v) { ?>
-<tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
+<tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center" title="更新时间：<?php echo timetodate($v['updatetime'], 6);?>">
 <td><input name="post[<?php echo $v['itemid'];?>][delete]" type="checkbox" value="1" onclick="if(this.checked){_del++;}else{_del--;}"/></td>
 <td><a href="?file=<?php echo $file;?>&mid=<?php echo $v['moduleid'];?>&status=<?php echo $status;?>"><?php echo $MODULE[$v['moduleid']]['name'];?></a></td>
 <td><input name="post[<?php echo $v['itemid'];?>][word]" type="text" size="15" value="<?php echo $v['word'];?>"/></td>

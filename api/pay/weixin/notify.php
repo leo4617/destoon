@@ -43,19 +43,19 @@ if(strpos($xml, 'result_code') !== false) {
 					$db->query("UPDATE {$DT_PRE}finance_charge SET status=3,money=$charge_money,receivetime='$DT_TIME',editor='$editor' WHERE itemid=$charge_orderid");
 					require DT_ROOT.'/include/module.func.php';
 					money_add($r['username'], $r['amount']);
-					money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', 'åœ¨çº¿å……å€¼', 'æµæ°´å·:'.$charge_orderid);
+					money_record($r['username'], $r['amount'], $PAY[$bank]['name'], 'system', 'ÔÚÏß³äÖµ', 'Á÷Ë®ºÅ:'.$charge_orderid);
 					$MOD = cache_read('module-2.php');
 					if($MOD['credit_charge'] > 0) {
 						$credit = intval($r['amount']*$MOD['credit_charge']);
 						if($credit > 0) {
 							credit_add($r['username'], $credit);
-							credit_record($r['username'], $credit, 'system', 'å……å€¼å¥–åŠ±', 'å……å€¼'.$r['amount'].$DT['money_unit']);
+							credit_record($r['username'], $credit, 'system', '³äÖµ½±Àø', '³äÖµ'.$r['amount'].$DT['money_unit']);
 						}
 					}
 					wx_exit('ok');
 				} else {
-					$note = 'å……å€¼é‡‘é¢ä¸åŒ¹é…S:'.$charge_money.'R:'.$total_fee;
-					$db->query("UPDATE {$DT_PRE}finance_charge SET status=1,receivetime='$DT_TIME',editor='$editor',note='$note' WHERE itemid=$charge_orderid");//æ”¯ä»˜å¤±è´¥
+					$note = '³äÖµ½ð¶î²»Æ¥ÅäS:'.$charge_money.'R:'.$total_fee;
+					$db->query("UPDATE {$DT_PRE}finance_charge SET status=1,receivetime='$DT_TIME',editor='$editor',note='$note' WHERE itemid=$charge_orderid");//Ö§¸¶Ê§°Ü
 				}
 			}
 		}

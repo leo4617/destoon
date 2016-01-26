@@ -88,8 +88,8 @@ $L['trade_dstatus'] = array(
 );
 $L['trade_msg_deny'] = '您无权进行此操作';
 $L['trade_msg_null'] = '订单不存在';
-$L['trade_msg_pay_bind'] = '系统采用了{v0}担保交易，请先绑定您的{v0}帐号';
-$L['trade_msg_less_fee'] = '附加金额不能小于{v0}';
+$L['trade_msg_pay_bind'] = '系统采用了{V0}担保交易，请先绑定您的{V0}帐号';
+$L['trade_msg_less_fee'] = '附加金额不能小于{V0}';
 $L['trade_msg_confirm'] = '此订单需要卖家确认';
 $L['trade_msg_deny_comment'] = '此订单不支持评价';
 $L['trade_msg_comment_again'] = '您已经评价过此交易';
@@ -103,8 +103,8 @@ $L['trade_msg_bind_exists'] = '帐号绑定已经存在，请检查您的帐号';
 $L['trade_msg_bind_success'] = '更新成功';
 $L['trade_msg_muti_choose'] = '请选择需要支付的订单';
 $L['trade_msg_muti_empty'] = '暂无符合条件的待付款订单';
-$L['trade_bind_title'] = '绑定{v0}帐号';
-$L['trade_bind_error'] = '{v0}帐号格式不正确';
+$L['trade_bind_title'] = '绑定{V0}帐号';
+$L['trade_bind_error'] = '{V0}帐号格式不正确';
 $L['trade_muti_title'] = '批量付款';
 
 $L['trade_price_fee_null'] = '请填写附加金额';

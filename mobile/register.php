@@ -172,7 +172,7 @@ switch($action) {
 	break;
 	case 'post':
 		if($MOD['captcha_register']) {
-			$captcha = isset($captcha) ? input_trim($captcha) : '';
+			$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 			$msg = captcha($captcha, $MOD['captcha_register'], true);
 			if($msg) exit('captcha');
 		}

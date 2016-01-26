@@ -298,8 +298,8 @@ function send_sms($mobile, $message, $word = 0, $time = 0) {
 	global $db, $DT, $DT_TIME, $DT_IP, $_username;
 	if(!$DT['sms'] || !DT_CLOUD_UID || !DT_CLOUD_KEY || !is_mobile($mobile) || strlen($message) < 5) return false;
 	$word or $word = word_count($message);
-	$sms_message = rawurlencode(convert($message, DT_CHARSET, 'UTF-8'));
-	$data = 'sms_uid='.DT_CLOUD_UID.'&sms_key='.DT_CLOUD_KEY.'&sms_charset='.DT_CHARSET.'&sms_mobile='.$mobile.'&sms_message='.$sms_message.'&sms_time='.$time;
+	$sms_message = convert($message, DT_CHARSET, 'UTF-8');
+	$data = 'sms_uid='.DT_CLOUD_UID.'&sms_key='.md5(DT_CLOUD_KEY.'|'.$mobile.'|'.md5($sms_message)).'&sms_charset='.DT_CHARSET.'&sms_mobile='.$mobile.'&sms_message='.rawurlencode($sms_message).'&sms_time='.$time;
 	$header = "POST /send.php HTTP/1.0\r\n";
 	$header .= "Accept: */*\r\n";
 	$header .= "Content-Type: application/x-www-form-urlencoded\r\n";
@@ -494,7 +494,7 @@ function get_env($type) {
 			return $_SERVER['SERVER_PORT'] == '443' ? 'https://' : 'http://';
 		break;
 		case 'port':
-			return $_SERVER['SERVER_PORT'] == '80' ? '' : ':'.$_SERVER['SERVER_PORT'];
+			return ($_SERVER['SERVER_PORT'] == '80' || $_SERVER['SERVER_PORT'] == '443') ? '' : ':'.$_SERVER['SERVER_PORT'];
 		break;
 		case 'host':
 			return preg_match("/^[a-z0-9_\-\.]{4,}$/i", $_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
@@ -566,7 +566,16 @@ function convert($str, $from = 'utf-8', $to = 'gb2312') {
 	$to = str_replace('utf8', 'utf-8', $to);
 	if($from == $to) return $str;
 	$tmp = array();
-	if(function_exists('iconv')) {
+	if(function_exists('mb_convert_encoding')) {
+		if(is_array($str)) {
+			foreach($str as $key => $val) {
+				$tmp[$key] = mb_convert_encoding($val, $to, $from);
+			}
+			return $tmp;
+		} else {
+			return mb_convert_encoding($str, $to, $from);
+		}
+	} else if(function_exists('iconv')) {
 		if(is_array($str)) {
 			foreach($str as $key => $val) {
 				$tmp[$key] = iconv($from, $to."//IGNORE", $val);
@@ -575,15 +584,6 @@ function convert($str, $from = 'utf-8', $to = 'gb2312') {
 		} else {
 			return iconv($from, $to."//IGNORE", $str);
 		}
-	} else if(function_exists('mb_convert_encoding')) {
-		if(is_array($str)) {
-			foreach($str as $key => $val) {
-				$tmp[$key] = mb_convert_encoding($val, $to, $from);
-			}
-			return $tmp;
-		} else {
-			return mb_convert_encoding($str, $to, $from);
-		}	
 	} else {
 		require_once DT_ROOT.'/include/convert.func.php';
 		return dconvert($str, $to, $from);

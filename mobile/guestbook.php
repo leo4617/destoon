@@ -3,7 +3,7 @@ $moduleid = 3;
 require 'common.inc.php';
 $need_captcha = $MOD['guestbook_captcha'] ? 1 : 0;
 if(isset($_POST['ok'])) {
-	$captcha = isset($captcha) ? input_trim($captcha) : '';
+	$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 	$msg = captcha($captcha, $need_captcha, true);
 	if($msg) exit('captcha');
 	$TYPE = explode('|', trim($MOD['guestbook_type']));

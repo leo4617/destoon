@@ -71,7 +71,7 @@ switch($action) {
 		if($need_question) $need_captcha = 1;
 		if(isset($_POST['ok'])) {
 			require_once DT_ROOT.'/include/post.func.php';
-			$captcha = isset($captcha) ? input_trim($captcha) : '';
+			$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 			$msg = captcha($captcha, $need_captcha, true);
 			if($msg) exit('captcha');
 			$content = isset($content) ? convert(input_trim(nl2br($content)), 'UTF-8', DT_CHARSET) : '';
