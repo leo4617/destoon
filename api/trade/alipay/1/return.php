@@ -1,4 +1,5 @@
 <?php
+$_SERVER['REQUEST_URI'] = '';
 $_DPOST = $_POST;
 $_DGET = $_GET;
 require '../../../../common.inc.php';
@@ -7,20 +8,12 @@ $_POST = $_DPOST;
 $_GET = $_DGET;
 require '../config.inc.php';
 $api == 1 or exit('fail');
+#log_write(array($_SERVER, $_POST, $_GET), 'ali'.$api.'r', 1);
 if($_GET['seller_email']) $aliapy_config['seller_email'] = $_GET['seller_email'];
 /* * 
  * 功能：支付宝页面跳转同步通知页面
  * 版本：3.2
  * 日期：2011-03-25
- * 说明：
- * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
- * 该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
-
- *************************页面功能说明*************************
- * 该页面可在本机电脑测试
- * 可放入HTML等美化页面的代码、商户业务逻辑程序代码
- * 该页面可以使用PHP开发工具调试，也可以使用写文本函数AlipayFunction.logResult，该函数已被默认关闭，见alipay_notify_class.php中的函数verifyReturn
- 
  * WAIT_SELLER_SEND_GOODS(表示买家已在支付宝交易管理中产生了交易记录且付款成功，但卖家没有发货);
  */
 
@@ -37,11 +30,11 @@ if($verify_result) {//验证成功
     //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表
     $out_trade_no	= intval($_GET['out_trade_no']);	//获取订单号
     $trade_no		= $_GET['trade_no'];		//获取支付宝交易号
-    $total_fee		= $_GET['price'];			//获取总价格
+    $total_fee		= dround($_GET['price']);			//获取总价格
 
 	$itemid = $out_trade_no;
 	$td = $db->get_one("SELECT * FROM {$DT_PRE}mall_order WHERE itemid=$itemid");
-	$money = $td['amount'] + $td['fee'];
+	$money = dround($td['amount'] + $td['fee']);
 	if(!$td || $total_fee != $money) message('金额不符(Code:002)', $MODULE[2]['linkurl'].'trade.php?error=2');
 	$seller = $td['seller'];
 	$seller_email = $_GET['seller_email'];

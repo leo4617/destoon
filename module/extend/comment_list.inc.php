@@ -127,7 +127,7 @@ switch($action) {
 				}
 				$db->query("UPDATE {$DT_PRE}comment SET quote=quote+1 WHERE itemid=$qid");
 			}
-			$db->query("INSERT INTO {$DT_PRE}comment (item_mid,item_id,item_title,item_username,content,quotation,qid,addtime,username,hidden,star,ip,status) VALUES ('$mid','$itemid','$title','$username','$content','$quotation','$qid','$DT_TIME','$_username','$hidden','$star','$DT_IP','$status')");
+			$db->query("INSERT INTO {$DT_PRE}comment (item_mid,item_id,item_title,item_username,content,quotation,qid,addtime,username,hidden,star,ip,status) VALUES ('$mid','$itemid','".addslashes($title)."','$username','$content','$quotation','$qid','$DT_TIME','$_username','$hidden','$star','$DT_IP','$status')");
 			$cid = $db->insert_id();
 			$r = $db->get_one("SELECT sid FROM {$DT_PRE}comment_stat WHERE moduleid=$mid AND itemid=$itemid");
 			$star = 'star'.$star;

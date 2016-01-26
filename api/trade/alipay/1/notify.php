@@ -1,4 +1,5 @@
 <?php
+$_SERVER['REQUEST_URI'] = '';
 $_DPOST = $_POST;
 $_DGET = $_GET;
 require '../../../../common.inc.php';
@@ -7,20 +8,12 @@ $_POST = $_DPOST;
 $_GET = $_DGET;
 require '../config.inc.php';
 $api == 1 or exit('fail');
+#log_write(array($_SERVER, $_POST, $_GET), 'ali'.$api.'n', 1);
 if($_POST['seller_email']) $aliapy_config['seller_email'] = $_POST['seller_email'];
 /* *
  * 功能：支付宝服务器异步通知页面
  * 版本：3.2
  * 日期：2011-03-25
- * 说明：
- * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
- * 该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
-
-
- *************************页面功能说明*************************
- * 创建该页面文件时，请留心该页面文件中无任何HTML代码及空格。
- * 该页面不能在本机电脑测试，请到服务器上做测试。请确保外部可以访问该页面。
- * 该页面调试工具请使用写文本函数AlipayFunction.logResult，该函数已被默认关闭，见alipay_notify_class.php中的函数verifyNotify
  * 如果没有收到该页面返回的 success 信息，支付宝会在24小时内按一定的时间策略重发通知
  
  * WAIT_BUYER_PAY(表示买家已在支付宝交易管理中产生了交易记录，但没有付款);
@@ -44,11 +37,11 @@ if($verify_result) {//验证成功
     //获取支付宝的通知返回参数，可参考技术文档中服务器异步通知参数列表
     $out_trade_no	= intval($_POST['out_trade_no']);	    //获取订单号
     $trade_no		= $_POST['trade_no'];	    	//获取支付宝交易号
-    $total			= $_POST['price'];				//获取总价格
+    $total_fee		= dround($_POST['price']);				//获取总价格
 
 	$itemid = $out_trade_no;
 	$td = $db->get_one("SELECT * FROM {$DT_PRE}mall_order WHERE itemid=$itemid");
-	$money = $td['amount'] + $td['fee'];
+	$money = dround($td['amount'] + $td['fee']);
 	if(!$td || $total_fee != $money) exit("fail");
 	$seller = $td['seller'];
 	$seller_email = $_POST['seller_email'];
