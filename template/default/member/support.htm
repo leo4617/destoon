@@ -24,7 +24,7 @@
 {if $user[mobile]}
 <tr>
 <td class="tl">手机</td>
-<td class="tr">{$user[mobile]} {if $DT[sms]}&nbsp;&nbsp;<a href="sms.php?action=add&auth={encrypt($user[mobile])}" target="_blank"><img src="{DT_SKIN}image/sendsms.gif" align="absmiddle" title="发送短信" alt=""/></a>{/if}</td>
+<td class="tr">{$user[mobile]} {if $DT[sms]}&nbsp;&nbsp;<a href="sms.php?action=add&auth={encrypt($user[mobile], DT_KEY.'SMS')}" target="_blank"><img src="{DT_SKIN}image/sendsms.gif" align="absmiddle" title="发送短信" alt=""/></a>{/if}</td>
 </tr>
 {/if}
 {if $user[fax]}

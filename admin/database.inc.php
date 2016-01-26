@@ -4,7 +4,6 @@
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('DT_ADMIN') or exit('Access Denied');
-if(strpos(get_env('self'), '/admin.php') !== false) msg('后台文件名admin.php未修改，此功能已被系统禁用');
 require DT_ROOT.'/include/sql.func.php';
 $menus = array (
     array('数据备份', '?file='.$file),
@@ -18,6 +17,8 @@ $menus = array (
 $this_forward = '?file='.$file;
 $D = DT_ROOT.'/file/backup/';
 isset($dir) or $dir = '';
+isset($table) or $table = '';
+if($table) $table = strip_sql($table, 0);
 switch($action) {
 	case 'repair':
 		$DT['close'] or msg('为了数据安全，此操作必须在网站设置里关闭网站');
@@ -35,6 +36,7 @@ switch($action) {
 		if(!$tables) msg();
 		if(is_array($tables)) {
 			foreach($tables as $table) {
+				$table = strip_sql($table, 0);
 				if(strpos($table, $DT_PRE) === false) $db->query("DROP TABLE `$table`");
 			}
 		}
@@ -411,6 +413,7 @@ switch($action) {
 				$random = timetodate($DT_TIME, 'Y-m-d H.i.s').' '.strtolower(random(10));
 				$tsize = 0;
 				foreach($tables as $k=>$v) {
+					$tables[$k] = strip_sql($v, 0);
 					$tsize += $sizes[$v];
 				}
 				$tid = ceil($tsize*1024/$sizelimit);

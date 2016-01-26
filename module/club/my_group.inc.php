@@ -65,12 +65,12 @@ switch($action) {
 			$post['username'] = $_username;
 			if($do->pass($post)) {
 				$post['catid'] = $item['catid'];
-				$post['title'] = $item['title'];
+				$post['title'] = addslashes($item['title']);
 				$post['level'] = $item['level'];
 				$post['fee'] = $item['fee'];
-				$post['style'] = $item['style'];
-				$post['template'] = $item['template'];
-				$post['filepath'] = $item['filepath'];
+				$post['style'] = addslashes($item['style']);
+				$post['template'] = addslashes($item['template']);
+				$post['filepath'] = addslashes($item['filepath']);
 				$post['status'] = $item['status'];
 				$post['hits'] = $item['hits'];
 				$do->edit($post);

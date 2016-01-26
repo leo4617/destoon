@@ -137,7 +137,7 @@ function get_module_setting($moduleid, $key = '') {
 function anti_spam($string) {
 	global $DT;
 	if($DT['anti_spam'] && preg_match("/^[a-z0-9_@\-\s\/\.\,\(\)\+]+$/i", $string)) {
-		return '<img src="'.DT_PATH.'api/image.png.php?auth='.rawurlencode(encrypt($string)).'" align="absmddle"/>';
+		return '<img src="'.DT_PATH.'api/image.png.php?auth='.encrypt($string, DT_KEY.'SPAM').'" align="absmddle"/>';
 	} else {
 		return $string;
 	}

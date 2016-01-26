@@ -1,6 +1,6 @@
 <?php
 require '../../common.inc.php';
-$auth = isset($auth) ? decrypt($auth) : '';
+$auth = isset($auth) ? decrypt($auth, DT_KEY.'PUSH') : '';
 $auth or exit('E001');
 $touser = substr($auth, 0, strpos($auth, '|'));
 check_name($touser) or exit('E002');

@@ -42,7 +42,7 @@ if($DT_QST) {
 	if($action == 'group') {
 		$condition = 'status=3';
 		if($keyword) $condition .= " AND title LIKE '%$keyword%'";
-		if($username) $condition .= " AND username='$username'";
+		if($username) $condition .= " AND passport='$username'";
 		$items = $db->count($table.'_group', $condition, $DT['cache_search']);
 		$pages = pages($items, $page, $pagesize);
 		if($items) {
@@ -63,7 +63,7 @@ if($DT_QST) {
 	} else if($action == 'reply') {
 		$condition = 'status=3';
 		if($keyword) $condition .= " AND content LIKE '%$keyword%'";
-		if($username) $condition .= " AND username='$username'";
+		if($username) $condition .= " AND passport='$username'";
 		if($fromtime) $condition .= " AND addtime>=$fromtime";
 		if($totime) $condition .= " AND addtime<=$totime";
 		$items = $db->count($table.'_reply', $condition, $DT['cache_search']);

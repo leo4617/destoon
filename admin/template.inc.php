@@ -4,7 +4,6 @@
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('DT_ADMIN') or exit('Access Denied');
-if(strpos(get_env('self'), '/admin.php') !== false) msg('后台文件名admin.php未修改，此功能已被系统禁用');
 if(!isset($CFG['edittpl']) || !$CFG['edittpl']) msg('系统禁止了在线修改模板，请FTP修改根目录config.inc.php<br/>$CFG[\'edittpl\'] = \'0\'; 修改为 $CFG[\'edittpl\'] = \'1\';');
 isset($dir) or $dir = '';
 $menus = array (

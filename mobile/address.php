@@ -78,7 +78,7 @@ switch($action) {
 		exit('ok');
 	break;
 	default:
-		$auth = isset($auth) ? decrypt($auth) : '';
+		$auth = isset($auth) ? decrypt($auth, DT_KEY.'ADDR') : '';
 		if($auth) {
 			$back_link = $auth;
 			set_cookie('addr_back', $back_link);

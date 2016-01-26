@@ -1,7 +1,7 @@
 <?php
 defined('IN_DESTOON') or exit('Access Denied');
 $moduleid == 2 or exit;
-$auth = isset($auth) ? decrypt($auth) : '';
+$auth = isset($auth) ? decrypt($auth, DT_KEY.'EXPRESS') : '';
 $auth or exit;
 list($from, $com, $no, $status, $itemid) =  explode('|', $auth);
 strlen($com) > 2 or exit;

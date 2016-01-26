@@ -109,7 +109,7 @@ if($submit) {
 	$post['content'] = $post['introduce'] = $post['thumb'] = $post['banner'] = $post['catid'] = $post['catids'] = '';
 	$post['edittime'] = 0;
 	$inviter = get_cookie('inviter');
-	$post['inviter'] = $inviter ? decrypt($inviter) : '';
+	$post['inviter'] = $inviter ? decrypt($inviter, DT_KEY.'INVITER') : '';
 	check_name($post['inviter']) or $post['inviter'] = '';
 	if($do->add($post)) {
 		$userid = $do->userid;
@@ -150,7 +150,7 @@ if($submit) {
 		if($could_emailcode) $db->query("UPDATE {$DT_PRE}member SET vemail=1 WHERE username='$username'");
 		if($could_mobilecode) $db->query("UPDATE {$DT_PRE}member SET vmobile=1 WHERE username='$username'");
 		if(!get_cookie('bind')) session_destroy();
-		$forward = 'goto.php?action=register_success&username='.$username.'&auth='.encrypt('LOGIN|'.$username.'|'.$post['password'].'|'.$DT_TIME).'&forward='.urlencode($forward);
+		$forward = 'goto.php?action=register_success&username='.$username.'&auth='.encrypt('LOGIN|'.$username.'|'.$post['password'].'|'.$DT_TIME, DT_KEY.'LOGIN').'&forward='.urlencode($forward);
 		dalert('', '', 'parent.window.location="'.$forward.'"');
 	} else {
 		$reload_captcha = $MOD['captcha_register'] ? reload_captcha() : '';
@@ -166,7 +166,7 @@ if($submit) {
 	$auth = isset($auth) ? rawurldecode($auth) : '';
 	$username = $password = $email = $passport = '';
 	if($auth) {
-		$auth = decrypt($auth);
+		$auth = decrypt($auth, DT_KEY.'UC');
 		$auth = explode('|', $auth);
 		$passport = $auth[0];
 		if(check_name($passport)) $username = $passport;

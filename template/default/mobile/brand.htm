@@ -11,7 +11,7 @@
 </div>
 <div class="head-bar-title">{$head_name}</div>
 <div class="head-bar-right">
-<a href="javascript:{if $itemid}Dsheet('{if $could_message}<a href=&#34;message.php?action=send&typeid=3&touser={$username}&title={encrypt('愿加盟“'.$title.'”品牌')}&#34; data-transition=&#34;slideup&#34;><span>留言加盟</span></a>|{/if}<a href=&#34;{if $DT_MOB[browser]=='weixin'||$DT_MOB[browser]=='qq'}javascript:share_tips();{else}share.php?moduleid={$moduleid}&itemid={$itemid}{/if}&#34;  data-transition=&#34;slideup&#34;><span>分享好友</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');{else}Dsheet('<a href=&#34;search.php?action=mod{$moduleid}&catid={$catid}&areaid={$areaid}&#34;><span>{$MOD[name]}搜索</span></a>|<a href=&#34;category.php?moduleid={$moduleid}&#34;><span>按分类浏览</span></a>|<a href=&#34;area.php?moduleid={$moduleid}&#34;><span>按地区浏览</span></a>', '取消');{/if}"><img src="static/img/icon-action.png" width="24" height="24"/></a>
+<a href="javascript:{if $itemid}Dsheet('{if $could_message}<a href=&#34;message.php?action=send&typeid=3&touser={$username}&title={encrypt('愿加盟“'.$title.'”品牌', DT_KEY.'SEND')}&#34; data-transition=&#34;slideup&#34;><span>留言加盟</span></a>|{/if}<a href=&#34;{if $DT_MOB[browser]=='weixin'||$DT_MOB[browser]=='qq'}javascript:share_tips();{else}share.php?moduleid={$moduleid}&itemid={$itemid}{/if}&#34;  data-transition=&#34;slideup&#34;><span>分享好友</span></a>|<a href=&#34;{mobileurl($moduleid)}&#34; data-direction=&#34;reverse&#34;><span>{$MOD[name]}首页</span></a>|<a href=&#34;channel.php&#34; data-direction=&#34;reverse&#34;><span>频道列表</span></a>', '取消');{else}Dsheet('<a href=&#34;search.php?action=mod{$moduleid}&catid={$catid}&areaid={$areaid}&#34;><span>{$MOD[name]}搜索</span></a>|<a href=&#34;category.php?moduleid={$moduleid}&#34;><span>按分类浏览</span></a>|<a href=&#34;area.php?moduleid={$moduleid}&#34;><span>按地区浏览</span></a>', '取消');{/if}"><img src="static/img/icon-action.png" width="24" height="24"/></a>
 </div>
 </div>
 <div class="head-bar-fix"></div>
@@ -26,7 +26,7 @@
 	{if $vip}{VIP}:{$vip}级<br/>{/if}
 	{if $homepage}网站:<a href="{$homepage}" target="_blank" rel="external" class="b">{$homepage}</a><br/>{/if}
 	{if $could_message}
-	<a href="message.php?action=send&typeid=3&touser={$username}&title={encrypt('愿加盟“'.$title.'”品牌')}" data-transition="slideup"><div class="btn-blue" style="margin:10px 0;">留言加盟</div></a>
+	<a href="message.php?action=send&typeid=3&touser={$username}&title={encrypt('愿加盟“'.$title.'”品牌', DT_KEY.'SEND')}" data-transition="slideup"><div class="btn-blue" style="margin:10px 0;">留言加盟</div></a>
 	{/if}
 	{$content}
 	</div>

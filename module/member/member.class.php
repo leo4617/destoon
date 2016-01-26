@@ -402,7 +402,7 @@ class member {
 			credit_record($login_username, $MOD['credit_login'], 'system', $L['member_record_login'], $DT_IP);
 		}
 		$cookietime = $DT_TIME + ($login_cookietime ? intval($login_cookietime) : 86400*7);
-		$auth = encrypt($user['userid'].'|'.$user['password']);
+		$auth = encrypt($user['userid'].'|'.$user['password'], DT_KEY.'USER'.$_SERVER['HTTP_USER_AGENT']);
 		set_cookie('auth', $auth, $cookietime);
 		set_cookie('username', $user['username'], $DT_TIME + 30*86400);
 		$this->db->query("UPDATE {$this->table_member} SET loginip='$DT_IP',logintime=$DT_TIME,logintimes=logintimes+1 WHERE userid=$userid");

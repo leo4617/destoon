@@ -36,7 +36,6 @@ if($html == 'show') {
 	}
 	if($_username && $_username == $item['username']) $user_status = 3;
 	if($user_status == 3) {
-		$auth = encrypt("$itemid");
 		include DT_ROOT.'/file/config/filetype.inc.php';
 		include DT_ROOT.'/file/config/mirror.inc.php';
 	}

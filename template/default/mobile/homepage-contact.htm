@@ -11,7 +11,7 @@
 <div class="main">
 	<div class="content">
 	公司名称：{$COM[company]}<br/>
-	公司地址：<a href="map.php?auth={encrypt($COM[address])}" rel="external">{$COM[address]}</a><br/>
+	公司地址：<a href="map.php?auth={encrypt($COM[address], DT_KEY.'MAP')}" rel="external">{$COM[address]}</a><br/>
 	{if $COM[postcode]}
 	邮政编码：{$COM[postcode]}<br/>
 	{/if}

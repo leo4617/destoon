@@ -6,7 +6,7 @@ check_referer() or exit;
 if($DT_BOT) dhttp(403);
 isset($auth) or $auth = '';
 $auth or exit;
-$string = strpos($auth, '://') === false ? decrypt($auth) : $auth;
+$string = strpos($auth, '://') === false ? decrypt($auth, DT_KEY.'QRCODE') : $auth;
 $string or exit;
 $size = isset($size) ? intval($size) : 4;
 ($size > 0 && $size < 10) or $size = 4;

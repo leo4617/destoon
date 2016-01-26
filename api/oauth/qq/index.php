@@ -12,7 +12,7 @@ if($_SESSION['qq_access_token']) {
 		$rec = trim($rec);
 		$arr = json_decode($rec, true);
 		$openid = $arr['openid'];		
-		if($OAUTH[$site]['sync']) set_cookie('qq_openid', encrypt($openid), $DT_TIME + $_SESSION['qq_access_time']);
+		if($OAUTH[$site]['sync']) set_cookie('qq_openid', encrypt($openid, DT_KEY.'QQID'), $DT_TIME + $_SESSION['qq_access_time']);
 		$par = 'access_token='.$_SESSION['qq_access_token'].'&oauth_consumer_key='.QQ_ID.'&openid='.$openid;
 		$rec = dcurl(QQ_USERINFO_URL, $par);
 		if(strpos($rec, 'nickname') !== false) {

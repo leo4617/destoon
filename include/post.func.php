@@ -780,6 +780,6 @@ function reload_question() {
 }
 
 function sync_weibo($site, $moduleid, $itemid) {
-	return 'document.write(\'<img src="'.DT_PATH.'api/oauth/'.$site.'/post.php?auth='.encrypt($moduleid.'-'.$itemid).'" width="1" height="1"/>\');';
+	return 'document.write(\'<img src="'.DT_PATH.'api/oauth/'.$site.'/post.php?auth='.encrypt($moduleid.'-'.$itemid, DT_KEY.'SYNC').'" width="1" height="1"/>\');';
 }
 ?>

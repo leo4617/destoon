@@ -153,7 +153,7 @@ $_userid = $_admin = $_aid = $_message = $_chat = $_sound = $_online = $_money =
 $_username = $_company = $_passport = $_truename = '';
 $_groupid = 3;
 $destoon_auth = get_cookie('auth');
-if($destoon_auth) $destoon_auth = decrypt($destoon_auth);
+if($destoon_auth) $destoon_auth = decrypt($destoon_auth, DT_KEY.'USER'.$_SERVER['HTTP_USER_AGENT']);
 if($destoon_auth) {	
 	$_dauth = explode('|', $destoon_auth);
 	$_userid = isset($_dauth[0]) ? intval($_dauth[0]) : 0;

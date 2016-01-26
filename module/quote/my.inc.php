@@ -141,10 +141,10 @@ switch($action) {
 				$post['addtime'] = timetodate($item['addtime']);
 				$post['level'] = $item['level'];
 				$post['fee'] = $item['fee'];
-				$post['style'] = $item['style'];
-				$post['template'] = $item['template'];
-				$post['filepath'] = $item['filepath'];
-				$post['note'] = $item['note'];
+				$post['style'] = addslashes($item['style']);
+				$post['template'] = addslashes($item['template']);
+				$post['filepath'] = addslashes($item['filepath']);
+				$post['note'] = addslashes($item['note']);
 				$need_check =  $MOD['check_add'] == 2 ? $MG['check'] : $MOD['check_add'];
 				$post['status'] = get_status($item['status'], $need_check);
 				$post['hits'] = $item['hits'];

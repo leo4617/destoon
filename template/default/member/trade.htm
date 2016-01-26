@@ -261,7 +261,7 @@
 	</tr>
 	<tr>
 	<td class="tl">手机</td>
-	<td class="tr">{$td[buyer_mobile]} {if $DT[sms]}&nbsp;&nbsp;<a href="sms.php?action=add&auth={encrypt($td[buyer_mobile])}" target="_blank"><img src="{DT_SKIN}image/sendsms.gif" align="absmiddle" title="发送短信" alt=""/></a>{/if}</td>
+	<td class="tr">{$td[buyer_mobile]} {if $DT[sms]}&nbsp;&nbsp;<a href="sms.php?action=add&auth={encrypt($td[buyer_mobile], DT_KEY.'SMS')}" target="_blank"><img src="{DT_SKIN}image/sendsms.gif" align="absmiddle" title="发送短信" alt=""/></a>{/if}</td>
 	</tr>
 	<tr>
 	<td class="tl">电话</td>

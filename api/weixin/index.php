@@ -29,7 +29,7 @@ if($wx->signature()) {
 							$tags['title'] = '会员中心';
 							$tags['description'] = $WX['bind'];
 							$tags['picurl'] = DT_PATH.'api/weixin/image/top_bind.jpg';
-							$tags['url'] = $EXT['mobile_url'].'weixin.php?action=member&auth='.encrypt("$FromUserName");
+							$tags['url'] = $EXT['mobile_url'].'weixin.php?action=member&auth='.encrypt("$FromUserName", DT_KEY.'WXID');
 							$misc[] = $tags;						
 							$wx->response($FromUserName, $ToUserName, 'news', '', $misc);
 						break;

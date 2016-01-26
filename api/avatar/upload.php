@@ -3,7 +3,7 @@ $_SERVER['REQUEST_URI'] = '';
 $_DPOST = $_POST;
 include '../../common.inc.php';
 $auth = isset($auth) ? trim($auth) : '';
-list($_userid, $_username) = explode('|', (decrypt($auth)));
+list($_userid, $_username) = explode('|', decrypt($auth, DT_KEY.'AVATAR'));
 $_userid = intval($_userid);
 $_userid or exit('{"status":0}');
 $user = $db->get_one("SELECT username FROM {$DT_PRE}member WHERE userid=$_userid");

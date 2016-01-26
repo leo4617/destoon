@@ -91,7 +91,7 @@ function Dsend() {
 </div>
 <script type="text/javascript">
 function Message_action() {
-	Dsheet('<a href="javascript:Message_delete();"><span>删除</span></a>{if $fromuser}|<a href="message.php?action=send&touser={$fromuser}&title={encrypt('RE:'.$title)}"><span>回复</span></a>{/if}', '取消');
+	Dsheet('<a href="javascript:Message_delete();"><span>删除</span></a>{if $fromuser}|<a href="message.php?action=send&touser={$fromuser}&title={encrypt('RE:'.$title, DT_KEY.'SEND')}"><span>回复</span></a>{/if}', '取消');
 }
 function Message_delete() {
 	Dsheet('<a href="message.php?action=delete&itemid={$itemid}"><span style="color:red;">删除消息</span></a>', '取消', '确定要删除此消息吗？');

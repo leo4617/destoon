@@ -77,7 +77,7 @@ if($action == 'update') {
 		break;
 		case 'detail'://订单详情
 			$td['total'] = $td['amount'] + $td['fee'];
-			$auth = encrypt('mall|'.$td['send_type'].'|'.$td['send_no'].'|'.$td['send_status'].'|'.$td['itemid']);
+			$auth = encrypt('mall|'.$td['send_type'].'|'.$td['send_no'].'|'.$td['send_status'].'|'.$td['itemid'], DT_KEY.'EXPRESS');
 			$head_title = $L['trade_detail_title'];
 		break;
 		case 'print'://订单打印
@@ -88,7 +88,7 @@ if($action == 'update') {
 		break;
 		case 'express'://快递追踪
 			($td['send_type'] && $td['send_no']) or dheader('?action=update&step=detail&itemid='.$itemid);
-			$auth = encrypt('mall|'.$td['send_type'].'|'.$td['send_no'].'|'.$td['send_status'].'|'.$td['itemid']);
+			$auth = encrypt('mall|'.$td['send_type'].'|'.$td['send_no'].'|'.$td['send_status'].'|'.$td['itemid'], DT_KEY.'EXPRESS');
 			$head_title = $L['trade_exprss_title'];
 		break;
 		case 'pay'://买家付款

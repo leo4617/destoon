@@ -6,7 +6,7 @@ function is_openid($openid) {
 }
 if($action == 'login') {
 	$openid = get_cookie('weixin_openid');
-	if($openid) $openid = decrypt($openid);
+	if($openid) $openid = decrypt($openid, DT_KEY.'WXID');
 	if(is_openid($openid)) {
 		$r = $db->get_one("SELECT username FROM {$DT_PRE}weixin_user WHERE openid='$openid'");
 		if($r && $r['username']) {
@@ -23,7 +23,7 @@ if($action == 'login') {
 	}
 } else if($action == 'bind') {
 	$openid = get_cookie('weixin_openid');
-	if($openid) $openid = decrypt($openid);
+	if($openid) $openid = decrypt($openid, DT_KEY.'WXID');
 	if($_userid && is_openid($openid)) {
 		$r = $db->get_one("SELECT itemid FROM {$DT_PRE}weixin_user WHERE username='$_username'");
 		if(!$r) {
@@ -39,7 +39,7 @@ if($action == 'login') {
 } else if($action == 'member') {
 	isset($auth) or $auth = '';
 	if($auth) {
-		$openid = decrypt($auth);
+		$openid = decrypt($auth, DT_KEY.'WXID');
 		if(is_openid($openid)) {
 			set_cookie('weixin_openid', $auth);
 			set_cookie('weixin_url', 'my.php');
@@ -54,7 +54,7 @@ if($action == 'login') {
 		$arr = json_decode($rec, true);
 		if($arr['openid']) {
 			$openid = $arr['openid'];
-			set_cookie('weixin_openid', encrypt($openid));
+			set_cookie('weixin_openid', encrypt($openid, DT_KEY.'WXID'));
 			dheader('weixin.php?action=login&wx='.$DT_TIME);
 		}
 	}

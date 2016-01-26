@@ -317,7 +317,7 @@ switch($action) {
 				if($user['groupid'] == 1) msg('您无权登入其他管理员会员中心');
 				if($_admin > 1 && $user['support'] && $user['support'] != $_username) msg('您无权登入该会员的会员中心');
 			}
-			$auth = encrypt($userid.'|'.$_username);
+			$auth = encrypt($userid.'|'.$_username, DT_KEY.'ADMIN');
 			set_cookie('admin_user', $auth);
 			msg('授权成功，正在转入会员商务中心...', $MODULE[2]['linkurl'].'?reload='.$DT_TIME);
 		} else {

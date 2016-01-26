@@ -8,7 +8,7 @@ require 'common.inc.php';
 mobile_login();
 $addr = array();
 $addr_id = intval(get_cookie('addr_id'));
-$addr_url = 'address.php?auth='.encrypt($DT_URL);
+$addr_url = 'address.php?auth='.encrypt($DT_URL, DT_KEY.'ADDR');
 if($addr_id) {
 	$t = $db->get_one("SELECT * FROM {$DT_PRE}address WHERE itemid=$addr_id");
 	if($t && $t['username'] == $_username) $addr = $t;

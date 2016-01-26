@@ -19,7 +19,7 @@ switch($action) {
 			$sign = ($W['credittime'] && timetodate($W['credittime'], 3) == timetodate($DT_TIME, 3)) ? 1 : 0;
 			$timeout = $DT_TIME - $W['visittime'] > 172800 ? 1 : 0;
 		}
-		$auth = encrypt($_username.md5(DT_IP.$_SERVER['HTTP_USER_AGENT']));
+		$auth = encrypt($_username.md5(DT_IP.$_SERVER['HTTP_USER_AGENT']), DT_KEY.'WXQR');
 		$head_title = $L['weixin_title'];	
 	break;
 }

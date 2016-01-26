@@ -5,7 +5,7 @@ $OAUTH[$site]['sync'] or exit;
 $_token = get_cookie('qq_token');
 $_openid = get_cookie('qq_openid');
 if($_token && $_openid) {
-	$_openid = decrypt($_openid);
+	$_openid = decrypt($_openid, DT_KEY.'QQID');
 	require '../post.inc.php';
 	$par = 'access_token='.$_token.'&oauth_consumer_key='.QQ_ID.'&openid='.$_openid;
 	$par .= '&format=xml&content='.$content;

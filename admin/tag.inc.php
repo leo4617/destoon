@@ -29,6 +29,7 @@ switch($action) {
 	break;
 	case 'dict':
 		(isset($table) && $table) or exit;
+		$table = strip_sql($table, 0);
 		if(strpos($table, $DT_PRE) === false) {
 			$rtable = $table;
 		} else {

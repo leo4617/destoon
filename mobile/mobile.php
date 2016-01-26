@@ -12,9 +12,9 @@ if($action == 'pc') {
 	if($ck != 'screen') set_cookie('mobile', 'screen', $DT_TIME + 86400*30);
 } else {
 	if(strpos($DT_URL, 'action=sync&auth=') !== false && strpos($DT_URL, 'goto=') !== false) {
-		if($DT_MOB['os'] == 'ios'||1) {
+		if($DT_MOB['os'] == 'ios') {
 			isset($auth) or $auth = '';
-			$auth = decrypt($auth);
+			$auth = decrypt($auth, DT_KEY.'SCREEN');
 			if($auth) {
 				$arr = explode('|', $auth);
 				if(check_name($arr[0]) && $_username != $arr[0] && $DT_IP == $arr[1] && $DT_TIME - $arr[2] < 600) {

@@ -55,7 +55,7 @@ switch($action) {
 				$vpassword = dpassword($password, $user['passsalt']);/* 同步DT密码 */
 				if($user['password'] != $vpassword) $db->query("UPDATE {$DT_PRE}member SET password='$vpassword' WHERE username='$username'");
 			} else {/* 会员不存在 */
-				$auth = encrypt($username.'|'.$rt_password.'|'.$rt_email);
+				$auth = encrypt($username.'|'.$rt_password.'|'.$rt_email, DT_KEY.'UC');
 				message('请激活您的账号', $MOD['linkurl'].$DT['file_register'].'?auth='.$auth);
 			}
 		}

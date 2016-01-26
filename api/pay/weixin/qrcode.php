@@ -4,7 +4,7 @@ $charge_title = '';
 if($action == 'ajax') {
 	$itemid or exit('ko');
 } else {
-	$auth = isset($auth) ? decrypt($auth) : '';
+	$auth = isset($auth) ? decrypt($auth, DT_KEY.'QRPAY') : '';
 	$auth or dheader($MODULE[2]['linkurl'].'charge.php?action=record');
 	$t = explode('|', $auth);
 	$itemid = $orderid = intval($t[0]);
@@ -82,7 +82,7 @@ if(strpos($rec, 'code_url') !== false) {
 	<div style="width:100%;text-align:center;">
 		<div style="line-height:20px;font-weight:bold;margin-top:10px;">Œ¢–≈÷ß∏∂</div>
 		<div style="line-height:20px;font-weight:bold;"><span style="font-size:18px;"><?php echo $DT['money_sign'];?></span><span style="font-size:22px;"><?php echo str_replace('.', '</span><span style="font-size:16px;">.', strpos($charge, '.') === false ? $charge.'.00' : $charge);?></span></div>
-		<img src="<?php echo DT_PATH;?>api/qrcode.png.php?auth=<?php echo encrypt($x->code_url);?>" style="width:180px;height:180px;margin:10px 0;"/>
+		<img src="<?php echo DT_PATH;?>api/qrcode.png.php?auth=<?php echo encrypt($x->code_url, DT_KEY.'QRCODE');?>" style="width:180px;height:180px;margin:10px 0;"/>
 		<div style="padding:0 16px;font-size:14px;color:#555555;line-height:24px;">
 		<?php
 		if($DT_TOUCH) {

@@ -5,7 +5,7 @@
 */
 defined('IN_DESTOON') or exit('Access Denied');
 isset($auth) or exit;
-$d = decrypt($auth);
+$d = decrypt($auth, DT_KEY.'SYNC');
 strpos($d, '-') !== false or exit;
 $t = explode('-', $d);
 $moduleid = intval($t[0]);

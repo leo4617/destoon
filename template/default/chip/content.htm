@@ -52,10 +52,10 @@
 	{elseif $module == 'down'}
 		<div class="downurl">
 		<ul>
-			<li><a href="{$MOD[linkurl]}down.php?auth={$auth}" class="t" rel="nofollow">主站下载</a></li>
+			<li><a href="{$MOD[linkurl]}down.php?itemid={$itemid}" class="t" rel="nofollow">主站下载</a></li>
 			{if $MIRROR}
 			{loop $MIRROR $k=>$v}
-			<li><a href="{$MOD[linkurl]}down.php?mirror={$k}&auth={$auth}" class="t" rel="nofollow">{$v[name]}镜像</a></li>
+			<li><a href="{$MOD[linkurl]}down.php?mirror={$k}&itemid={$itemid}" class="t" rel="nofollow">{$v[name]}镜像</a></li>
 			{/loop}
 			{/if}
 		</ul>

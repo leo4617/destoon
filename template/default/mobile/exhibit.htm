@@ -24,7 +24,7 @@
 	<div class="content">
 	日期:{$fromdate}~{$todate}<br/>
 	城市:{$city}<br/>
-	地址:<a href="map.php?auth={encrypt($address)}" rel="external">{$address}</a><br/>
+	地址:<a href="map.php?auth={encrypt($address, DT_KEY.'MAP')}" rel="external">{$address}</a><br/>
 	展馆:{$hallname}<br/>
 	主办:{$sponsor}<br/>
 	{if $user_status == 3}
@@ -42,7 +42,7 @@
 	{if $email}邮件:<a href="mailto:{$email}">{$email}</a><br/>{/if}
 	{if $qq}QQ:<a href="http://wpa.qq.com/msgrd?v=3&uin={$qq}&site=qq&menu=yes" target="_blank" rel="external">{$qq}</a><br/>{/if}
 	{if $msn}MSN:{$msn}<br/>{/if}
-	{if $addr}地址:<a href="map.php?auth={encrypt($addr)}" rel="external">{$addr}</a><br/>{/if}
+	{if $addr}地址:<a href="map.php?auth={encrypt($addr, DT_KEY.'MAP')}" rel="external">{$addr}</a><br/>{/if}
 	</div>
 	{else}
 	{template 'chip-content', 'mobile'}

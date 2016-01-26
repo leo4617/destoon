@@ -20,11 +20,11 @@ $mobile_modules = array('member', 'sell', 'buy', 'quote', 'company', 'exhibit', 
 $pages = '';
 $areaid = isset($areaid) ? intval($areaid) : 0;
 $site_name = $head_title = $EXT['mobile_sitename'] ? $EXT['mobile_sitename'] : $DT['sitename'].$L['mobile_version'];
-$kw = $kw ? decrypt($kw) : '';
+$kw = $kw ? strip_kw(decrypt($kw, DT_KEY.'KW')) : '';
 if(strlen($kw) < $DT['min_kw'] || strlen($kw) > $DT['max_kw']) $kw = '';
 $keyword = $kw ? str_replace(array(' ', '*'), array('%', '%'), $kw) : '';
 $MURL = $MODULE[2]['linkurl'];
-if($DT_MOB['browser'] == 'screen' && $_username) $MURL = 'mobile.php?action=sync&auth='.encrypt($_username.'|'.$DT_IP.'|'.$DT_TIME).'&goto=';
+if($DT_MOB['browser'] == 'screen' && $_username) $MURL = 'mobile.php?action=sync&auth='.encrypt($_username.'|'.$DT_IP.'|'.$DT_TIME, DT_KEY.'SCREEN').'&goto=';
 $_cart = isset($MODULE[16]) ? intval(get_cookie('cart')) : 0;
 $MOB_MODULE = array();
 foreach($MODULE as $v) {

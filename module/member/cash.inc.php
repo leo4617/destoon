@@ -40,7 +40,7 @@ switch($action) {
 			in_array($bank, $BANKS) or message($L['cash_pass_bank']);
 			$banktype = $banktype ? 1 : 0;
 			$account = str_replace(array(' ', '-'), array('', ''), $account);
-			preg_match("/^[0-9]{6,}$/", $account) or message($L['cash_pass_account']);
+			(preg_match("/^[0-9]{6,}$/", $account) || is_email($account)) or message($L['cash_pass_account']);
 			$branch = trim(dhtmlspecialchars($branch));
 			strlen($branch) > 8 or message($L['cash_pass_branch']);
 			$db->query("UPDATE {$DT_PRE}member SET bank='$bank',banktype='$banktype',branch='$branch',account='$account' WHERE username='$_username' ");

@@ -5,15 +5,11 @@
 */
 defined('IN_DESTOON') or exit('Access Denied');
 function daddslashes($string) {
-	if(!is_array($string)) return addslashes($string);
-	foreach($string as $key => $val) $string[$key] = daddslashes($val);
-	return $string;
+	return is_array($string) ? array_map('addslashes', $string) : addslashes($string);
 }
 
 function dstripslashes($string) {
-	if(!is_array($string)) return stripslashes($string);
-	foreach($string as $key => $val) $string[$key] = dstripslashes($val);
-	return $string;
+	return is_array($string) ? array_map('stripslashes', $string) : stripslashes($string);
 }
 
 function dtrim($string) {
@@ -107,7 +103,7 @@ function decrypt($txt, $key = '') {
 
 function mycrypt($string, $key, $operation = 'DECODE', $expiry = 0) {
 	$ckey_length = 4;
-	$key = md5(strlen($key) > 5 ? $key : DT_KEY);
+	$key = md5($key);
 	$keya = md5(substr($key, 0, 16));
 	$keyb = md5(substr($key, 16, 16));
 	$keyc = $ckey_length ? ($operation == 'DECODE' ? substr($string, 0, $ckey_length): substr(md5(microtime()), -$ckey_length)) : '';

@@ -203,7 +203,7 @@ switch($action) {
 		$post['content'] = $post['introduce'] = $post['thumb'] = $post['banner'] = $post['catid'] = $post['catids'] = '';
 		$post['edittime'] = 0;
 		$inviter = get_cookie('inviter');
-		$post['inviter'] = $inviter ? decrypt($inviter) : '';
+		$post['inviter'] = $inviter ? decrypt($inviter, DT_KEY.'INVITER') : '';
 		check_name($post['inviter']) or $post['inviter'] = '';
 		require DT_ROOT.'/module/member/member.class.php';
 		$do = new member;

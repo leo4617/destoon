@@ -4,7 +4,7 @@ check_referer() or exit;
 if($DT_BOT) dhttp(403);
 isset($auth) or $auth = '';
 if($auth) {
-	$string = decrypt($auth);
+	$string = decrypt($auth, DT_KEY.'SPAM');
 	if(preg_match("/^[a-z0-9_@\-\s\/\.\,\(\)\+]+$/i", $string)) {
 		header("content-type:image/png");
 		$imageX = strlen($string)*9;

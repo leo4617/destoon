@@ -13,7 +13,7 @@ if(isset($_POST['ok']) && isset($wd) && $wd) {
 	}
 	$wd = input_trim($wd);
 	$wd = convert($wd, 'UTF-8', DT_CHARSET);
-	dheader($url.'kw='.encrypt($wd));
+	dheader($url.'kw='.encrypt($wd, DT_KEY.'KW'));
 }
 $head_title = $L['search_title'].$DT['seo_delimiter'].$head_title;
 $foot = 'channel';

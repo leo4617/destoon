@@ -22,8 +22,8 @@ if($DT['defend_cc']) {
 	}
 }
 if($DT['defend_reload'] && !$DT_BOT) {
-	$lastvisit = intval(decrypt(get_cookie('lastvisit')));
-	set_cookie('lastvisit', encrypt("$DT_TIME"));
+	$lastvisit = intval(decrypt(get_cookie('lastvisit'), DT_KEY.'LAST'));
+	set_cookie('lastvisit', encrypt("$DT_TIME", DT_KEY.'LAST'));
 	if($DT_TIME - $lastvisit < $DT['defend_reload']) {
 		if(defined('DT_TASK')) exit;
 		message(lang('include->defend_reload', array($DT['defend_reload'])).'<script>setTimeout("this.location.reload();", '.($DT['defend_reload']*3000).');</script>');

@@ -27,12 +27,12 @@ if($action == 'update') {
 	switch($step) {
 		case 'detail':
 			$td['total'] = $td['amount'];
-			$auth = encrypt('group|'.$td['send_type'].'|'.$td['send_no'].'|'.$td['send_status'].'|'.$td['itemid']);
+			$auth = encrypt('group|'.$td['send_type'].'|'.$td['send_no'].'|'.$td['send_status'].'|'.$td['itemid'], DT_KEY.'EXPRESS');
 			$head_title = $L['group_detail_title'];
 		break;
 		case 'express':
 			($td['send_type'] && $td['send_no']) or dheader('?action=update&step=detail&itemid='.$itemid);
-			$auth = encrypt('group|'.$td['send_type'].'|'.$td['send_no'].'|'.$td['send_status'].'|'.$td['itemid']);
+			$auth = encrypt('group|'.$td['send_type'].'|'.$td['send_no'].'|'.$td['send_status'].'|'.$td['itemid'], DT_KEY.'EXPRESS');
 			$head_title = $L['group_express_title'];
 		break;
 		case 'used':

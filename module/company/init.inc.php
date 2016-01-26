@@ -249,7 +249,7 @@ if($domain) {
 		$comment_proxy = DT_PATH;
 	}
 }
-$comment_proxy = encrypt($comment_proxy);
+$comment_proxy = encrypt($comment_proxy, DT_KEY.'PROXY');
 
 $album_js = 0;
 $head_title = $MENU[$menuid]['name'];

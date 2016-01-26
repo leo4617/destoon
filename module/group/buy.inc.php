@@ -8,7 +8,7 @@ include load('misc.lang');
 include load('member.lang');
 include load('order.lang');
 if($action == 'show') {
-	$forward = isset($auth) ? decrypt($auth) : '';
+	$forward = isset($auth) ? decrypt($auth, DT_KEY.'TURL') : '';
 	$forward = $MODULE[2]['linkurl'].'group.php?'.($forward ? $forward : 'action=order');
 	$head_title = $L['buy_title'];
 	include template('buy', $module);
@@ -50,7 +50,7 @@ if($submit) {
 	$title = addslashes($item['title']);
 	$db->query("INSERT INTO {$DT_PRE}group_order (gid,buyer,seller,title,thumb,price,number,amount,logistic,addtime,updatetime,note, buyer_postcode,buyer_address,buyer_name,buyer_phone,buyer_mobile,status) VALUES ('$itemid','$_username','$item[username]','$title','$item[thumb]','$item[price]','$number','$amount','$item[logistic]','$DT_TIME','$DT_TIME','$note','$buyer_postcode','$buyer_address','$buyer_name','$buyer_phone','$buyer_mobile', 6)");
 	$oid = $db->insert_id();
-	dheader('?action=show&auth='.encrypt('action=update&step=pay&itemid='.$oid));
+	dheader('?action=show&auth='.encrypt('action=update&step=pay&itemid='.$oid, DT_KEY.'TURL'));
 } else {
 	$_MOD = cache_read('module-2.php');
 	$result = $db->query("SELECT * FROM {$DT_PRE}address WHERE username='$_username' ORDER BY listorder ASC,itemid ASC LIMIT 30");

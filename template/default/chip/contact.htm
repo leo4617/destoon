@@ -30,7 +30,7 @@
 	<li><span>会员</span> [{if online($member[userid])==1}<font class="f_red">当前在线</font>{else}<font class="f_gray">当前离线</font>{/if}] <a href="{$MODULE[2][linkurl]}friend.php?action=add&username={$member[username]}" rel="nofollow">[加为商友]</a> <a href="{$MODULE[2][linkurl]}message.php?action=send&touser={$member[username]}" rel="nofollow">[发送信件]</a></li>
 	{if $member[mail]}<li><span>邮件</span>{anti_spam($member[mail])}</li>{/if}
 	{if $member[telephone]}<li><span>电话</span>{anti_spam($member[telephone])}</li>{/if}
-	{if $member[mobile]}<li><span>手机</span>{anti_spam($member[mobile])}{if $DT[sms] && $member[vmobile]}&nbsp;&nbsp;<a href="{$MODULE[2][linkurl]}sms.php?action=add&auth={encrypt($member[mobile])}" target="_blank" rel="nofollow">[发送短信]</a>{/if}</li>{/if}
+	{if $member[mobile]}<li><span>手机</span>{anti_spam($member[mobile])}{if $DT[sms] && $member[vmobile]}&nbsp;&nbsp;<a href="{$MODULE[2][linkurl]}sms.php?action=add&auth={encrypt($member[mobile], DT_KEY.'SMS')}" target="_blank" rel="nofollow">[发送短信]</a>{/if}</li>{/if}
 	<li><span>地区</span>{area_pos($member[areaid], '-')}</li>
 	{if $member[address]}<li title="{$member[address]}"><span>地址</span>{$member[address]}</li>{/if}
 {else}

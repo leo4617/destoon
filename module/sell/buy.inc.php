@@ -66,10 +66,10 @@ if($submit) {
 			}
 		}
 	}
-	dheader('?action=show&auth='.encrypt($forward));
+	dheader('?action=show&auth='.encrypt($forward, DT_KEY.'TURL'));
 } else {
 	if($action == 'show') {
-		$forward = isset($auth) ? decrypt($auth) : '';
+		$forward = isset($auth) ? decrypt($auth, DT_KEY.'TURL') : '';
 		$forward = $MODULE[2]['linkurl'].'trade.php?'.($forward ? $forward : 'action=order');
 	} else {
 		$lists = $tags = $data = array();

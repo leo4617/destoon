@@ -2,7 +2,7 @@
 require '../../common.inc.php';
 header("Content-type:image/png");
 $_userid or dheader('image/qrcode_error.png');
-$auth = isset($auth) ? decrypt($auth) : '';
+$auth = isset($auth) ? decrypt($auth, DT_KEY.'WXQR') : '';
 $auth == $_username.md5(DT_IP.$_SERVER['HTTP_USER_AGENT']) or dheader('image/qrcode_error.png');
 $t = $db->get_one("SELECT itemid FROM {$DT_PRE}weixin_user WHERE username='$_username'");
 if($t) dheader('image/qrcode_error.png');

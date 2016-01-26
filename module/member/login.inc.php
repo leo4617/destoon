@@ -10,7 +10,7 @@ if($submit && $MOD['captcha_login'] && strlen($captcha) < 4) $submit = false;
 isset($auth) or $auth = '';
 if($_userid) $auth = '';
 if($auth) {
-	$auth = decrypt($auth);
+	$auth = decrypt($auth, DT_KEY.'LOGIN');
 	$_auth = explode('|', $auth);
 	if($_auth[0] == 'LOGIN' && check_name($_auth[1]) && strlen($_auth[2]) >= $MOD['minpassword'] && $DT_TIME >= intval($_auth[3]) && $DT_TIME - intval($_auth[3]) < 30) {
 		$submit = 1;

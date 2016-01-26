@@ -3,7 +3,7 @@ require 'common.inc.php';
 require DT_ROOT.'/include/post.func.php';
 require DT_ROOT.'/include/module.func.php';
 isset($auth) or $auth = '';
-$_auth = decrypt($auth);
+$_auth = decrypt($auth, DT_KEY.'PAY');
 $_auth or dheader('channel.php?reload='.$DT_TIME);
 list($moduleid, $itemid, $currency, $fee, $title) = explode('|', $_auth);
 isset($MODULE[$moduleid]) or dheader('channel.php?reload='.$DT_TIME);

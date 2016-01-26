@@ -26,7 +26,7 @@ switch($action) {
 			$img_info or message($L['avatar_img_t']);
 			$img_info[0] >= 128 or message($L['avatar_img_w']);
 			$img_info[1] >= 128 or message($L['avatar_img_h']);
-			$par = 'auth='.encrypt($_userid.'|'.$_username);
+			$par = 'auth='.encrypt($_userid.'|'.$_username, DT_KEY.'AVATAR');
 			require DT_ROOT.'/include/image.class.php';
 			$image = new image($file);
 			$image->thumb(128, 128);
@@ -72,7 +72,7 @@ switch($action) {
 		dmsg($L['avatar_delete'], 'avatar.php?itemid='.$DT_TIME);
 	break;
 	default:
-		$auth = encrypt($_userid.'|'.$_username);
+		$auth = encrypt($_userid.'|'.$_username, DT_KEY.'AVATAR');
 		$head_title = $L['avatar_title'];	
 	break;
 }

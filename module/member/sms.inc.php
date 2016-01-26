@@ -40,7 +40,7 @@ switch($action) {
 		} else {
 			$mob = isset($mob) ? $mob : '';
 			if(isset($auth)) {
-				$auth = decrypt($auth);
+				$auth = decrypt($auth, DT_KEY.'SMS');
 				if(is_mobile($auth)) $mob = $auth;
 			}
 			$head_title = $L['sms_add_title'];

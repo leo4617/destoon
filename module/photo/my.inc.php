@@ -156,10 +156,10 @@ switch($action) {
 				if(!$CAT || !check_group($_groupid, $CAT['group_add'])) dalert(lang($L['group_add'], array($CAT['catname'])));
 				$post['addtime'] = timetodate($item['addtime']);
 				$post['level'] = $item['level'];
-				$post['style'] = $item['style'];
-				$post['template'] = $item['template'];
-				$post['filepath'] = $item['filepath'];
-				$post['note'] = $item['note'];
+				$post['style'] = addslashes($item['style']);
+				$post['template'] = addslashes($item['template']);
+				$post['filepath'] = addslashes($item['filepath']);
+				$post['note'] = addslashes($item['note']);
 				$need_check =  $MOD['check_add'] == 2 ? $MG['check'] : $MOD['check_add'];
 				$post['status'] = get_status($item['status'], $need_check);
 				$post['hits'] = $item['hits'];

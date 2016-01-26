@@ -1,7 +1,7 @@
 <?php
 require 'common.inc.php';
 isset($auth) or $auth = '';
-$addr = decrypt($auth);
+$addr = $auth ? decrypt($auth, DT_KEY.'MAP') : '';
 include DT_ROOT.'/api/map/baidu/config.inc.php';
 $map_key or $map_key = 'waKl9cxyGpfdPbon7PXtDXIf';
 $head_title = $L['map_title'].$DT['seo_delimiter'].$head_title;

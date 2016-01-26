@@ -24,8 +24,8 @@ switch($action) {
 			}
 		} else {
 			$touser = isset($touser) ? trim($touser) : '';
-			$title = isset($title) ? trim(decrypt($title)) : '';
-			$content = isset($content) ? trim(decrypt($content)) : '';
+			$title = isset($title) ? trim(decrypt($title, DT_KEY.'SEND')) : '';
+			$content = isset($content) ? trim(decrypt($content, DT_KEY.'SEND')) : '';
 			$typeid = isset($typeid) ? intval($typeid) : 0;
 			$head_name = $L['message_send'];
 			$head_title = $head_name.$DT['seo_delimiter'].$head_title;

@@ -155,10 +155,10 @@ switch($action) {
 				$post['addtime'] = timetodate($item['addtime']);
 				$post['level'] = $item['level'];
 				$post['fee'] = $item['fee'];
-				$post['style'] = $item['style'];
-				$post['template'] = $item['template'];
-				$post['filepath'] = $item['filepath'];
-				$post['note'] = $item['note'];
+				$post['style'] = addslashes($item['style']);
+				$post['template'] = addslashes($item['template']);
+				$post['filepath'] = addslashes($item['filepath']);
+				$post['note'] = addslashes($item['note']);
 				if(!$IMVIP && $MG['uploadpt']) {
 					$post['thumb1'] = $item['thumb1'];
 					$post['thumb2'] = $item['thumb2'];

@@ -21,13 +21,13 @@ function dsafe($string, $type = 1) {
 	if(is_array($string)) {
 		return array_map('dsafe', $string);
 	} else {
-		$string = preg_replace("/\<\!\-\-([\s\S]*?)\-\-\>/", "", $string);
-		$string = preg_replace("/\/\*([\s\S]*?)\*\//", "", $string);
-		$string = preg_replace("/&#([a-z0-9]+)([;]*)/i", "", $string);
-		if(preg_match("/&#([a-z0-9]+)([;]*)/i", $string)) return nl2br(strip_tags($string));
-		$match = array("/s[\s]*c[\s]*r[\s]*i[\s]*p[\s]*t/i","/d[\s]*a[\s]*t[\s]*a[\s]*\:/i","/b[\s]*a[\s]*s[\s]*e/i","/e[\\\]*x[\\\]*p[\\\]*r[\\\]*e[\\\]*s[\\\]*s[\\\]*i[\\\]*o[\\\]*n/i","/i[\\\]*m[\\\]*p[\\\]*o[\\\]*r[\\\]*t/i","/on([a-z]{2,})([\(|\=|\s]+)/i","/about/i","/frame/i","/link/i","/meta/i","/textarea/i","/eval/i","/alert/i","/confirm/i","/prompt/i","/cookie/i","/document/i","/newline/i","/colon/i","/<style/i","/\\\x/i");
-		$replace = array("s<em></em>cript","da<em></em>ta:","ba<em></em>se","ex<em></em>pression","im<em></em>port","o<em></em>n\\1\\2","a<em></em>bout","f<em></em>rame","l<em></em>ink","me<em></em>ta","text<em></em>area","e<em></em>val","a<em></em>lert","/con<em></em>firm/i","prom<em></em>pt","coo<em></em>kie","docu<em></em>ment","new<em></em>line","co<em></em>lon","<sty1e","\<em></em>x");
 		if($type) {
+			$string = preg_replace("/\<\!\-\-([\s\S]*?)\-\-\>/", "", $string);
+			$string = preg_replace("/\/\*([\s\S]*?)\*\//", "", $string);
+			$string = preg_replace("/&#([a-z0-9]+)([;]*)/i", "", $string);
+			if(preg_match("/&#([a-z0-9]+)([;]*)/i", $string)) return nl2br(strip_tags($string));
+			$match = array("/s[\s]*c[\s]*r[\s]*i[\s]*p[\s]*t/i","/d[\s]*a[\s]*t[\s]*a[\s]*\:/i","/b[\s]*a[\s]*s[\s]*e/i","/e[\\\]*x[\\\]*p[\\\]*r[\\\]*e[\\\]*s[\\\]*s[\\\]*i[\\\]*o[\\\]*n/i","/i[\\\]*m[\\\]*p[\\\]*o[\\\]*r[\\\]*t/i","/on([a-z]{2,})([\(|\=|\s]+)/i","/about/i","/frame/i","/link/i","/meta/i","/textarea/i","/eval/i","/alert/i","/confirm/i","/prompt/i","/cookie/i","/document/i","/newline/i","/colon/i","/<style/i","/\\\x/i");
+			$replace = array("s<em></em>cript","da<em></em>ta:","ba<em></em>se","ex<em></em>pression","im<em></em>port","o<em></em>n\\1\\2","a<em></em>bout","f<em></em>rame","l<em></em>ink","me<em></em>ta","text<em></em>area","e<em></em>val","a<em></em>lert","/con<em></em>firm/i","prom<em></em>pt","coo<em></em>kie","docu<em></em>ment","new<em></em>line","co<em></em>lon","<sty1e","\<em></em>x");
 			return str_replace(array('isShowa<em></em>bout'), array('isShowAbout'), preg_replace($match, $replace, $string));
 		} else {
 			return str_replace(array('<em></em>', '<sty1e'), array('', '<style'), $string);
@@ -36,13 +36,31 @@ function dsafe($string, $type = 1) {
 }
 
 function strip_sql($string, $type = 1) {
-	$match = array("/union/i","/where/i","/having/i","/outfile/i","/dumpfile/i","/0x([a-f0-9]{2,})/i","/select([\s\S]*?)from/i","/select([\s\*\/\-\{\(\+@`])/i","/update([\s\*\/\-\{\(\+@`])/i","/replace([\s\*\/\-\{\(\+@`])/i","/delete([\s\*\/\-\{\(\+@`])/i","/drop([\s\*\/\-\{\(\+@`])/i","/load_file[\s]*\(/i","/substring[\s]*\(/i","/substr[\s]*\(/i","/left[\s]*\(/i","/right[\s]*\(/i","/mid[\s]*\(/i","/concat[\s]*\(/i","/concat_ws[\s]*\(/i","/make_set[\s]*\(/i","/ascii[\s]*\(/i","/bin[\s]*\(/i","/oct[\s]*\(/i","/hex[\s]*\(/i","/ord[\s]*\(/i","/char[\s]*\(/i","/conv[\s]*\(/i");
-	$replace = array('unio&#110;','wher&#101;','havin&#103;','outfil&#101;','dumpfil&#101;','0&#120;\\1','selec&#116;\\1fro&#109;','selec&#116;\\1','updat&#101;\\1','replac&#101;\\1','delet&#101;\\1','dro&#112;\\1','load_fil&#101;(','substrin&#103;(','subst&#114;(','lef&#116;(','righ&#116;(','mi&#100;(','conca&#116;(','concat_w&#115;(','make_se&#116;(','asci&#105;(','bi&#110;(','oc&#116;(','he&#120;(','or&#100;(','cha&#114;(','con&#118;(');
-	if($type) {
-		return is_array($string) ? array_map('strip_sql', $string) : preg_replace($match, $replace, $string);
+	if(is_array($string)) {
+		return array_map('strip_sql', $string);
 	} else {
-		return str_replace(array('&#100;', '&#101;', '&#103;', '&#105;', '&#109;', '&#110;','&#112;', '&#114;', '&#115;', '&#116;', '&#118;', '&#120;'), array('d', 'e', 'g', 'i', 'm', 'n', 'p', 'r', 's', 't', 'v', 'x'), $string);
+		if($type) {
+			global $DT_PRE;
+			$string = preg_replace("/\/\*([\s\S]*?)\*\//", "", $string);
+			$string = preg_replace("/0x([a-f0-9]{2,})/i", '0&#120;\\1', $string);
+			$string = preg_replace_callback("/(select|update|replace|delete|drop)([\s\S]*?)({$DT_PRE}|from)/i", 'strip_wd', $string);
+			$string = preg_replace_callback("/(load_file|substring|substr|reverse|trim|space|left|right|mid|lpad|concat|concat_ws|make_set|ascii|bin|oct|hex|ord|char|conv)([^a-z]?)\(/i", 'strip_wd', $string);
+			$string = preg_replace_callback("/(union|where|having|outfile|dumpfile|{$DT_PRE})/i", 'strip_wd', $string);
+			return $string;
+		} else {
+			return str_replace(array('&#95;','&#100;','&#101;','&#103;','&#105;','&#109;','&#110;','&#112;','&#114;','&#115;','&#116;','&#118;','&#120;'), array('_','d','e','g','i','m','n','p','r','s','t','v','x'), $string);
+		}
 	}
+}
+
+function strip_wd($m) {
+	if(is_array($m) && isset($m[1])) {
+		$wd = substr($m[1], 0, -1).'&#'.ord(strtolower(substr($m[1], -1))).';';
+		if(isset($m[3])) return $wd.$m[2].$m[3];
+		if(isset($m[2])) return $wd.$m[2].'(';
+		return $wd;
+	}
+	return '';
 }
 
 function strip_uri($uri) {
