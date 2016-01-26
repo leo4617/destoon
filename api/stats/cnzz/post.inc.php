@@ -1,7 +1,7 @@
 <?php
 defined('IN_DESTOON') or exit('Access Denied');
 $stats = str_replace('&amp;', '&', $stats);
-$stats_cnzz = preg_match("/^http:\/\/s[0-9]{1,5}\.cnzz\.com\/stat\.php\?id=[0-9]{5,11}&web_id=[0-9]{5,11}$/", $stats) ? $stats : '';
+$stats_cnzz = preg_match("/^http:\/\/[a-z0-9]{1,5}\.cnzz\.com\/stat\.php\?id=[0-9]{5,11}&web_id=[0-9]{5,11}$/", $stats) ? $stats : '';
 ?>
 <tr id="stats_post_cnzz" style="display:none;">
 <td class="tl">流量统计地址</td>

@@ -56,6 +56,7 @@ switch($action) {
 	break;
 	case 'confirm':
 		$amount or message($L['cash_pass_amount']);
+		if($amount > $_money) message($L['cash_pass_amount_large']);
 		if($MOD['cash_min'] && $amount < $MOD['cash_min']) message($L['cash_pass_amount_min'].$MOD['cash_min']);
 		if($MOD['cash_max'] && $amount > $MOD['cash_max']) message($L['cash_pass_amount_max'].$MOD['cash_max']);
 		if($MOD['cash_times']) {
@@ -69,15 +70,15 @@ switch($action) {
 			if($MOD['cash_fee_min'] && $fee < $MOD['cash_fee_min']) $fee = $MOD['cash_fee_min'];
 			if($MOD['cash_fee_max'] && $fee > $MOD['cash_fee_max']) $fee = $MOD['cash_fee_max'];
 		}
-		$money = $amount + $fee;
+		$money = $amount - $fee;
 		if($submit) {
-			if($money > $_money) message($L['cash_pass_amount_large']);
 			is_payword($_username, $password) or message($L['error_payword']);
 			$member = daddslashes($member);
 			$name = $member['banktype'] ? $member['company'] : $member['truename'];
-			$db->query("INSERT INTO {$DT_PRE}finance_cash (username,bank,banktype,branch,account,truename,amount,fee,addtime,ip) VALUES ('$_username','$member[bank]','$member[banktype]','$member[branch]','$member[account]','$name','$amount','$fee','$DT_TIME','$DT_IP')");
-			money_add($_username, -$money);
-			money_record($_username, -$money, $L['in_site'], 'system', $L['cash_title'], $L['charge_id'].$db->insert_id());
+			$db->query("INSERT INTO {$DT_PRE}finance_cash (username,bank,banktype,branch,account,truename,amount,fee,addtime,ip) VALUES ('$_username','$member[bank]','$member[banktype]','$member[branch]','$member[account]','$name','$money','$fee','$DT_TIME','$DT_IP')");
+			$cid = $db->insert_id();
+			money_add($_username, -$amount);
+			money_record($_username, -$amount, $L['in_site'], 'system', $L['cash_title'], $L['charge_id'].$cid);
 			message($L['cash_msg_success'], '?action=record', 5);
 		} else {
 			$head_title = $L['cash_title_confirm'];

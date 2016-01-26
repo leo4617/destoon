@@ -30,7 +30,7 @@
 <table cellpadding="1" cellspacing="0" class="tb">
 <tr>
 <th>流水号</th>
-<th>金额</th>
+<th>实收</th>
 <th>手续费</th>
 <th>开户银行</th>
 <th>收款户名</th>
@@ -164,13 +164,20 @@ function check() {
 <input type="hidden" name="amount" value="{$amount}"/>
 <table cellspacing="1" cellpadding="6" class="tb">
 <tr>
-<td class="tl">金额确认</td>
-<td class="tr" style="line-height:180%;">
-提现金额：<strong>{$amount}</strong><br/>
-手 续 费：<strong>{$fee}</strong><br/>
-实收金额：<strong class="f_red">{$money}</strong><br/>
-可用金额：<strong class="f_blue">{$_money}</strong><br/>
-</td>
+<td class="tl">可用金额</td>
+<td class="tr"><span class="f_blue">{$_money}</span> {$DT[money_unit]}</td>
+</tr>
+<tr>
+<td class="tl">提现金额</td>
+<td class="tr"><span class="f_red">{$amount}</span> {$DT[money_unit]}</td>
+</tr>
+<tr>
+<td class="tl">手续费</td>
+<td class="tr"><span class="f_red">{$fee}</span> {$DT[money_unit]}</td>
+</tr>
+<tr>
+<td class="tl">实收金额</td>
+<td class="tr"><span class="f_red">{$money}</span> {$DT[money_unit]}</td>
 </tr>
 <tr>
 <td class="tl"> <span class="f_red">*</span>支付密码</td>

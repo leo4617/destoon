@@ -6,7 +6,7 @@ $do = new style();
 $menus = array (
     array('安装模板', '?moduleid='.$moduleid.'&file='.$file.'&action=add'),
     array('模板列表', '?moduleid='.$moduleid.'&file='.$file),
-    array('模板分类', '?file=type&item=style'),
+    array('模板分类', 'javascript:Dwidget(\'?file=type&item='.$file.'\', \'模板分类\');'),
 );
 
 switch($action) {
@@ -70,7 +70,7 @@ switch($action) {
 	
 		$fields_select = dselect($sfields, 'fields', '', $fields);
 		$order_select  = dselect($sorder, 'order', '', $order);
-		$type_select = type_select('style', 1, 'typeid', '请选择分类', $typeid);
+		$type_select = type_select($TYPE, 1, 'typeid', '请选择分类', $typeid);
 	
 		$condition = '1';
 		if($keyword) $condition .= " AND $dfields[$fields] LIKE '%$keyword%'";

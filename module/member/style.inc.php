@@ -81,7 +81,7 @@ if($itemid) {
 		$maxfee = isset($maxfee) ? dround($maxfee) : '';
 		$fields_select = dselect($sfields, 'fields', '', $fields);
 		$order_select  = dselect($sorder, 'order', '', $order);
-		$type_select = type_select('style', 1, 'typeid', $L['choose_type'], $typeid);
+		$type_select = type_select($TYPE, 1, 'typeid', $L['choose_type'], $typeid);
 		$condition = "1";
 		if($keyword) $condition .= " AND $dfields[$fields] LIKE '%$keyword%'";
 		if(!$all) $condition .= " AND groupid LIKE '%,$_groupid,%'";

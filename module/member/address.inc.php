@@ -6,6 +6,7 @@ $MG['address_limit'] > -1 or dalert(lang('message->without_permission_and_upgrad
 require DT_ROOT.'/include/post.func.php';
 require MD_ROOT.'/address.class.php';
 $do = new address();
+include load('message.lang');
 switch($action) {
 	case 'add':
 		if($MG['address_limit']) {

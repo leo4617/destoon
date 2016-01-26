@@ -51,7 +51,7 @@ if($username) {
 	}
 	if(!check_group($_groupid, $MOD['group_index'])) include load('403.inc');
 	if($MOD['index_html']) {	
-		$html_file = DT_ROOT.'/'.$MOD['moduledir'].'/index.inc.html';
+		$html_file = DT_CACHE.'/htm/company.htm';
 		if(!is_file($html_file)) tohtml('index', $module);
 		if(is_file($html_file)) exit(include($html_file));
 	}

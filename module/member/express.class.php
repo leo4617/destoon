@@ -41,7 +41,7 @@ class express {
 	}
 
 	function get_list($condition, $order = 'listorder ASC,itemid ASC') {
-		global $MOD, $pages, $page, $pagesize, $offset, $nums;
+		global $MOD, $pages, $page, $pagesize, $offset, $items;
 		$r = $this->db->get_one("SELECT COUNT(*) AS num FROM {$this->table} WHERE $condition");
 		$items = $r['num'];
 		$pages = pages($items, $page, $pagesize);

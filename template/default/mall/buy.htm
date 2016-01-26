@@ -121,7 +121,7 @@
 		{loop $address $k $v}
 		<div>
 		{if $k == 0}<span class="f_r"><a href="{$MODULE[2][linkurl]}address.php?action=add" target="_blank">[新增地址]</a>&nbsp;&nbsp;<a href="{$MODULE[2][linkurl]}address.php" target="_blank">[管理地址]</a></span>{/if}
-		<input type="radio" name="addr" id="addr_{$k}" value="{$v[address]}|{$v[postcode]}|{$v[truename]}|{$v[mobile]}|{$v[telephone]}" onclick="Adr(this.value);"{if $k == 0} checked{/if}/><label for="addr_{$k}"> {$v[postcode]} {$v[address]} ({$v[truename]}) {$v[mobile]}</label></div>
+		<input type="radio" name="addr" id="addr_{$k}" value="{$v[areaid]}|{$v[address]}|{$v[postcode]}|{$v[truename]}|{$v[mobile]}|{$v[telephone]}" onclick="Adr(this.value);"{if $k == 0} checked{/if}/><label for="addr_{$k}"> {$v[postcode]} {$v[address]} ({$v[truename]}) {$v[mobile]}</label></div>
 		<div class="b5"></div>
 		{/loop}
 	{else}
@@ -131,7 +131,7 @@
 	</tr>
 	<tr>
 	<td><span class="f_red">*</span> 收货地址：</td>
-	<td><span id="addr_areaid">{ajax_area_select('add[areaid]', '请选择', $user[areaid])} </span><input type="text" size="60" name="add[address]" id="address" value="{$user[address]}"/> <span id="daddress" class="f_red"></span></td>
+	<td>{ajax_area_select('add[areaid]', '请选择', $user[areaid])} <input type="text" size="60" name="add[address]" id="address" value="{$user[address]}"/> <span id="dareaid" class="f_red"></span><span id="daddress" class="f_red"></span></td>
 	</tr>
 	<tr>
 	<td><span class="f_red">*</span> 邮政编码：</td>
@@ -179,6 +179,11 @@ function check() {
 	}
 	var l;
 	var f;
+	f = 'areaid_1';
+	if(Dd(f).value == 0) {
+		Dmsg('请选择所在地区', 'areaid', 1);
+		return false;
+	}
 	f = 'address';
 	l = Dd(f).value.length;
 	if(l < 5) {
@@ -208,13 +213,12 @@ function check() {
 function Adr(s) {
 	var t = s.split('|');
 	try {
-		Dd('areaid_1').value = 0;
-		Dh('addr_areaid');
-		Dd('address').value = t[0];
-		Dd('postcode').value = t[1];
-		Dd('truename').value = t[2];
-		Dd('mobile').value = t[3];
-		Dd('telephone').value = t[4];		
+		Dd('address').value = t[1];
+		Dd('postcode').value = t[2];
+		Dd('truename').value = t[3];
+		Dd('mobile').value = t[4];
+		Dd('telephone').value = t[5];
+		load_area(t[0], 1);
 	}
 	catch (e) {}
 }

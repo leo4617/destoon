@@ -43,7 +43,13 @@ $edition = edition(1);
 		</tr>
 		<tr>
 		<td>&nbsp;密&nbsp;&nbsp;&nbsp;码</td>
-		<td><?php include template('password', 'chip');?></td>
+		<td><input name="password" type="password" class="inp" style="width:140px;" id="password"<?php if(isset($password)) { ?> value="<?php echo $password;?>"<?php } ?>/>&nbsp;
+		<script type="text/javascript" src="<?php echo DT_STATIC;?>file/script/keyboard.js"></script>
+		<img src="<?php echo DT_STATIC;?>file/image/keyboard.gif" title="密码键盘" alt="" class="c_p" onclick="_k('password', 'kb', this);"/>
+		<div id="kb" style="display:none;"></div>
+		<script type="text/javascript" src="<?php echo DT_STATIC;?>file/script/md5.js"></script>
+		<script type="text/javascript">init_md5();</script>
+		</td>
 		</tr>
 		<?php if($DT['captcha_admin']) { ?>
 		<tr>
@@ -70,7 +76,6 @@ $edition = edition(1);
 </tr>
 </table>
 <script type="text/javascript">
-if(Dd('password') == null) alert('看不到密码输入框？ 请检查file/cache目录是否可写');
 if(Dd('username').value == '') {
 	Dd('username').focus();
 } else {

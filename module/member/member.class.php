@@ -611,6 +611,7 @@ class member {
 
 	function check_add($post) {
 		global $DT_TIME;
+		$post = dhtmlspecialchars($post);
 		$content = addslashes(serialize($post));
 		$this->db->query("REPLACE INTO {$this->table_member_check} (userid,username,content,addtime) VALUES ('$this->userid','$this->username','$content','$DT_TIME')");
 	}

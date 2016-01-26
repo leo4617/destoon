@@ -4,6 +4,7 @@ require 'common.inc.php';
 require DT_ROOT.'/module/'.$module.'/common.inc.php';
 require DT_ROOT.'/include/post.func.php';
 isset($auth) or $auth = '';
+if($_userid && !$MOD['passport']) dheader('my.php');
 if(isset($_POST['ok'])) {
 	include load('member.lang');
 	$msg = captcha($captcha, $MOD['captcha_login'], true);
@@ -35,14 +36,6 @@ if(isset($_POST['ok'])) {
 	isset($username) or $username = $_username;
 	$username or $username = get_cookie('username');
 	(check_name($username) || is_email($username) || is_mobile($username)) or $username = '';
-	$OAUTH = cache_read('oauth.php');
-	$oa = 0;
-	foreach($OAUTH as $v) {
-		if($v['enable']) {
-			$oa = 1;
-			break;
-		}
-	}
 	if(strpos($forward, '://') === false) $forward = $EXT['mobile_url'].$forward;
 	$head_title = $L['member_login'].$DT['seo_delimiter'].$head_title;
 	$foot =  'my';

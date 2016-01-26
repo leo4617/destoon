@@ -77,8 +77,6 @@ switch($action) {
 	default:
 		$status = isset($status) ? intval($status) : 3;
 		in_array($status, array(2, 3)) or $status = 3;
-		$typeid = isset($typeid) ? ($typeid === '' ? -1 : intval($typeid)) : -1;
-		$type_select = type_select('alert-'.$_userid, 0, 'typeid', $L['default_type'], $typeid, '', $L['all_type']);
 		$condition = "username='$_username' AND status=$status";
 		$lists = $do->get_list($condition);
 		if($lists) {

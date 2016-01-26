@@ -42,6 +42,7 @@ if(check_group($_groupid, $MOD['group_contact'])) {
 		$member = $item['username'] ? userinfo($item['username']) : array();
 		if($item['totime'] && $item['totime'] < $DT_TIME && $item['status'] == 3) $update .= ",status=4";
 		if($member) {
+			unset($item['areaid']);
 			$update_user = update_user($member, $item);
 			if($update_user) $db->query("UPDATE {$table} SET ".substr($update_user, 1)." WHERE username='$username'");
 		}

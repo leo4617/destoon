@@ -51,7 +51,7 @@ if($_admin == 2) {
 	<?php
 		foreach($mymenu as $menu) {
 	?>
-	<dd onclick="c(this);"><a href="<?php echo $menu['url'];?>"><?php echo set_style($menu['title'], $menu['style']);?></a></dd>
+	<dd onclick="c(this);"><a href="<?php echo substr($menu['url'], 0, 1) == '?' ? $menu['url'] : DT_PATH.'api/redirect.php?url='.$menu['url'].'" target="_blank';?>"><?php echo set_style($menu['title'], $menu['style']);?></a></dd>
 	<?php
 		}
 	?>
@@ -130,7 +130,7 @@ if($_admin == 2) {
 	<?php
 		foreach($mymenu as $menu) {
 	?>
-	<dd onclick="c(this);"><a href="<?php echo $menu['url'];?>"><?php echo set_style($menu['title'], $menu['style']);?></a></dd>
+	<dd onclick="c(this);"><a href="<?php echo substr($menu['url'], 0, 1) == '?' ? $menu['url'] : DT_PATH.'api/redirect.php?url='.$menu['url'].'" target="_blank';?>"><?php echo set_style($menu['title'], $menu['style']);?></a></dd>
 	<?php
 		}
 	?>

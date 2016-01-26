@@ -183,6 +183,7 @@ class info {
 		$linkurl = itemurl($item);
 		if($linkurl != $item['linkurl']) $update .= ",linkurl='$linkurl'";
 		$member = $item['username'] ? userinfo($item['username']) : array();
+		if($member) $member['areaid'] = $item['areaid'];
 		if($member) $update .= update_user($member, $item);
 		if($update) $this->db->query("UPDATE {$this->table} SET ".(substr($update, 1))." WHERE itemid=$itemid");
 	}

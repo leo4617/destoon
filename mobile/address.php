@@ -103,6 +103,7 @@ switch($action) {
 			$result = $db->query("SELECT * FROM {$DT_PRE}address WHERE $condition ORDER BY listorder ASC,itemid ASC LIMIT $offset,$pagesize");
 			while($r = $db->fetch_array($result)) {
 				$r['adddate'] = timetodate($r['addtime'], 'Y/m/d H:i');
+				if($r['areaid']) $r['address'] = area_pos($r['areaid'], '').$r['address'];
 				$lists[] = $r;
 			}
 		}

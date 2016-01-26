@@ -100,7 +100,7 @@ if($minsms) $condition .= " AND m.sms>=$minsms";
 if($maxsms) $condition .= " AND m.sms<=$maxsms";
 if($valid) $condition .= $valid == 1 ? " AND c.validated=1" : " AND c.validated=0";
 if($catid) $condition .= " AND c.catids LIKE '%,".$catid.",%'";
-if($areaid) $condition .= ($AREA[$areaid]['child']) ? " AND c.areaid IN (".$AREA[$areaid]['arrchildid'].")" : " AND c.areaid=$areaid";
+if($areaid) $condition .= ($ARE['child']) ? " AND c.areaid IN (".$ARE['arrchildid'].")" : " AND c.areaid=$areaid";
 if($mode) $condition .= " AND c.mode LIKE '%$modes[$mode]%'";
 if($type) $condition .= " AND c.type='$types[$type]'";
 if($size) $condition .= " AND c.size='$sizes[$size]'";

@@ -38,7 +38,9 @@ function mobile2area($mobile) {
 	if(strpos($rec, 'retData') !== false) {
 		$tmp = json_decode($rec, true);
 		$arr = $tmp['retData'];
-		if(isset($arr['carrier'])) $area .= $arr['carrier'];
+		if(isset($arr['supplier'])) $area .= $arr['supplier'].'-';
+		if(isset($arr['province'])) $area .= $arr['province'];
+		if(isset($arr['city'])) $area .= $arr['city'];
 	}
 	return $area ? convert($area, 'UTF-8', DT_CHARSET) : 'Unknown';
 }

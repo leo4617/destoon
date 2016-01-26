@@ -4,6 +4,7 @@ $ROBOT = array(
 	'google' => 'Google',
 	'yahoo' => 'Yahoo',
 	'bing' => 'Bing',
+	'360' => 'บรหั',
 	'soso' => 'หัหั',
 	'sogou' => 'หันท',
 	'other' => 'ฦไห๛'

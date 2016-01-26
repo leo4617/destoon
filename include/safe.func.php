@@ -8,7 +8,12 @@ function dhtmlspecialchars($string) {
 	if(is_array($string)) {
 		return array_map('dhtmlspecialchars', $string);
 	} else {
-		return htmlspecialchars($string, ENT_QUOTES, DT_CHARSET == 'GBK' ? 'GB2312' : 'UTF-8');
+		$string = htmlspecialchars($string, ENT_QUOTES, DT_CHARSET == 'GBK' ? 'GB2312' : 'UTF-8');
+		$string = str_replace('&amp;', '&', $string);
+		if(defined('DT_ADMIN')) return $string;
+		$_string = str_replace(array('&quot;', '&#34;', '"'), array('', '', ''), $string);
+		if($_string == $string) return $string;
+		return strip_sql($_string);
 	}
 }
 

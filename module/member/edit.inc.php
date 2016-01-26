@@ -15,7 +15,8 @@ if($MFD || $CFD) require DT_ROOT.'/include/fields.func.php';
 $group_editor = $MG['editor'];
 in_array($group_editor, array('Default', 'Destoon', 'Simple', 'Basic')) or $group_editor = 'Destoon';
 $tab = isset($tab) ? intval($tab) : 0;
-$_E = ($MOD['edit_check'] && $user['edittime'] > 0) ? explode(',', $MOD['edit_check']) : array();
+$is_company = $_groupid > 5 || ($_groupid == 4 && $regid > 5);
+$_E = ($MOD['edit_check'] && $user['edittime'] > 0 && $is_company) ? explode(',', $MOD['edit_check']) : array();
 if(in_array('capital', $_E)) $_E[] = 'regunit';
 $content_table = content_table(4, $_userid, is_file(DT_CACHE.'/4.part'), $DT_PRE.'company_data');
 $t = $db->get_one("SELECT * FROM {$content_table} WHERE userid=$_userid");
@@ -106,7 +107,6 @@ if($submit) {
 	extract($user);
 	$mode_check = dcheckbox($COM_MODE, 'post[mode][]', $mode, 'onclick="check_mode(this, '.$MOD['mode_max'].');"', 0);
 	$cates = $catid ? explode(',', substr($catid, 1, -1)) : array();
-	$is_company = $_groupid > 5 || ($_groupid == 4 && $regid > 5);
 	$tab = isset($tab) ? intval($tab) : -1;
 	if($tab == 2 && !$is_company) $tab = 0;
 	include template('edit', $module);

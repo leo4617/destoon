@@ -18,7 +18,7 @@ if($city) {
 			$cityid = $c['areaid'];
 		}
 	}
-	#if($city_domain && !defined('DT_ADMIN') && strpos($DT_URL, DT_PATH) !== false) dheader(str_replace(DT_PATH, $city_domain, $DT_URL));
+	if($city_domain && !defined('DT_ADMIN') && strpos($DT_URL, DT_PATH) !== false) dheader(str_replace(DT_PATH, $city_domain, $DT_URL));
 } else {
 	if(strpos(DT_PATH, $http_host) === false) {
 		$c = $db->get_one("SELECT * FROM {$DT_PRE}city WHERE domain='http://".$http_host."/'");

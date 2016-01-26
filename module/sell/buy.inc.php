@@ -108,6 +108,7 @@ if($submit) {
 			$address = array();
 			$result = $db->query("SELECT * FROM {$DT_PRE}address WHERE username='$_username' ORDER BY  listorder ASC,itemid ASC LIMIT 30");
 			while($r = $db->fetch_array($result)) {	
+				if($r['areaid']) $r['address'] = area_pos($r['areaid'], '').$r['address'];
 				$address[] = $r;
 			}
 			$user = userinfo($_username);

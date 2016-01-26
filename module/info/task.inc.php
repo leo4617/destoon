@@ -43,6 +43,7 @@ if($html == 'show') {
 	$update = '';
 	if($item['totime'] && $item['totime'] < $DT_TIME && $item['status'] == 3) $update .= ",status=4";
 	if($member) {
+		unset($item['areaid']);
 		$update_user = update_user($member, $item);
 		if($update_user) $db->query("UPDATE {$table} SET ".substr($update_user, 1)." WHERE username='$username'");
 	}

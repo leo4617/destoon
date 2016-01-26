@@ -20,6 +20,7 @@ $L['upload_cmyk'] = '浏览器不支持CMYK模式图片，请转换为RGB格式';
 $L['upload_jpg'] = '系统不支持GIF格式图片处理，请上传JPG或者PNG格式';
 $L['upload_fail'] = '上传失败';
 /* .class.php */
+$L['pass_areaid'] = '请选择地区';
 $L['pass_catid'] = '请选择分类';
 $L['pass_cate'] = '请选择行业分类';
 $L['pass_title'] = '请填写标题';
@@ -30,13 +31,6 @@ $L['pass_logo'] = '请上传LOGO';
 $L['pass_date'] = '日期格式错误';
 $L['pass_todate'] = '信息过期时间必须在当前时间之后';
 $L['pass_max'] = '内容过长，限制为'.DT_MAX_LEN.'字符';
-/*
-$L['pass_product'] = '请填写产品名称';
-$L['pass_product_op_pid'] = '请选择商品类型';
-$L['pass_product_op_name'] = '请填写属性名称';
-$L['pass_product_op_value'] = '请填写备选值';
-$L['pass_product_op_value_min'] = '最少需要设定2个备选值';
-*/
 $L['pass_truename'] = '请填写联系人';
 $L['pass_address'] = '请填写详细地址';
 $L['pass_postcode'] = '请填写邮政编码';

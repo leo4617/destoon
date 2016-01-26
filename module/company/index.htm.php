@@ -1,6 +1,6 @@
 <?php 
 defined('IN_DESTOON') or exit('Access Denied');
-$filename = DT_ROOT.'/'.$MOD['moduledir'].'/index.inc.html';
+$filename = DT_CACHE.'/htm/company.htm';
 if(!$MOD['index_html']) {
 	if(is_file($filename)) file_del($filename);
 	return false;

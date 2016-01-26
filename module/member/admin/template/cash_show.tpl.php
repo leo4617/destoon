@@ -10,12 +10,12 @@ show_menu($menus);
 <td><a href="javascript:_user('<?php echo $item['username'];?>');" class="t"><?php echo $item['username'];?></a></td>
 </tr>
 <tr>
-<td class="tl">提现金额</td>
-<td class="f_red"><strong><?php echo $item['amount'];?></strong></td>
+<td class="tl">实付金额</td>
+<td class="f_red"><?php echo $item['amount'];?></td>
 </tr>
 <tr>
 <td class="tl">手续费</td>
-<td class="f_blue"><strong><?php echo $item['fee'];?></strong></td>
+<td class="f_blue"><?php echo $item['fee'];?></td>
 </tr>
 <tr class="on">
 <td class="tl">开户银行</td>

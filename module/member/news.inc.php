@@ -31,7 +31,7 @@ switch($action) {
 			}
 			$content = '';
 			$typeid = 0;
-			$type_select = type_select('news-'.$_userid, 0, 'post[typeid]', $L['default_type']);
+			$type_select = type_select($TYPE, 0, 'post[typeid]', $L['default_type']);
 			$head_title = $L['news_title_add'];
 		}
 	break;
@@ -54,7 +54,7 @@ switch($action) {
 		} else {
 			extract($r);
 			$addtime = timetodate($addtime);
-			$type_select = type_select('news-'.$_userid, 0, 'post[typeid]', $L['default_type'], $typeid);
+			$type_select = type_select($TYPE, 0, 'post[typeid]', $L['default_type'], $typeid);
 			$head_title = $L['news_title_edit'];
 		}
 	break;
@@ -73,7 +73,7 @@ switch($action) {
 		$status = isset($status) ? intval($status) : 3;
 		in_array($status, array(1, 2, 3)) or $status = 3;
 		$typeid = isset($typeid) ? ($typeid === '' ? -1 : intval($typeid)) : -1;
-		$type_select = type_select('news-'.$_userid, 0, 'typeid', $L['default_type'], $typeid, '', $L['all_type']);
+		$type_select = type_select($TYPE, 0, 'typeid', $L['default_type'], $typeid, '', $L['all_type']);
 		$condition = "username='$_username' AND status=$status";
 		if($keyword) $condition .= " AND title LIKE '%$keyword%'";
 		if($typeid > -1) $condition .= " AND typeid=$typeid";

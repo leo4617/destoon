@@ -33,9 +33,7 @@
 	<input type="hidden" name="itemid" value="{$itemid}"/>
 	<input type="hidden" name="post[listorder]" value="{$listorder}"/>
 	<input type="hidden" name="ok" value="1"/>
-	{if $action=='add'}
-	<div class="addr-box bd-b"><div class="addr-are">{ajax_area_select('post[areaid]', '请选择省市')}</div></div>
-	{/if}
+	<div class="addr-box bd-b"><div class="addr-are">{ajax_area_select('post[areaid]', '请选择省市', $areaid)}</div></div>
 	<div class="addr-box bd-b"><input type="text" name="post[address]" id="address" value="{$address}" placeholder="详细地址:" class="addr-inp"/></div>
 	<div class="addr-box bd-b"><input type="text" name="post[postcode]" id="postcode" value="{$postcode}" placeholder="邮政编码:" class="addr-inp"/></div>
 	<div class="addr-box bd-b"><input type="text" name="post[truename]" id="truename" value="{$truename}" placeholder="真实姓名:" class="addr-inp"/></div>
@@ -50,6 +48,10 @@
 <script type="text/javascript">
 function Daddr() {
 	var len;
+	if(Dd('areaid_1').value == 0) {
+		Dtoast('请选择省市');
+		return false;
+	}
 	len = Dd('address').value.length;
 	if(len < 5) {
 		Dtoast('请填写详细地址');

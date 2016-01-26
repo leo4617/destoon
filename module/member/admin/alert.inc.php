@@ -27,7 +27,7 @@ if(in_array($action, array('', 'check'))) {
 
 	$condition = '';
 	if($keyword) $condition .= " AND $dfields[$fields] LIKE '%$keyword%'";
-	if($areaid) $condition .= ($AREA[$areaid]['child']) ? " AND areaid IN (".$AREA[$areaid]['arrchildid'].")" : " AND areaid=$areaid";
+	if($areaid) $condition .= ($ARE['child']) ? " AND areaid IN (".$ARE['arrchildid'].")" : " AND areaid=$areaid";
 	if($mid) $condition .= " AND mid=$mid";
 }
 switch($action) {

@@ -1,6 +1,6 @@
 <?php 
 defined('IN_DESTOON') or exit('Access Denied');
-//if($_userid) dheader($MOD['linkurl']);
+if($_userid && !$MOD['passport']) dheader($MOD['linkurl']);
 require DT_ROOT.'/module/'.$module.'/common.inc.php';
 require MD_ROOT.'/member.class.php';
 require DT_ROOT.'/include/post.func.php';

@@ -17,7 +17,7 @@
 
 <tr>
 <td class="tl"><span class="f_red">*</span> 详细地址</td>
-<td class="tr">{if $action=='add'}{ajax_area_select('post[areaid]', '请选择')}{/if}<input name="post[address]" type="text" id="title" size="60" value="{$address}"/> <span id="dtitle" class="f_red"></span></td>
+<td class="tr">{ajax_area_select('post[areaid]', '请选择', $areaid)}<input name="post[address]" type="text" id="title" size="60" value="{$address}"/> <span id="dareaid" class="f_red"></span><span id="dtitle" class="f_red"></span></td>
 </tr>
 
 <tr>
@@ -63,10 +63,9 @@
 <table cellpadding="0" cellspacing="0" class="tb">
 <tr>
 <th width="20"><input type="checkbox" onclick="checkall(this.form);"/></th>
-<th>地址(邮编)</th>
+<th>地址</th>
 <th>姓名</th>
 <th>手机</th>
-<th>电话</th>
 <th>添加时间</th>
 <th>排序</th>
 <th width="40">修改</th>
@@ -75,10 +74,9 @@
 {loop $lists $k $v}
 <tr onmouseover="this.className='on';" onmouseout="this.className='';" align="center">
 <td><input type="checkbox" name="itemid[]" value="{$v[itemid]}"/></td>
-<td height="30" align="left"{if $v[note]} title="备注:{$v[note]}"{/if}>&nbsp;&nbsp{$v[address]}({$v[postcode]})</td>
+<td height="30" align="left"{if $v[note]} title="备注:{$v[note]}"{/if}>&nbsp;&nbsp{$v[address]}</td>
 <td>{$v[truename]}</td>
 <td>{$v[mobile]}</td>
-<td>{if $v[telephone]}{$v[telephone]}{else}&nbsp;{/if}</td>
 <td class="px11 f_gray" title="更新时间 {$v[editdate]}">{$v[adddate]}</td>
 <td class="px11 f_gray">{$v[listorder]}</td>
 <td><a href="?action=edit&itemid={$v[itemid]}"><img width="16" height="16" src="{DT_STATIC}{$MODULE[2][moduledir]}/image/edit.png" title="修改" alt=""/></a></td>
@@ -102,6 +100,11 @@
 function check() {
 	var l;
 	var f;
+	f = 'areaid_1';
+	if(Dd(f).value == 0) {
+		Dmsg('请选择所在地区', 'areaid', 1);
+		return false;
+	}
 	f = 'title';
 	l = Dd(f).value.length;
 	if(l < 5) {

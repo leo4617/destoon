@@ -109,9 +109,9 @@ switch($action) {
 				$_msg = '受理成功，交易状态已经改变为 已退款给买家';
 				//更新商品数据 增加库存
 				if($td['mid'] == 16) {
-					$db->query("UPDATE {$DT_PRE}mall SET orders=orders-1,sales=sales-$td[number],amount=amount+$td[number] WHERE itemid=$mallid");
+					$db->query("UPDATE {$DT_PRE}mall SET orders=orders-1,sales=sales-$td[number],amount=amount+$td[number] WHERE itemid=$itemid");
 				} else {
-					$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount+$td[number] WHERE itemid=$mallid");
+					$db->query("UPDATE ".get_table($td['mid'])." SET amount=amount+$td[number] WHERE itemid=$itemid");
 				}
 			} else if($status == 4) {//已退款，卖家胜 付款
 				money_add($td['seller'], $td['money']);

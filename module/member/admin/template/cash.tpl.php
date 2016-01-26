@@ -35,7 +35,7 @@ foreach($BANKS as $k=>$v) {
 </select>&nbsp;
 <?php echo dcalendar('fromtime', $fromtime);?> 至 <?php echo dcalendar('totime', $totime);?>&nbsp;
 <select name="mtype">
-<option value="amount" <?php if($mtype == 'amount') echo 'selected';?>>金额</option>
+<option value="amount" <?php if($mtype == 'amount') echo 'selected';?>>实付</option>
 <option value="fee" <?php if($mtype == 'fee') echo 'selected';?>>手续费</option>
 </select>&nbsp;
 <input type="text" name="minamount" value="<?php echo $minamount;?>" size="5"/> 至 
@@ -52,7 +52,7 @@ foreach($BANKS as $k=>$v) {
 <tr>
 <th width="25"><input type="checkbox" onclick="checkall(this.form);"/></th>
 <th>流水号</th>
-<th>金额</th>
+<th>实付金额</th>
 <th>手续费</th>
 <th>会员名称</th>
 <th>开户银行</th>

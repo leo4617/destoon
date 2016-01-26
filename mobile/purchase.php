@@ -15,6 +15,8 @@ if($addr_id) {
 }
 if(!$addr) $addr = $db->get_one("SELECT * FROM {$DT_PRE}address WHERE username='$_username' ORDER BY listorder ASC,itemid ASC");
 if(!$addr) mobile_msg($L['purchase_msg_address'], $addr_url);
+if($addr['areaid']) $addr['address'] = area_pos($addr['areaid'], '').$addr['address'];
+
 $need_addr = 1;
 $order_name = 'trade';
 require DT_ROOT.'/module/'.$module.'/common.inc.php';

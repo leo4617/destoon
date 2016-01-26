@@ -67,7 +67,7 @@ switch($action) {
 		$star = isset($star) && isset($stars[$star]) ? intval($star) : '';
 		isset($order) && isset($dorder[$order]) or $order = 0;
 		$fields_select = dselect($sfields, 'fields', '', $fields);
-		$type_select   = type_select('ask', 1, 'typeid', '请选择分类', $typeid);
+		$type_select   = type_select($TYPE, 1, 'typeid', '请选择分类', $typeid);
 		$status_select = dselect($dstatus, 'status', '受理状态', $status, '', 1, '', 1);
 		$star_select = dselect($stars, 'star', '评分', $star, '', 1, '', 1);
 		$order_select  = dselect($sorder, 'order', '', $order);
