@@ -11,20 +11,30 @@ function _userinfo($mobile) {
 	global $db;
 	return $db->get_one("SELECT * FROM {$db->pre}member m,{$db->pre}company c WHERE m.userid=c.userid AND m.mobile='$mobile'");
 }
+function _safecheck($content) {
+	if(strpos($content, '{$user[') === false) return false;
+	$str = str_replace('{$user[', '', $content);
+	foreach(array('$', '(', '{', '[') as $v) {
+		if(strpos($str, $v) !== false) return false;
+	}
+	return true;
+
+}
 switch($action) {
 	case 'list':		 
 		$others = array();
 		$mailfiles = glob(DT_ROOT.'/file/mobile/*.txt');
 		$mail = $mails = array();
 		if(is_array($mailfiles)) {
+			$mailfiles = array_reverse($mailfiles);
 			$class = 1;
-			foreach($mailfiles as $id=>$mailfile)	{
+			foreach($mailfiles as $id=>$mailfile) {
 				$tmp = basename($mailfile);
-					$mail['filename'] = $tmp;
-					$mail['filesize'] = round(filesize($mailfile)/(1024), 2);
-					$mail['mtime'] = timetodate(filemtime($mailfile), 5);
-					$mail['count'] = substr_count(file_get($mailfile), "\n") + 1;	
-					$mails[] = $mail;
+				$mail['filename'] = $tmp;
+				$mail['filesize'] = round(filesize($mailfile)/(1024), 2);
+				$mail['mtime'] = timetodate(filemtime($mailfile), 5);
+				$mail['count'] = substr_count(file_get($mailfile), "\n") + 1;	
+				$mails[] = $mail;
 			}
 		}
 		include tpl('sendsms_list', $module);
@@ -55,10 +65,10 @@ switch($action) {
 			$result = $db->query("SELECT mobile FROM $tb WHERE $sql AND mobile<>'' LIMIT $offset,$pagesize");
 			$data = '';
 			while($r = $db->fetch_array($result)) {
-				if($r['mobile']) $data .= $r['mobile']."\r\n";
+				if(is_mobile($r['mobile'])) $data .= $r['mobile']."\r\n";
 			}
 			if($data) {
-				$filename = timetodate($DT_TIME, 'Ymd').$title.'-'.$random.'-'.$page.'.txt';
+				$filename = timetodate($DT_TIME, 'YmdHis').$title.'-'.$random.'-'.$page.'.txt';
 				file_put(DT_ROOT.'/file/mobile/'.$filename, trim($data));
 				$page++;
 				msg('文件'.$filename.'获取成功。<br/>请稍候，程序将自动继续...', '?moduleid='.$moduleid.'&file='.$file.'&action='.$action.'&page='.$page.'&make=1');
@@ -141,7 +151,7 @@ switch($action) {
 					$mobile = trim($mobiles[0]);
 				}
 				$user = _userinfo($mobile);
-				if($user) eval("\$content = \"$content\";");
+				if($user && _safecheck($content)) eval("\$content = \"$content\";");
 				exit($content.$sign);
 			}
 			if($sendtype == 1) {
@@ -152,7 +162,7 @@ switch($action) {
 				$s = 0;
 				if(is_mobile($mobile)) {
 					$user = _userinfo($mobile);
-					if($user) eval("\$content = \"$content\";");
+					if($user && _safecheck($content)) eval("\$content = \"$content\";");
 					$content = strip_sms($content);
 					$sms_code = send_sms($mobile, $content);
 					if(strpos($sms_code, $DT['sms_ok']) !== false) $s++;
@@ -170,7 +180,7 @@ switch($action) {
 					if(is_mobile($mobile)) {
 						$user = _userinfo($mobile);
 						$content = $_content;
-						if($user) eval("\$content = \"$content\";");
+						if($user && _safecheck($content)) eval("\$content = \"$content\";");
 						$content = strip_sms($content);
 						$sms_code = send_sms($mobile, $content);
 						if(strpos($sms_code, $DT['sms_ok']) !== false) {
@@ -208,7 +218,7 @@ switch($action) {
 					if(is_mobile($mobile)) {
 						$user = _userinfo($mobile);
 						$content = $_content;
-						if($user) eval("\$content = \"$content\";");
+						if($user && _safecheck($content)) eval("\$content = \"$content\";");
 						$content = strip_sms($content);
 						$sms_code = send_sms($mobile, $content);
 						if(strpos($sms_code, $DT['sms_ok']) !== false) {

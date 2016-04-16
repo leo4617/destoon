@@ -26,8 +26,9 @@ $user = userinfo($_username);
 if($submit) {
 	if($item['logistic']) {
 		$add = array_map('trim', $add);
-		$add['address'] = area_pos($add['areaid'], '').$add['address'];
-		$add = array_map('htmlspecialchars', $add);
+		$add_city = area_pos($add['areaid'], '');
+		if($add_city && strpos($add['address'], $add_city) === false) $add['address'] = $add_city.$add['address'];
+		$add = dhtmlspecialchars($add);
 		$buyer_address = $add['address'];
 		if(strlen($buyer_address) < 10) message($L['msg_type_address']);
 		$buyer_postcode = $add['postcode'];

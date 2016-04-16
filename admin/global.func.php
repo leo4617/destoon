@@ -3,7 +3,7 @@
 	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
-defined('DT_ADMIN') or exit('Access Denied');
+defined('IN_DESTOON') or exit('Access Denied');
 function msg($msg = errmsg, $forward = 'goback', $time = '1') {
 	global $CFG;
 	if(!$msg && $forward && $forward != 'goback') dheader($forward);
@@ -364,5 +364,12 @@ function pass_encode($str) {
 
 function pass_decode($new, $old) {
 	return $new == pass_encode($old) ? $old : $new;
+}
+
+function fix_domain($domain) {
+	if(strpos($domain, '.') === false) return '';
+	if(substr($domain, 0, 4) != 'http') $domain = 'http://'.$domain;
+	if(substr($domain, -1) != '/') $domain = $domain.'/';
+	return $domain;
 }
 ?>

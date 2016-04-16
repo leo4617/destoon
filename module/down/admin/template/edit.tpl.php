@@ -269,7 +269,7 @@ function auto_type() {
 	var file_type = '';
 	if('rar|zip'.indexOf(file_ext) != -1) {
 		file_type = 'rar';
-	} else if('jpg|png|gif|bmp'.indexOf(file_ext) != -1) {
+	} else if('jpg|jpeg|png|gif|bmp'.indexOf(file_ext) != -1) {
 		file_type = 'img';
 	} else if('wma|wav|rm|rmvb|ram|mp4|flv|mov'.indexOf(file_ext) != -1) {
 		file_type = 'mov';

@@ -6,7 +6,6 @@
 .quick img {width:46px;margin:0 0 6px 0;}
 .quick span {display:block;font-size:12px;}
 .quick em {font-style:normal;font-size:12px;color:#FFFFFF;z-index:8;position:relative;display:block;width:22px;height:22px;line-height:22px;left:50%;margin:-74px 0 0 8px;background:#FF0000;border-radius:50%;text-align:center;}
-
 .channel {background:#FFFFFF url('static/img/bg-channel.png') repeat-x 0 bottom;height:44px;overflow-x:auto;margin-top:10px;font-size:16px;}
 .channel ul {width:10000px;}
 .channel li {height:42px;line-height:42px;padding:0 10px;border-bottom:#EFEFF4 2px solid;float:left;}
@@ -184,8 +183,8 @@ function dslide(id, time) {
 	this.t = setInterval(function() {_this.start();}, time);
 }
 {/if}
-//$(document).on('pageinit', function(event) {
-$(document).ready(function() {
+$(document).on('pageinit', function(event) {
+//$(document).ready(function() {
 	$('.spin-more').show();
 	Dload();
 	$('#main').on('scrollstop',function(event){

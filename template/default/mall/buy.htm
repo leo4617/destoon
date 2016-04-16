@@ -121,7 +121,7 @@
 		{loop $address $k $v}
 		<div>
 		{if $k == 0}<span class="f_r"><a href="{$MODULE[2][linkurl]}address.php?action=add" target="_blank">[新增地址]</a>&nbsp;&nbsp;<a href="{$MODULE[2][linkurl]}address.php" target="_blank">[管理地址]</a></span>{/if}
-		<input type="radio" name="addr" id="addr_{$k}" value="{$v[areaid]}|{$v[address]}|{$v[postcode]}|{$v[truename]}|{$v[mobile]}|{$v[telephone]}" onclick="Adr(this.value);"{if $k == 0} checked{/if}/><label for="addr_{$k}"> {$v[postcode]} {$v[address]} ({$v[truename]}) {$v[mobile]}</label></div>
+		<input type="radio" name="addr" id="addr_{$k}" value="{$v[areaid]}|{$v[street]}|{$v[postcode]}|{$v[truename]}|{$v[mobile]}|{$v[telephone]}" onclick="Adr(this.value);"{if $k == 0} checked{/if}/><label for="addr_{$k}"> {$v[postcode]} {$v[address]} ({$v[truename]}) {$v[mobile]}</label></div>
 		<div class="b5"></div>
 		{/loop}
 	{else}

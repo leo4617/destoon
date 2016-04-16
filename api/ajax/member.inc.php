@@ -31,7 +31,7 @@ switch($job) {
 		$value = trim($value);
 		if(!preg_match("/[0-9]{6}/", $value)) exit('&nbsp;');
 		$session = new dsession();
-		if($_SESSION['email_code'] != md5($_SESSION['email'].'|'.$value)) exit('&nbsp;');
+		if($_SESSION['email_code'] != md5($_SESSION['email_save'].'|'.$value)) exit('&nbsp;');
 	break;
 	case 'mobile':
 		$value = trim($value);
@@ -42,7 +42,7 @@ switch($job) {
 		$value = trim($value);
 		if(!preg_match("/[0-9]{6}/", $value)) exit('&nbsp;');
 		$session = new dsession();
-		if($_SESSION['mobile_code'] != md5($_SESSION['mobile'].'|'.$value)) exit('&nbsp;');
+		if($_SESSION['mobile_code'] != md5($_SESSION['mobile_save'].'|'.$value)) exit('&nbsp;');
 	break;
 	case 'company':
 		if(!$value) exit($L['member_company_null']);

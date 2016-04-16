@@ -19,7 +19,7 @@ if(isset($homepage) && check_name($homepage)) {
 				$username = $homepage = $www;
 			} else {
 				$head_title = $L['not_company'];
-				dhttp(404, $DT_BOT);
+				if($DT_BOT) dhttp(404, $DT_BOT);
 				include template('com-notfound', 'message');
 				exit;
 			}

@@ -14,20 +14,30 @@ function _userinfo($fields, $email) {
 		return $db->get_one("SELECT * FROM {$DT_PRE}member m,{$DT_PRE}company c WHERE m.userid=c.userid AND m.email='$email'");
 	}
 }
+function _safecheck($content) {
+	if(strpos($content, '{$user[') === false) return false;
+	$str = str_replace('{$user[', '', $content);
+	foreach(array('$', '(', '{', '[') as $v) {
+		if(strpos($str, $v) !== false) return false;
+	}
+	return true;
+
+}
 switch($action) {
 	case 'list':		 
 		$others = array();
 		$mailfiles = glob(DT_ROOT.'/file/email/*.txt');
 		$mail = $mails = array();
 		if(is_array($mailfiles)) {
+			$mailfiles = array_reverse($mailfiles);
 			$class = 1;
-			foreach($mailfiles as $id=>$mailfile)	{
+			foreach($mailfiles as $id=>$mailfile) {
 				$tmp = basename($mailfile);
-					$mail['filename'] = $tmp;
-					$mail['filesize'] = round(filesize($mailfile)/(1024), 2);
-					$mail['mtime'] = timetodate(filemtime($mailfile), 5);
-					$mail['count'] = substr_count(file_get($mailfile), "\n") + 1;	
-					$mails[] = $mail;
+				$mail['filename'] = $tmp;
+				$mail['filesize'] = round(filesize($mailfile)/(1024), 2);
+				$mail['mtime'] = timetodate(filemtime($mailfile), 5);
+				$mail['count'] = substr_count(file_get($mailfile), "\n") + 1;	
+				$mails[] = $mail;
 			}
 		}
 		include tpl('sendmail_list', $module);
@@ -59,10 +69,10 @@ switch($action) {
 			$query = "SELECT email FROM $tb WHERE $sql AND email<>'' LIMIT $offset,$pagesize";
 			$result = $db->query($query);
 			while($r = $db->fetch_array($result)) {
-				if($r['email']) $data .= $r['email']."\r\n";
+				if(is_email($r['email'])) $data .= $r['email']."\r\n";
 			}
 			if($data) {
-				$filename = timetodate($DT_TIME, 'Ymd').$title.'-'.$random.'-'.$page.'.txt';
+				$filename = timetodate($DT_TIME, 'YmdHis').$title.'-'.$random.'-'.$page.'.txt';
 				file_put(DT_ROOT.'/file/email/'.$filename, trim($data));
 				$page++;
 				msg('文件'.$filename.'获取成功。<br/>请稍候，程序将自动继续...', '?moduleid='.$moduleid.'&file='.$file.'&action='.$action.'&page='.$page.'&make=1');
@@ -174,7 +184,7 @@ switch($action) {
 						$email = trim($emails[0]);
 					}
 					$user = _userinfo($fields, $email);
-					eval("\$title = \"$title\";");
+					if($user && _safecheck($title)) eval("\$title = \"$title\";");
 					$content = ob_template($template, 'mail');
 				}
 				echo '<br/><strong>邮件标题：</strong>'.$title.'<br/><br/>';
@@ -192,7 +202,7 @@ switch($action) {
 				$DT['mail_name'] = $name;
 				if($template) {
 					$user = _userinfo($fields, $email);
-					eval("\$title = \"$title\";");
+					if($user && _safecheck($title)) eval("\$title = \"$title\";");
 					$content = ob_template($template, 'mail');					
 				}
 				send_mail($email, $title, $content, $sender);
@@ -211,7 +221,7 @@ switch($action) {
 					    $content = $_content;
 						if($template) {
 							$user = _userinfo($fields, $email);
-							eval("\$title = \"$title\";");
+							if($user && _safecheck($title)) eval("\$title = \"$title\";");
 							$content = ob_template($template, 'mail');
 						}
 						send_mail($email, $title, $content, $sender);
@@ -258,7 +268,7 @@ switch($action) {
 						$content = $_content;
 						if($template) {
 							$user = _userinfo($fields, $email);							
-							eval("\$title = \"$title\";");
+							if($user && _safecheck($title)) eval("\$title = \"$title\";");
 							$content = ob_template($template, 'mail');
 						}
 						send_mail($email, $title, $content, $sender);

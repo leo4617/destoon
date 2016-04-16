@@ -10,7 +10,7 @@ $menus = array (
     array('文件校验', '?file=md5'),
 );
 $sys = array('admin', 'api', 'file', 'include', 'lang', 'module', 'skin', 'template', 'mobile', $MODULE[2]['moduledir']);
-$ext = 'php|htm|css|js|jpg|gif|png';
+$ext = 'php|htm|css|js|jpg|jpeg|gif|png';
 if($action == 'view') {
 	isset($fid) or msg();
 	preg_match("/^[0-9\.\-\s~]{33}$/", $fid) or msg();

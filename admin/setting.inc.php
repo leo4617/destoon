@@ -65,6 +65,10 @@ switch($action) {
 		$tab = isset($tab) ? intval($tab) : 0;
 		$all = isset($all) ? intval($all) : 0;
 		if($submit) {
+			foreach($setting as $k=>$v) {
+				if(strpos($k, 'seo_') === false) continue;
+				seo_check($v) or msg('SEO信息包含非法字符');
+			}
 			if($setting['safe_domain']) {
 				$setting['safe_domain'] = str_replace('http://', '', $setting['safe_domain']);
 				if(substr($setting['safe_domain'], 0, 4) == 'www.') $setting['safe_domain'] = substr($setting['safe_domain'], 4);
@@ -72,6 +76,7 @@ switch($action) {
 			if(substr($config['url'], -1) != '/') $config['url'] = $config['url'].'/';
 			if($config['cookie_domain'] && substr($config['cookie_domain'], 0, 1) != '.') $config['cookie_domain'] = '.'.$config['cookie_domain'];
 			if($config['cookie_domain'] != $CFG['cookie_domain']) $config['cookie_pre'] = 'D'.random(2).'_';
+			in_array($setting['file_ext'], array('html', 'htm', 'shtml', 'shtm')) or $setting['file_ext'] = 'html';
 			$config['cloud_key'] = pass_decode($config['cloud_key'], DT_CLOUD_KEY);
 			$setting['smtp_pass'] = pass_decode($setting['smtp_pass'], $DT['smtp_pass']);
 			$setting['ftp_pass'] = pass_decode($setting['ftp_pass'], $DT['ftp_pass']);

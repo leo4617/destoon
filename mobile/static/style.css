@@ -13,6 +13,7 @@ img {border:none;}
 a:link,a:visited,a:active,a:hover {color:#333333;text-decoration:none;}
 a.b:link,a.b:visited,a.b:active,a.b:hover{text-decoration:none;color:#007AFF;}
 a,button,input{-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-tap-highlight-color:transparent;}
+input,textarea,select {outline:none;}
 .f_red {color:red;}
 .f_green {color:green;}
 .f_orange {color:#FF6600;}

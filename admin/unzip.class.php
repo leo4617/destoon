@@ -11,6 +11,7 @@ class unzip {
 	var $old_offset = 0;
 
 	function extract_zip($zipfile, $dir) {
+		if(substr($dir, -1) != '/') $dir .= '/';
 		if(function_exists('zip_open')) {
 			$zip = zip_open($zipfile); 
 			if($zip) {			 
@@ -147,14 +148,14 @@ class unzip {
 	function rc_dir($zip, $zip_name) {
 		$size = filesize($zip_name);
 		$maximum_size = $size < 277 ? $size : 277;
-		@fseek($zip, $size-$maximum_size);
+		@fseek($zip, $size - $maximum_size);
 		$pos = ftell($zip);
 		$bytes = 0x00000000;
 		while($pos < $size) {
 			$byte = @fread($zip, 1);
 			$bytes = ($bytes << 8) | Ord($byte);
 			$pos++;
-			if($bytes == 0x504b0506) break;
+			if(substr(dechex($bytes), -8, 8) == '504b0506') break;
 		}		
 		$data = unpack('vdisk/vdisk_start/vdisk_entries/ventries/Vsize/Voffset/vcomment_size', fread($zip, 18));
 		$centd['comment'] = $data['comment_size'] != 0 ? fread($zip, $data['comment_size']) : '';
@@ -192,8 +193,8 @@ class unzip {
 					$size -= $read_size;
 				}
 				fclose($fp);
+				if(DT_CHMOD) @chmod($to.$header['filename'], DT_CHMOD);
 				touch($to.$header['filename'], $header['mtime']);
-
 			} else {
 				$fp = @fopen($to.$header['filename'].'.gz', 'wb');
 				if(!$fp) return -1;
@@ -224,12 +225,12 @@ class unzip {
 				}
 				fclose($fp); 
 				gzclose($gzp);
+				if(DT_CHMOD) @chmod($to.$header['filename'], DT_CHMOD);
 				touch($to.$header['filename'], $header['mtime']);
 				@unlink($to.$header['filename'].'.gz');
 			}
 		}
 		return true;
 	}
-
 }
 ?>

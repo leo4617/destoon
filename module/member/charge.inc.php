@@ -63,7 +63,7 @@ function get_reason($reason) {
 		break;
 		case 'trades':
 			$ids = explode(',', $arr[1]);
-			$t = $db->get_one("SELECT title FROM ".$db->pre."group_order WHERE itemid=".intval($ids[0]));
+			$t = $db->get_one("SELECT title FROM ".$db->pre."mall_order WHERE itemid=".intval($ids[0]));
 			if($t) $str = $L['charge_reason_muti'].$t['title'].'...';
 		break;
 		case 'group':
@@ -164,6 +164,8 @@ switch($action) {
 		if($fee == 0) $auto = 1;
 		if($auto) $goto = 1;
 		if(isset($goto)) {
+			if($DT_TOUCH && $PAY['alipay']['enable']) $bank = 'alipay';
+			if($DT_MOB['browser'] == 'weixin' && $PAY['weixin']['enable']) $bank = 'weixin';
 			$receive_url = $MOD['linkurl'].'charge.php';
 			$charge_title = get_reason($reason);
 			$db->query("INSERT INTO {$DT_PRE}finance_charge (username,bank,amount,fee,sendtime,reason) VALUES ('$_username','$bank','$amount','$fee','$DT_TIME','$reason')");

@@ -5,7 +5,7 @@ define('DT_TASK', true);
 require '../common.inc.php';
 check_referer() or exit;
 if($DT_BOT) exit;
-header("Content-type:text/javascript");	
+#header("Content-type:text/javascript");	
 include template('line', 'chip');
 $db->linked or exit;
 isset($html) or $html = '';

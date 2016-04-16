@@ -126,6 +126,7 @@ function Mcheck() {
 }
 function move(i) {
 	Dd('check_'+i).checked = false;
+	Dd('check_'+i).disabled = true;
 	Dh('tr_'+i);
 	calculate();
 	makeRequest('action=delete&ajax=1&key='+i, '?', '_move');
@@ -160,7 +161,7 @@ function calculate() {
 	var itemids = [{loop $lists $i $t}{if $i},{/if}'{$t[key]}'{/loop}];
 	var _good = _amount = _total = 0;
 	for(var i = 0; i < itemids.length; i++) {
-		if(Dd('check_'+itemids[i]).checked) {
+		if(Dd('check_'+itemids[i]).checked && !Dd('check_'+itemids[i]).disabled) {
 			itemid = itemids[i];
 			var num, good, maxa, mina, price;
 			num = parseInt(Dd('number_'+itemid).value);

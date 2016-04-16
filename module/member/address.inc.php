@@ -48,10 +48,13 @@ switch($action) {
 	break;
 	case 'delete':
 		$itemid or message($L['address_msg_choose']);
-		$do->itemid = $itemid;
-		$r = $do->get_one();
-		if(!$r || $r['username'] != $_username) message();
-		$do->delete($itemid);
+		$itemids = is_array($itemid) ? $itemid : array($itemid);
+		foreach($itemids as $itemid) {
+			$do->itemid = $itemid;
+			$item = $do->get_one();
+			if(!$item || $item['username'] != $_username) message();
+			$do->delete($itemid);
+		}
 		dmsg($L['op_del_success'], $forward);
 	break;
 	default:

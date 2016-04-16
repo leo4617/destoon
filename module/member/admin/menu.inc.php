@@ -28,8 +28,8 @@ $menu_finance = array(
 );
 $menu_relate = array(
 	array('站内信件', '?moduleid=2&file=message'),
-	array('电子邮件', '?moduleid=2&file=sendmail'),
-	array('手机短信', '?moduleid=2&file=sendsms'),
+	array('电子邮件', '?moduleid=2&file=sendmail&action=record'),
+	array('手机短信', '?moduleid=2&file=sendsms&action=record'),
 	array('客服中心', '?moduleid=2&file=ask'),
 	array('贸易提醒', '?moduleid=2&file=alert'),
 	array('邮件订阅', '?moduleid=2&file=mail'),

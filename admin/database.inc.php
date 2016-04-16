@@ -413,7 +413,8 @@ switch($action) {
 				$random = timetodate($DT_TIME, 'Y-m-d H.i.s').' '.strtolower(random(10));
 				$tsize = 0;
 				foreach($tables as $k=>$v) {
-					$tables[$k] = strip_sql($v, 0);
+					$v = strip_sql($v, 0);
+					$tables[$k] = $v;
 					$tsize += $sizes[$v];
 				}
 				$tid = ceil($tsize*1024/$sizelimit);

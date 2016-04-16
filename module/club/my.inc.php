@@ -72,8 +72,6 @@ if(in_array($job, array('group', 'reply', 'join', 'fans', 'manage'))) {
 					$post['status'] = get_status(3, $need_check);
 					$post['hits'] = 0;
 					$post['username'] = $_username;
-					$post['areaid'] = $cityid;
-
 					if($FD) fields_check($post_fields);
 					if($CP) property_check($post_ppt);
 					$do->add($post);
@@ -118,7 +116,6 @@ if(in_array($job, array('group', 'reply', 'join', 'fans', 'manage'))) {
 				}
 				$gid = $_gid;
 				$content = '';
-				$areaid = $cityid;
 				if($kw) $title = $kw;
 				$item = array();
 			}

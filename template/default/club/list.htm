@@ -22,9 +22,9 @@
 	<td><a href="{userurl($t[username])}" target="_blank">{$t[username]}</a></td>
 	<td>
 	<select onchange="if(this.value)window.open(this.value);">
-	{if $r[managers]}
+	{if $t[managers]}
 	<option value="">°æÖ÷ÁĞ±í</option>
-	{loop $r[managers] $manager}
+	{loop $t[managers] $manager}
 	<option value="{userurl($manager)}">{$manager}</option>
 	{/loop}
 	{else}

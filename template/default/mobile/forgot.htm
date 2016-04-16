@@ -23,7 +23,7 @@
 		<form method="post" id="form-verify">
 		<input type="hidden" name="action" value="verify"/>
 		<div class="bd-b" style="height:44px;overflow:hidden;"><input type="password" name="password" id="password" placeholder="新密码" style="width:100%;height:44px;line-height:24px;border:none;padding:0;font-size:16px;"/></div>
-		<div class="bd-b" style="height:44px;overflow:hidden;"><input type="text" name="code" id="code" placeholder="验证码" style="width:100%;height:44px;line-height:24px;border:none;padding:0;font-size:16px;"/></div>
+		<div class="bd-b" style="height:44px;overflow:hidden;"><input type="tel" name="code" id="code" placeholder="验证码" style="width:100%;height:44px;line-height:24px;border:none;padding:0;font-size:16px;"/></div>
 		<div style="line-height:44px;color:#999999;">验证码已经发送至您的{if $type=='mobile'}手机{else}邮箱{/if}&nbsp;&nbsp;<span id="timer"></span><span id="send"><a href="javascript:Dcode();" class="b">重新发送</a></span></div>
 		</form>
 	</div>
@@ -99,7 +99,7 @@ $(document).on('pageinit', function(event) {
 	<form method="post" id="form-{$type}">
 	<input type="hidden" name="action" value="check"/>
 	<input type="hidden" name="type" value="{$type}"/>
-	<div class="bd-b" style="height:44px;overflow:hidden;"><input type="text" name="{$type}" id="{$type}" placeholder="请填写您的{if $type=='mobile'}手机号码{else}注册邮箱{/if}" style="width:100%;height:44px;line-height:24px;border:none;padding:0;font-size:16px;"/></div>
+	<div class="bd-b" style="height:44px;overflow:hidden;"><input type="{if $type=='mobile'}tel{else}email{/if}" name="{$type}" id="{$type}" placeholder="请填写您的{if $type=='mobile'}手机号码{else}注册邮箱{/if}" style="width:100%;height:44px;line-height:24px;border:none;padding:0;font-size:16px;"/></div>
 	<div class="bd-b" style="height:44px;overflow:hidden;">{template 'captcha', 'chip'}</div>
 	</form>
 	</div>

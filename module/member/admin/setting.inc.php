@@ -9,11 +9,10 @@ if($submit) {
 	$pay['weixin']['keycode'] = pass_decode($pay['weixin']['keycode'], $P['weixin']['keycode']);
 	$pay['alipay']['keycode'] = pass_decode($pay['alipay']['keycode'], $P['alipay']['keycode']);
 	$pay['chinabank']['keycode'] = pass_decode($pay['chinabank']['keycode'], $P['chinabank']['keycode']);
-	$pay['yeepay']['keycode'] = pass_decode($pay['yeepay']['keycode'], $P['tenpay']['keycode']);
+	$pay['yeepay']['keycode'] = pass_decode($pay['yeepay']['keycode'], $P['yeepay']['keycode']);
 	$pay['paypal']['keycode'] = pass_decode($pay['paypal']['keycode'], $P['paypal']['keycode']);
 	$setting['uc_dbpwd'] = pass_decode($setting['uc_dbpwd'], $MOD['uc_dbpwd']);
 	$setting['ex_pass'] = pass_decode($setting['ex_pass'], $MOD['ex_pass']);
-	#$setting['sso_auth'] = pass_decode($setting['sso_auth'], $MOD['sso_auth']);
 	$setting['edit_check'] = implode(',', $setting['edit_check']);
 	foreach($pay as $k=>$v) {
 		update_setting('pay-'.$k, $v);
@@ -25,7 +24,6 @@ if($submit) {
 	}
 	update_setting($moduleid, $setting);
 	cache_module($moduleid);
-
 	$ext_oauth = $setting['oauth'];
 	if($oauth['sina']['enable'] && $oauth['sina']['sync']) $ext_oauth .= ',sina';
 	if($oauth['qq']['enable'] && $oauth['qq']['sync']) $ext_oauth .= ',qq';
@@ -48,7 +46,6 @@ if($submit) {
 	$paypal['keycode'] = pass_encode($paypal['keycode']);
 	$uc_dbpwd = pass_encode($uc_dbpwd);
 	$ex_pass = pass_encode($ex_pass);
-	#$sso_auth = pass_encode($sso_auth);
 	if($kw) {
 		$all = 1;
 		ob_start();

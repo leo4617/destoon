@@ -26,7 +26,7 @@
 <input type="hidden" name="action" value="upload"/>
 <div class="avatar_uploading" id="avatar_uploading" style="display:none;"></div>
 <div class="avatar_upload" id="avatar_upload" style="display:;">
-<input type="file" name="upfile" id="upfile" class="avatar_file" onchange="if(isImg('upfile', 'jpg|gif|png')){Dh('avatar_upload');Ds('avatar_uploading');this.form.submit();}" /></div>
+<input type="file" name="upfile" id="upfile" class="avatar_file" onchange="if(isImg('upfile', 'jpg|jpeg|gif|png')){Dh('avatar_upload');Ds('avatar_uploading');this.form.submit();}" /></div>
 </form>
 </div>
 </td>
@@ -72,7 +72,7 @@ function uploadevent(status) {
 }
 s('edit');
 {if $itemid}
-Dd('myavatar').src=Dd('myavatar').src+'&time={$itemid}}';
+Dd('myavatar').src=Dd('myavatar').src+'&time={$itemid}';
 {/if}
 </script>
 {template 'footer', $module}

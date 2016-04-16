@@ -14,7 +14,8 @@ if($submit) {
 	$ids = '';
 	if($post) {
 		$add = array_map('trim', $add);
-		$add['address'] = area_pos($add['areaid'], '').$add['address'];
+		$add_city = area_pos($add['areaid'], '');
+		if($add_city && strpos($add['address'], $add_city) === false) $add['address'] = $add_city.$add['address'];
 		$add = dhtmlspecialchars($add);
 		$buyer_address = $add['address'];
 		if(strlen($buyer_address) < 10) message($L['msg_type_address']);
@@ -240,6 +241,7 @@ if($submit) {
 			$address = array();
 			$result = $db->query("SELECT * FROM {$DT_PRE}address WHERE username='$_username' ORDER BY listorder ASC,itemid ASC LIMIT 30");
 			while($r = $db->fetch_array($result)) {
+				$r['street'] = $r['address'];
 				if($r['areaid']) $r['address'] = area_pos($r['areaid'], '').$r['address'];
 				$address[] = $r;
 			}

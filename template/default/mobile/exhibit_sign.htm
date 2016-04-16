@@ -23,14 +23,14 @@
 	<form method="post" id="exhibit-sign">
 	<input type="hidden" name="itemid" value="{$itemid}"/>
 	<input type="hidden" name="ok" value="1"/>
-	<div class="bd-b"><input type="number" name="amount" id="amount" placeholder="报名人数(不填代表1人)" value=""/></div>
+	<div class="bd-b"><input type="tel" name="amount" id="amount" placeholder="报名人数(不填代表1人)" value=""/></div>
 	<div class="bd-b"><input type="text" name="truename" id="truename" placeholder="联系人(必填)" value="{$truename}"/></div>
-	<div class="bd-b"><input type="text" name="mobile" id="mobile" placeholder="手机号码(必填)" value="{$mobile}"/></div>
+	<div class="bd-b"><input type="tel" name="mobile" id="mobile" placeholder="手机号码(必填)" value="{$mobile}"/></div>
 	<div class="bd-b"><input type="text" name="company" id="company" placeholder="公司名称" value="{$company}"/></div>
-	<div class="bd-b"><input type="text" name="email" id="email" placeholder="电子邮箱" value="{$email}"/></div>
+	<div class="bd-b"><input type="email" name="email" id="email" placeholder="电子邮箱" value="{$email}"/></div>
 	<div class="bd-b"><div class="sign-area">{ajax_area_select('areaid', '所在省市')}</div></div>
 	<div class="bd-b"><input type="text" name="address" id="address" placeholder="通讯地址" value="{$address}"/></div>
-	<div class="bd-b"><input type="text" name="postcode" id="postcode" placeholder="邮政编码" value="{$postcode}"/></div>
+	<div class="bd-b"><input type="tel" name="postcode" id="postcode" placeholder="邮政编码" value="{$postcode}"/></div>
 	{if $DT[im_qq]}
 	<div class="bd-b"><input type="text" name="qq" id="qq" placeholder="QQ" value="{$qq}"/></div>
 	{/if}

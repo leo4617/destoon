@@ -49,6 +49,7 @@ if($itemid) {
 		}
 	}
 	include DT_ROOT.'/include/update.inc.php';
+	$seo_file = 'show';
 	$head_title = $title.$DT['seo_delimiter'].$MOD['name'].$DT['seo_delimiter'].$head_title;
 	$head_name = $GRP['title'].$MOD['seo_name'];
 	$back_link = 'javascript:Dback(\''.mobileurl($moduleid, $gid).'\', \''.$DT_REF.'\', \'share|comment|club\');';
@@ -153,16 +154,20 @@ if($itemid) {
 		$head_title = $MOD['name'].$DT['seo_delimiter'].$head_title;
 		$back_link = mobileurl($moduleid);
 		if($kw) {
+			$seo_file = 'search';
 			$head_name = $MOD['name'].$L['search'];
 			$head_title = $kw.$DT['seo_delimiter'].$head_title;
 		} else if($catid) {
+			$seo_file = 'list';
 			$head_name = $CAT['catname'];
 			$head_title = $CAT['catname'].$DT['seo_delimiter'].$head_title;
 			if($CAT['parentid']) $back_link = mobileurl($moduleid, $CAT['parentid']);
 		} else {
+			$seo_file = 'index';
 			$head_name = $MOD['name'];
 		}
 	}
 }
+include DT_ROOT.'/include/seo.inc.php';
 include template($module, 'mobile');
 ?>

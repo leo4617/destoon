@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	[Destoon B2B System] Copyright (c) 2008-2016 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 require 'common.inc.php';
@@ -23,7 +23,7 @@ if(isset($homepage) && check_name($homepage)) {
 			} else {
 				include load('company.lang');
 				$head_title = $L['not_company'];
-				dhttp(404, $DT_BOT);
+				if($DT_BOT) dhttp(404, $DT_BOT);
 				include template('com-notfound', 'message');
 				exit;
 			}

@@ -50,7 +50,10 @@ switch($action) {
 			$file_a = str_replace('file/update/'.$release.'/source/destoon/', '', $v);
 			$file_b = str_replace('source/destoon/', 'backup/', $v);
 			if(is_file($file_a)) file_copy($file_a, $file_b);
-			file_copy($v, $file_a) or msg('无法覆盖'.str_replace(DT_ROOT.'/', '', $file_a).'<br/>请设置此文件及上级目录属性为可写，然后刷新此页');
+		}
+		foreach($files as $v) {
+			$file_a = str_replace('file/update/'.$release.'/source/destoon/', '', $v);
+			file_copy($v, $file_a) or msg('因文件权限不可写，系统无法覆盖'.str_replace(DT_ROOT.'/', '', $file_a).'<br/>请通过FTP工具移动file/update/'.$release.'/source/destoon/目录内所有文件覆盖到站点根目录(Windows独立服务器可以直接复制->粘贴)<br/>Linux独立服务器执行\cp -rf '.DT_ROOT.'/file/update/'.$release.'/source/destoon/* '.DT_ROOT.'/');
 		}
 		msg('文件更新成功，开始运行更新..', '?file='.$file.'&action=cmd&release='.$release);
 	break;

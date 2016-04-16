@@ -21,7 +21,7 @@ function chat_send(){
 	$.post('chat.php', $('#chat_send').serialize(), function(data) {
 		if(data == 'ok') {
 			$('#word').val('');
-			chat_load();
+			//chat_load();
 		} else if(data == 'max') {
 			chat_tip('发送内容过长');
 		} else {

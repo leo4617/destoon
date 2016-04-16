@@ -117,15 +117,19 @@
 </div>
 {else}
 <div class="user-info">
+<table cellpadding="0" cellspacing="0" width="100%">
+<tr>
 {if $_userid}
-<a href="{$MURL}avatar.php" rel="external"><img src="{useravatar($_username, 'large')}" width="64" height="64"/></a>
-<div><a href="my.php?action=member"><strong>{$_truename}</strong><br/>
-ÕÊºÅ£º{$_username}</a></div>
+<td style="width:100px;height:84px;"><a href="{$MURL}avatar.php" rel="external"><img src="{useravatar($_username, 'large')}" style="width:64px;height:64px;margin:0 16px;"/></a></td>
+<td><a href="my.php?action=member" style="width:100%;display:block;"><strong>{$_truename}</strong><br/>
+ÕÊºÅ£º{$_username}</a></td>
 {else}
-<a href="login.php?forward=my.php" data-transition="slideup"><img src="{useravatar($_username, 'large')}" width="64" height="64"/></a>
-<div><a href="login.php?forward=my.php" data-transition="slideup"><strong>Î´µÇÂ¼</strong><br/>
-°´´ËµÇÂ¼»ò×¢²á</a></div>
+<td style="width:100px;height:84px;"><a href="login.php?forward=my.php" data-transition="slideup"><img src="{useravatar($_username, 'large')}"  style="width:64px;height:64px;margin:0 16px;"/></a></td>
+<td><a href="login.php?forward=my.php" style="width:100%;display:block;" data-transition="slideup"><strong>Î´µÇÂ¼</strong><br/>
+°´´ËµÇÂ¼»ò×¢²á</a></td>
 {/if}
+</tr>
+</table>
 </div>
 {if $_userid}
 <div class="blank-20"></div>

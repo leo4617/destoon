@@ -40,5 +40,6 @@ if($toolbarset == 'Destoon') {
 $editor .= 'uploadJson:UPPath+\'?action=kindeditor&from=editor&moduleid='.$moduleid.'\'';
 $editor .= '}); });';
 $editor .= '</script>';
+$editor .= '<script type="text/javascript" src="'.$moddir.'kindeditor/init.api.js"></script>';
 $editor .= '<script type="text/javascript" src="'.DT_STATIC.'file/script/editor.js"></script>';
 ?>

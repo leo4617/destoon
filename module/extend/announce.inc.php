@@ -21,6 +21,7 @@ if($itemid) {
 	$todate = $totime ? timetodate($totime, 3) : $L['timeless'];
 	$db->query("UPDATE {$DT_PRE}{$ext} SET hits=hits+1 WHERE itemid=$itemid");
 	$head_title = $title.$DT['seo_delimiter'].$L['announce_title'];
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].'announce.php?itemid='.$itemid;
 	$template = $item['template'] ? $item['template'] : $ext;
 	include template($template, $module);
 } else {
@@ -35,6 +36,7 @@ if($itemid) {
 	if($keyword) $condition .= " AND title LIKE '%$keyword%'";
 	if($cityid) $condition .= ($AREA[$cityid]['child']) ? " AND areaid IN (".$AREA[$cityid]['arrchildid'].")" : " AND areaid=$cityid";
 	$lists = $do->get_list($condition, 'listorder DESC,itemid DESC');
+	if($EXT['mobile_enable']) $head_mobile = $EXT['mobile_url'].'announce.php'.($page > 1 ? '?page='.$page : '');
 	include template($ext, $module);
 }
 ?>

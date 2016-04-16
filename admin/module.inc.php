@@ -51,10 +51,7 @@ switch($action) {
 				if(!is_write(DT_ROOT.'/'.$dir.'/')) msg('目录'.$dir.'无法写入，请设置此目录可写权限');
 				if(!file_put(DT_ROOT.'/'.$dir.'/config.inc.php', "DESTOON")) msg('目录'.$dir.'无法写入，请设置此目录可写权限');
 			}
-			if($post['domain']) {
-				if(substr($post['domain'], 0, 4) != 'http') $post['domain'] = 'http://'.$post['domain'];
-				if(substr($post['domain'], -1) != '/') $post['domain'] = $post['domain'].'/';
-			}
+			if($post['domain']) $post['domain'] = fix_domain($post['domain']);
 			$post['linkurl'] = $post['islink'] ? $post['linkurl'] : ($post['domain'] ? $post['domain'] : linkurl($post['moduledir']."/"));
 			if($post['islink']) $post['module'] = 'destoon';
 			$post['installtime'] = $DT_TIME;
@@ -116,10 +113,7 @@ switch($action) {
 				if(in_array($post['moduledir'], $sysdirs)) msg('安装目录与系统目录冲突，请更换安装目录');
 				$r = $db->get_one("SELECT moduleid FROM {$DT_PRE}module WHERE moduledir='$post[moduledir]' AND moduleid!=$modid");
 				if($r) msg('此目录名已经被其他模块使用,请更换一个再试');
-				if($post['domain']) {
-					if(substr($post['domain'], 0, 4) != 'http') $post['domain'] = 'http://'.$post['domain'];
-					if(substr($post['domain'], -1) != '/') $post['domain'] = $post['domain'].'/';
-				}
+				if($post['domain']) $post['domain'] = fix_domain($post['domain']);
 				$post['linkurl'] = $post['domain'] ? $post['domain'] : linkurl($post['moduledir']."/");
 			}			
 			$sql = $s = "";

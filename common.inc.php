@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	[Destoon B2B System] Copyright (c) 2008-2016 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 define('DT_DEBUG', 0);
@@ -36,6 +36,7 @@ define('DT_CHMOD', ($CFG['file_mod'] && !DT_WIN) ? $CFG['file_mod'] : 0);
 define('DT_LANG', $CFG['language']);
 define('DT_KEY', $CFG['authkey']);
 define('DT_EDITOR', $CFG['editor']);
+define('DT_CDN', $CFG['cdn'] ? 1 : 0);
 define('DT_CLOUD_UID', $CFG['cloud_uid']);
 define('DT_CLOUD_KEY', $CFG['cloud_key']);
 define('DT_CHARSET', strtoupper($CFG['charset']));

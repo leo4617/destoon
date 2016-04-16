@@ -25,7 +25,7 @@ if(strlen($kw) < $DT['min_kw'] || strlen($kw) > $DT['max_kw']) $kw = '';
 $keyword = $kw ? str_replace(array(' ', '*'), array('%', '%'), $kw) : '';
 $MURL = $MODULE[2]['linkurl'];
 if($DT_MOB['browser'] == 'screen' && $_username) $MURL = 'mobile.php?action=sync&auth='.encrypt($_username.'|'.$DT_IP.'|'.$DT_TIME, DT_KEY.'SCREEN').'&goto=';
-$_cart = isset($MODULE[16]) ? intval(get_cookie('cart')) : 0;
+$_cart = (isset($MODULE[16]) && $_userid) ? intval(get_cookie('cart')) : 0;
 $MOB_MODULE = array();
 foreach($MODULE as $v) {
 	if(in_array($v['module'], $mobile_modules) && $v['module'] != 'member' && $v['ismenu']) $MOB_MODULE[] = $v;

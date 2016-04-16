@@ -540,6 +540,7 @@ X
 <tr>
 <td class="tl">最小充值额度</td>
 <td><input type="text" size="20" name="setting[mincharge]" value="<?php echo $mincharge;?>"/> 0表示不限，填数字表示最小额度，填多个数字用|分隔表示选择额度</td>
+</tr>
 <tr>
 <td class="tl">线下付款方式网页地址</td>
 <td><input type="text" size="60" name="setting[pay_url]" value="<?php echo $pay_url;?>"/><?php tips('如果未启用会员在线充值，则系统自动调转至此地址查看普通付款方式。建议用扩展功能的单网页建立');?></td>

@@ -122,7 +122,7 @@ if($action == 'add') {
 $head_title = $L['ad_buy_title'];
 $nums = array();
 for($i = 2; $i < 4; $i++) {
-	$r = $db->get_one("SELECT COUNT(*) AS num FROM {$DT_PRE}spread WHERE username='$_username' AND status=$i");
+	$r = $db->get_one("SELECT COUNT(*) AS num FROM {$DT_PRE}ad WHERE username='$_username' AND status=$i");
 	$nums[$i] = $r['num'];
 }
 include template('ad', $module);

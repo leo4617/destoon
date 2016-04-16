@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	[Destoon B2B System] Copyright (c) 2008-2016 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -464,18 +464,22 @@ function banword($WORD, $string, $extend = true) {
 function get_env($type) {
 	switch($type) {
 		case 'ip':
+			if(DT_CDN) {
+				if(isset($_SERVER['X-REAL-IP']) && is_ip($_SERVER['X-REAL-IP'])) return $_SERVER['X-REAL-IP'];
+				if(isset($_SERVER['HTTP_CF_CONNECTING_IP']) && is_ip($_SERVER['HTTP_CF_CONNECTING_IP'])) return $_SERVER['HTTP_CF_CONNECTING_IP'];
+				if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+					$ip = trim(end(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])));
+					if(is_ip($ip)) return $ip;
+				}
+			}
 			if(DT_WIN && isset($_SERVER['REMOTE_ADDR']) && is_ip($_SERVER['REMOTE_ADDR'])) return $_SERVER['REMOTE_ADDR'];
 			if(isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-				$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-				if(strpos($ip, ',') !== false) {
-					$tmp = explode(',', $ip);
-					$ip = trim(end($tmp));
-				}
+				$ip = trim(end(explode(',', $_SERVER['HTTP_X_FORWARDED_FOR'])));
 				if(is_ip($ip)) return $ip;
 			}
 			if(!DT_WIN && isset($_SERVER['REMOTE_ADDR']) && is_ip($_SERVER['REMOTE_ADDR'])) return $_SERVER['REMOTE_ADDR'];
 			if(isset($_SERVER['HTTP_CLIENT_IP']) && is_ip($_SERVER['HTTP_CLIENT_IP'])) return $_SERVER['HTTP_CLIENT_IP'];
-			return 'unknown';
+			return '0.0.0.0';
 		break;
 		case 'self':
 			return isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : (isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : $_SERVER['ORIG_PATH_INFO']);

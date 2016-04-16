@@ -9,12 +9,12 @@ $COM = userinfo($username);
 if(!$COM || ($COM['groupid'] < 5 && $COM['groupid'] > 1)) {
 	userclean($username);
 	$head_title = $L['not_company'];
-	dhttp(404, $DT_BOT);
+	if($DT_BOT) dhttp(404, $DT_BOT);
 	include template('com-notfound', 'message');
 	exit;
 }
 if(!$COM['edittime'] && !$MOD['openall']) {
-	dhttp(404, $DT_BOT);
+	if($DT_BOT) dhttp(404, $DT_BOT);
 	$head_title = $COM['company'];
 	include template('com-opening', 'message');
 	exit;

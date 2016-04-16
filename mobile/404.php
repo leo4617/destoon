@@ -12,6 +12,6 @@ if($DT['log_404'] && strpos($DT_URL, '/404.php') === false) {
 	$r = $db->get_one("SELECT itemid FROM {$DT_PRE}404 WHERE addtime>$time AND url='$url'");
 	if(!$r) $db->query("INSERT INTO {$DT_PRE}404 (url,refer,robot,username,ip,addtime) VALUES ('$url','$refer','".get_robot()."','$_username','$DT_IP','$DT_TIME')");
 }
-dhttp(404, $DT_BOT);
+if($DT_BOT) dhttp(404, $DT_BOT);
 mobile_msg('404 Not Found');
 ?>

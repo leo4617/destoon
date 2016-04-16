@@ -145,7 +145,7 @@ if($userid || $username) {
 				$item = $db->get_one("SELECT * FROM {$table} WHERE itemid=$itemid");
 				($item && $item['status'] > 2 && $item['username'] == $username) or mobile_msg($L['msg_not_exist']);
 				extract($item);
-				$t = $db->get_one("SELECT content FROM {$table_data} WHERE itemid=$itemid", 'UNBUFFERED');
+				$t = $db->get_one("SELECT content FROM {$table_data} WHERE itemid=$itemid");
 				$content = video5($t['content']);
 				$db->query("UPDATE {$table} SET hits=hits+1 WHERE itemid=$itemid");
 				$date = timetodate($addtime, 3);
@@ -340,12 +340,17 @@ if($userid || $username) {
 	}
 	$back_link = mobileurl($moduleid);
 	if($kw) {
+		$seo_file = 'search';
 		$head_name = $MOD['name'].$L['search'];
 	} else if($catid) {
+		$seo_file = 'list';
 		$head_name = $CAT['catname'];
 		if($CAT['parentid']) $back_link = mobileurl($moduleid, $CAT['parentid']);
 	} else {
+		$seo_file = 'index';
 		$head_name = $MOD['name'];
 	}
+	include DT_ROOT.'/include/seo.inc.php';
 	include template($module, 'mobile');
 }
+?>

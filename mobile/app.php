@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	[Destoon B2B System] Copyright (c) 2008-2016 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 require 'common.inc.php';
@@ -43,6 +43,8 @@ if($data) {
 }
 if(count($MOD_MY) < 2) $MOD_MY = $MOB_MODULE;
 $head_name = $EXT['mobile_sitename'] ? $EXT['mobile_sitename'] : $DT['sitename'];
+$head_keywords = $DT['seo_keywords'];
+$head_description = $DT['seo_description'];
 $foot = 'home';
 include template('index', 'mobile');
 if(DT_CHARSET != 'UTF-8') toutf8();

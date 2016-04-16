@@ -58,7 +58,7 @@
 	<input type="hidden" id="fee_start_{$t[key]}_3" value="{$t[fee_start_3]}"/>
 	<input type="hidden" id="fee_step_{$t[key]}_3" value="{$t[fee_step_3]}"/>
 	<div class="list-buy">
-		<div class="bd-b" style="padding-right:0;"><span><em style="font-size:20px;" onclick="alter('{$t[key]}', '-');">—</em><input type="number" name="post[{$t[key]}][number]" id="number_{$t[key]}" value="{$t[a]}" style="width:64px;float:left;text-align:center;color:#555555;" onblur="calculate();"/><em style="font-size:24px;" onclick="alter('{$t[key]}', '+');">+</em></span>购买数量</div>
+		<div class="bd-b" style="padding-right:0;"><span><em style="font-size:20px;" onclick="alter('{$t[key]}', '-');">—</em><input type="tel" name="post[{$t[key]}][number]" id="number_{$t[key]}" value="{$t[a]}" style="width:64px;float:left;text-align:center;color:#555555;" onblur="calculate();"/><em style="font-size:24px;" onclick="alter('{$t[key]}', '+');">+</em></span>购买数量</div>
 		<div class="bd-b"><span>
 		<strong id="fee_{$t[key]}">{$DT[money_sign]}0.00</strong>&nbsp;
 		<select name="post[{$t[key]}][express]" id="express_{$t[key]}" onchange="calculate();">

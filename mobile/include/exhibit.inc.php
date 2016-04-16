@@ -24,6 +24,7 @@ if($itemid) {
 	$could_sign = ($sign && $process == 1 && $user_status == 3 && $username && $username != $_username) ? 1 : 0;
 	$update = '';
 	include DT_ROOT.'/include/update.inc.php';
+	$seo_file = 'show';
 	$head_title = $title.$DT['seo_delimiter'].$MOD['name'].$DT['seo_delimiter'].$head_title;
 	$head_name = $CAT['catname'];
 	$back_link = 'javascript:Dback(\''.mobileurl($moduleid, $catid).'\', \''.$DT_REF.'\', \'share|comment|sign\');';
@@ -63,12 +64,17 @@ if($itemid) {
 	}
 	$back_link = mobileurl($moduleid);
 	if($kw) {
+		$seo_file = 'search';
 		$head_name = $MOD['name'].$L['search'];
 	} else if($catid) {
+		$seo_file = 'list';
+		$head_title = $CAT['catname'].$DT['seo_delimiter'].$head_title;
 		$head_name = $CAT['catname'];
 		if($CAT['parentid']) $back_link = mobileurl($moduleid, $CAT['parentid']);
 	} else {
+		$seo_file = 'index';
 		$head_name = $MOD['name'];
 	}
 }
+include DT_ROOT.'/include/seo.inc.php';
 include template($module, 'mobile');

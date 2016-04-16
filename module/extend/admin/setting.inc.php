@@ -3,6 +3,9 @@ defined('DT_ADMIN') or exit('Access Denied');
 $tab = isset($tab) ? intval($tab) : 0;
 $all = isset($all) ? intval($all) : 0;
 if($submit) {
+	foreach($setting as $k=>$v) {
+		if(strpos($k, '_domain') !== false && $v) $setting[$k] = fix_domain($v);
+	}
 	update_setting($moduleid, $setting);
 	cache_module($moduleid);
 	if($setting['show_url'] != $MOD['show_url']) {

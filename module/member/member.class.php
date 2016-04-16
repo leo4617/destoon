@@ -181,7 +181,7 @@ class member {
 		$member['sound'] = isset($member['sound']) ? intval($member['sound']) : 0;
 		if($this->userid) {
 			$member['banktype'] = $member['banktype'] ? 1 : 0;
-			$member['keyword'] = $member['company'].strip_tags(area_pos($member['areaid'], ',')).','.$member['business'].','.$member['sell'].','.$member['buy'].','.$member['mode'];
+			$member['keyword'] = $member['company'].addslashes(strip_tags(area_pos($member['areaid'], ','))).','.$member['business'].','.$member['sell'].','.$member['buy'].','.$member['mode'];
 			clear_upload($member['thumb'].$member['content'], $this->userid);
 			$new = $member['content'];
 			if($member['thumb']) $new .= '<img src="'.$member['thumb'].'">';
@@ -237,6 +237,7 @@ class member {
 	}
 
 	function username_exists($username) {
+		if(is_mobile($username)) return true;
 		$t = $this->db->get_one("SELECT userid FROM {$this->table_member} WHERE username='$username'");
 		if($t) return true;
 		return $this->db->get_one("SELECT userid FROM {$this->table_member} WHERE passport='$username'");
@@ -463,10 +464,10 @@ class member {
 			if(!$userid || !$username) continue;
 			$content_table = content_table(4, $userid, is_file(DT_CACHE.'/4.part'), $this->table_company_data);
 			$content_table = str_replace($this->db->pre, '', $content_table);
-			foreach(array('address', 'admin_log', 'alert', 'ask', 'club_fans', 'club_group', 'club_manage', 'club_reply', 'comment', 'honor', 'finance_card', 'finance_cash', 'finance_charge', 'finance_credit', 'finance_deposit', 'finance_pay', 'finance_record', 'finance_sms', 'form_answer', 'gift_order', 'guestbook', 'job_talent', 'link', 'login', 'mail_list', 'spread', 'upgrade', 'know_answer', 'know_vote', 'validate', 'news', 'oauth', 'page', 'poll_record', 'vote_record', 'weixin_bind', 'weixin_user') as $v) {
+			foreach(array('address', 'admin_log', 'alert', 'ask', 'club_fans', 'club_group', 'club_manage', 'club_reply', 'comment', 'honor', 'finance_card', 'finance_cash', 'finance_charge', 'finance_credit', 'finance_deposit', 'finance_pay', 'finance_record', 'finance_sms', 'form_answer', 'gift_order', 'guestbook', 'job_talent', 'link', 'login', 'mail_list', 'spread', 'upgrade', 'know_answer', 'know_vote', 'validate', 'oauth', 'poll_record', 'vote_record', 'weixin_bind', 'weixin_user') as $v) {
 				$this->deluser($v, $username, true);
 			}
-			foreach(array('news', 'resume') as $v) {
+			foreach(array('news', 'page', 'resume') as $v) {
 				$this->deluser($v, $username, true, true);
 			}
 			foreach($MODULE as $m) {

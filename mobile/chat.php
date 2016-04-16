@@ -189,7 +189,8 @@ switch($action) {
 		exit(convert($data, DT_CHARSET, 'UTF-8'));
 	break;
 	default:
-		if(isset($touser) && check_name($touser)) {
+		if(isset($touser)) {
+			check_name($touser) or mobile_msg($L['chat_msg_user'], '?action=index');
 			if($touser == $_username) mobile_msg($L['chat_msg_self'], '?action=index');
 			$MG['chat'] or mobile_msg($L['chat_msg_no_rights']);
 			$user = userinfo($touser);

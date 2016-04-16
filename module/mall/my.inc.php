@@ -82,26 +82,22 @@ switch($action) {
 				$post['hits'] = 0;
 				$post['username'] = $_username;
 
-				if($could_elite && isset($elite) && $post['thumb'] && $_credit > $MOD['credit_elite']) {
-					$post['level'] = 1;
-					credit_add($_username, -$MOD['credit_elite']);
-					credit_record($_username, -$MOD['credit_elite'], 'system', lang($L['credit_record_elite'], array($MOD['name'])), $post['title']);
-				}
-
-				if($could_color && $color && $_credit > $MOD['credit_color']) {
-					$post['style'] = $color;
-					credit_add($_username, -$MOD['credit_color']);
-					credit_record($_username, -$MOD['credit_color'], 'system', $L['title_color'], '['.$MOD['name'].']'.$post['title']);
-				}
-
-
 				if($FD) fields_check($post_fields);
 				if($CP) property_check($post_ppt);
 				$do->add($post);
 				if($FD) fields_update($post_fields, $table, $do->itemid);
 				if($CP) property_update($post_ppt, $moduleid, $post['catid'], $do->itemid);
+				if($could_elite && isset($elite) && $post['thumb'] && $_credit > $MOD['credit_elite']) {
+					$post['level'] = 1;
+					credit_add($_username, -$MOD['credit_elite']);
+					credit_record($_username, -$MOD['credit_elite'], 'system', lang($L['credit_record_elite'], array($MOD['name'])), $post['title']);
+				}
+				if($could_color && $color && $_credit > $MOD['credit_color']) {
+					$post['style'] = $color;
+					credit_add($_username, -$MOD['credit_color']);
+					credit_record($_username, -$MOD['credit_color'], 'system', $L['title_color'], '['.$MOD['name'].']'.$post['title']);
+				}
 				if($MOD['show_html'] && $post['status'] > 2) $do->tohtml($do->itemid);
-
 				if($fee_add) {
 					if($fee_currency == 'money') {
 						money_add($_username, -$fee_add);

@@ -62,12 +62,6 @@ var property_admin = 1;
 <td class="tl"><span class="f_hid">*</span> 添加时间</td>
 <td><input type="text" size="22" name="post[addtime]" value="<?php echo $addtime;?>"/></td>
 </tr>
-<?php if($DT['city']) { ?>
-<tr>
-<td class="tl"><span class="f_hid">*</span> 地区(分站)</td>
-<td><?php echo ajax_area_select('post[areaid]', '请选择', $areaid);?></td>
-</tr>
-<?php } ?>
 <tr>
 <td class="tl"><span class="f_hid">*</span> 浏览次数</td>
 <td><input name="post[hits]" type="text" size="10" value="<?php echo $hits;?>"/></td>

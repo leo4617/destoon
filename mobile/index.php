@@ -5,10 +5,14 @@
 */
 require 'common.inc.php';
 if(in_array($module, $mobile_modules)) {
-	$pages = '';
 	if($cityid && !$areaid) {
 		$areaid = $cityid;
 		$ARE = $AREA[$cityid];
+	}
+	$pages = '';
+	if(isset($MOD['pagesize'])) {
+		$pagesize = $MOD['pagesize'];
+		$offset = ($page-1)*$pagesize;
 	}
 	require DT_ROOT.'/module/'.$module.'/common.inc.php';
 	include 'include/'.$module.'.inc.php';
@@ -43,6 +47,8 @@ if(in_array($module, $mobile_modules)) {
 	}
 	if(count($MOD_MY) < 2) $MOD_MY = $MOB_MODULE;
 	$head_name = $EXT['mobile_sitename'] ? $EXT['mobile_sitename'] : $DT['sitename'];
+	$head_keywords = $DT['seo_keywords'];
+	$head_description = $DT['seo_description'];
 	$foot = 'home';
 	include template('index', 'mobile');
 }

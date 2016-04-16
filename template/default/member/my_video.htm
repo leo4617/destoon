@@ -48,7 +48,7 @@
 <td class="tl"><span class="f_red">*</span> 标题图片</td>
 <td class="tr"><input name="post[thumb]" id="thumb" type="text" size="60" value="{$thumb}" readonly/>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="Dthumb({$moduleid},{$MOD[thumb_width]},{$MOD[thumb_height]}, Dd('thumb').value, true);" class="t">[上传]</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="_preview(Dd('thumb').value);" class="t">[预览]</a>&nbsp;&nbsp;<a href="javascript:void(0);" onclick="Dd('thumb').value='';" class="t">[删除]</a> <span id="dthumb" class="f_red"></span></td>
 </tr>
-{if $MOD[swfu]==1 && $MG[upload] && !DT_TOUCH && check_group($_groupid, $MOD[group_upload])}
+{if $MOD[swfu]==1 && $MG[upload] && !$DT_TOUCH && check_group($_groupid, $MOD[group_upload])}
 <tr>
 <td class="tl"><span class="f_red">*</span> {$MOD[name]}地址</td>
 <td class="tr"><div style="float:left;"><input name="post[video]" id="video" type="text" size="60" value="{$video}" onblur="UpdateURL();"/>&nbsp;&nbsp;</div><div style="width:34px;height:20px;float:left;"><span id="spanButtonPlaceHolder"></span></div><table cellspacing="0" style="display:none;">

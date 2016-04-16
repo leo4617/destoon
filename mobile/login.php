@@ -7,6 +7,7 @@ isset($auth) or $auth = '';
 if($_userid && !$MOD['passport']) dheader('my.php');
 if(isset($_POST['ok'])) {
 	include load('member.lang');
+	$captcha = isset($captcha) ? convert(input_trim($captcha), 'UTF-8', DT_CHARSET) : '';
 	$msg = captcha($captcha, $MOD['captcha_login'], true);
 	if($msg) mobile_msg($msg);
 	require DT_ROOT.'/module/member/member.class.php';

@@ -4,6 +4,7 @@ $itemid or dheader($MOD['linkurl']);
 if(!check_group($_groupid, $MOD['group_show'])) include load('403.inc');
 require DT_ROOT.'/module/'.$module.'/common.inc.php';
 $item = $db->get_one("SELECT * FROM {$table} WHERE itemid=$itemid");
+if($item['groupid'] == 2) include load('404.inc');
 if($item && $item['status'] > 2) {
 	if($item['islink']) dheader($item['linkurl']);
 	if($MOD['show_html'] && is_file(DT_ROOT.'/'.$MOD['moduledir'].'/'.$item['linkurl'])) d301($MOD['linkurl'].$item['linkurl']);

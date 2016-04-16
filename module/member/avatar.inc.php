@@ -17,7 +17,7 @@ switch($action) {
 		$name = 'avatar'.$_userid.'.'.$ext;
 		$file = DT_ROOT.'/file/temp/'.$name;
 		if(is_file($file)) file_del($file);
-		$upload = new upload($_FILES, 'file/temp/', $name, 'jpg|gif|png');
+		$upload = new upload($_FILES, 'file/temp/', $name, 'jpg|jpeg|gif|png');
 		$upload->adduserid = false;
 		if($upload->save()) {
 			$file = DT_ROOT.'/file/temp/'.$name;

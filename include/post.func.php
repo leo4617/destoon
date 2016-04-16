@@ -1,6 +1,6 @@
 <?php
 /*
-	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	[Destoon B2B System] Copyright (c) 2008-2016 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
 defined('IN_DESTOON') or exit('Access Denied');
@@ -270,7 +270,7 @@ function ajax_category_select($name = 'catid', $title = '', $catid = 0, $modulei
 	if($cat_id == 1) $select .= 'var category_title = new Array;';
 	$select .= 'category_title['.$cat_id.']=\''.$title.'\';';
 	if($cat_id == 1) $select .= 'var category_extend = new Array;';
-	$select .= 'category_extend['.$cat_id.']=\''.$extend.'\';';
+	$select .= 'category_extend['.$cat_id.']=\''.encrypt($extend, DT_KEY.'CAT').'\';';
 	if($cat_id == 1) $select .= 'var category_catid = new Array;';
 	$select .= 'category_catid['.$cat_id.']=\''.$catid.'\';';
 	if($cat_id == 1) $select .= 'var category_deep = new Array;';
@@ -323,7 +323,7 @@ function ajax_area_select($name = 'areaid', $title = '', $areaid = 0, $extend = 
 	if($area_id == 1) $select .= 'var area_title = new Array;';
 	$select .= 'area_title['.$area_id.']=\''.$title.'\';';
 	if($area_id == 1) $select .= 'var area_extend = new Array;';
-	$select .= 'area_extend['.$area_id.']=\''.$extend.'\';';
+	$select .= 'area_extend['.$area_id.']=\''.encrypt($extend, DT_KEY.'ARE').'\';';
 	if($area_id == 1) $select .= 'var area_areaid = new Array;';
 	$select .= 'area_areaid['.$area_id.']=\''.$areaid.'\';';
 	if($area_id == 1) $select .= 'var area_deep = new Array;';

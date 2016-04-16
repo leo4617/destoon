@@ -78,6 +78,7 @@ DROP TABLE IF EXISTS `destoon_address`;
 CREATE TABLE `destoon_address` (
   `itemid` bigint(20) unsigned NOT NULL auto_increment,
   `truename` varchar(30) NOT NULL default '',
+  `areaid` int(10) unsigned NOT NULL default '0',
   `address` varchar(255) NOT NULL default '',
   `postcode` varchar(10) NOT NULL default '',
   `telephone` varchar(30) NOT NULL default '',

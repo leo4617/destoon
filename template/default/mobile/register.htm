@@ -43,7 +43,7 @@
 	{/if}
 	<div class="bd-b"><input type="text" name="truename" id="truename" placeholder="真实姓名"/></div>
 	{if $verify_type=='mobile'}
-	<div class="bd-b"><input type="number" name="mobile" id="mobile" placeholder="手机号码 请真实填写，提交后需验证"/></div>
+	<div class="bd-b"><input type="tel" name="mobile" id="mobile" placeholder="手机号码 请真实填写，提交后需验证"/></div>
 	{/if}
 	</div>
 	{if $MOD[captcha_register]}
@@ -157,7 +157,7 @@ $(document).on('pageinit', function(event) {
 		<div style="line-height:44px;color:#999999;">验证码已经发送至您的{if $verify_type=='mobile'}手机{else}邮箱{/if}&nbsp;&nbsp;<span id="timer"></span><span id="send"><a href="javascript:Dcode();" class="b">重新发送</a></span></div>
 	</div>
 </div>
-<div class="main" style="padding:10px;" onclick="Dregister();">
+<div class="main" style="padding:10px;" onclick="Dverify();">
 	<div class="btn-blue">立即验证</div>
 </div>
 <script type="text/javascript">

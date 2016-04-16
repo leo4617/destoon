@@ -101,7 +101,9 @@ if(in_array($action, array('', 'check', 'reject', 'recycle'))) {
 switch($action) {
 	case 'add':
 		if($submit) {
-			get_group($post['gid']) or msg('指定商圈ID不存在');
+			$GRP = get_group($post['gid']);
+			$GRP or msg('指定商圈ID不存在');
+			$post['catid'] = $GRP['catid'];
 			if($do->pass($post)) {
 				if($FD) fields_check($post_fields);
 				if($CP) property_check($post_ppt);

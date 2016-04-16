@@ -1,7 +1,7 @@
 <?php
 defined('IN_DESTOON') or exit('Access Denied');
 $area_title = convert($area_title, 'UTF-8', DT_CHARSET);
-$area_extend = isset($area_extend) ? stripslashes($area_extend) : '';
+$area_extend = isset($area_extend) ? decrypt($area_extend, DT_KEY.'ARE') : '';
 $areaid = isset($areaid) ? intval($areaid) : 0;
 $area_deep = isset($area_deep) ? intval($area_deep) : 0;
 $area_id= isset($area_id) ? intval($area_id) : 1;

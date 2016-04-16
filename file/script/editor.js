@@ -1,60 +1,7 @@
 /*
-	[Destoon B2B System] Copyright (c) 2008-2015 www.destoon.com
+	[Destoon B2B System] Copyright (c) 2008-2016 www.destoon.com
 	This is NOT a freeware, use is subject to license.txt
 */
-function EditorAPI(i, k, v) {
-	var i = i ? i : 'content';
-	var k = k ? k : 'len';
-	var v = v ? v : '';
-	switch(k) {
-		case 'get':
-			if(DTEditor == 'fckeditor') {
-				return FCKeditorAPI.GetInstance(i).GetXHTML(true);
-			} else if(DTEditor == 'kindeditor') {
-				return editor.html();
-			}
-		break;
-		case 'set':
-			if(DTEditor == 'fckeditor') {
-				FCKeditorAPI.GetInstance(i).SetData(v);
-			} else if(DTEditor == 'kindeditor') {
-				editor.html(v);
-			}
-		break;
-		case 'ins':
-			if(DTEditor == 'fckeditor') {
-				var o = FCKeditorAPI.GetInstance(i);
-				if(o.EditMode == FCK_EDITMODE_WYSIWYG) {o.InsertHtml(v);} else {alert(L['wysiwyg_mode']);}
-			} else if(DTEditor == 'kindeditor') {
-				if(editor.designMode) {editor.insertHtml(v);} else {alert(L['wysiwyg_mode']);}
-			}
-		break;
-		case 'len':
-			if(DTEditor == 'fckeditor') {
-				var o = FCKeditorAPI.GetInstance(i);
-				var d = o.EditorDocument;
-				var l ;
-				if(document.all) {
-					return d.body.innerText.length;
-				} else {
-					var r = d.createRange(); 
-					r.selectNodeContents(d.body);
-					return r.toString().length;
-				}
-			} else if(DTEditor == 'kindeditor') {
-				return editor.count('text');
-			}
-		break;
-		default:
-		break;
-	}
-}
-/* fckeditor
-if(DTEditor == 'fckeditor') {
-	document.write('<div style="width:'+EDW+';height:11px;text-align:right;margin:-'+(isIE ? 15 : 13)+'px 0 0 -2px;"><img src="'+DTPath+'admin/image/resize.gif" width="11" height="11" style="cursor:n-resize;" onclick="fck_zi();" oncontextmenu="fck_zo();return false;" alt="" title="'+L['fck_zoom']+'"/></div>');
-	function fck_zi() {var h = Number(Dd(FCKID+'___Frame').height.replace('px', '')); h = h + 200; Dd(FCKID+'___Frame').height = h+'px';}
-	function fck_zo() {var h = Number(Dd(FCKID+'___Frame').height.replace('px', '')); h = h - 200; if(h > 200) Dd(FCKID+'___Frame').height = h+'px';}
-} */
 /* draft */
 if(EDD == 1) {
 	var draft_html = '';

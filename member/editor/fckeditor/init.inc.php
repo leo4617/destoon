@@ -27,5 +27,6 @@ $editor .= 'oFCKeditor.ToolbarSet = "'.$toolbarset.'";';
 $editor .= 'oFCKeditor.ReplaceTextarea();';
 $editor .= '}';
 $editor .= '</script>';
+$editor .= '<script type="text/javascript" src="'.$moddir.'fckeditor/init.api.js"></script>';
 $editor .= '<script type="text/javascript" src="'.DT_STATIC.'file/script/editor.js"></script>';
 ?>
